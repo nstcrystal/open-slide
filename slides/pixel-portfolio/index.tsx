@@ -1462,9 +1462,7 @@ const AllyCamp: Page = () => (
           </div>
         </div>
         <div style={{ flex: 1 }}>
-          <Chip tone="gold" className="">
-            VÕ QUANG CHIẾN
-          </Chip>
+          <Chip tone="gold" className="">VO QUANG CHIEN</Chip>
           <p style={body(24, { margin: '12px 0 0', color: C.inkSoft })}>2giosangmitom.is-a.dev</p>
           <p style={body(34, { margin: '22px 0 0', color: C.ink, maxWidth: 1320 })}>
             <Typewriter text={`“${QUOTE}”`} delay={0.5} charDelay={0.02} caret />
@@ -1709,9 +1707,7 @@ const CourseClear: Page = () => (
       <div className="pxa px-blink" style={{ marginTop: 44 }}>
         <span style={display(24, { color: C.ink, textShadow: `4px 4px 0 ${C.cream}` })}>PLAY AGAIN? PRESS START</span>
       </div>
-      <p className="pxa px-in" style={body(24, { margin: '22px 0 0', color: C.ink, animationDelay: '0.4s' })}>
-        © 2026 NSTCrystal — Võ Văn Duy · Hue, Vietnam
-      </p>
+      <p className="pxa px-in" style={body(24, { margin: '22px 0 0', color: C.ink, animationDelay: '0.4s' })}>© 2026 NSTCrystal — Vo Van Duy · Hue, Vietnam</p>
     </div>
   </Frame>
 );
