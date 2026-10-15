@@ -12,6 +12,8 @@ import craftPhoto from './assets/craft-weaving.jpg';
 import schoolPhoto from './assets/mountain-school.jpg';
 import gatheringPhoto from './assets/community-gathering.jpg';
 import farmingPhoto from './assets/terrace-farming.jpg';
+import borderPhoto from './assets/quan-dan-vung-bien.jpg';
+import bridgePhoto from './assets/ha-tang-vung-cao.jpg';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Webfont (module-level, slide-keyed)
@@ -375,20 +377,25 @@ const Cover: Page = () => (
 const DivConcept = () => <Divider roman="I" label="CHƯƠNG I" sub="Dân tộc theo nghĩa rộng và nghĩa hẹp" />;
 
 const TimelineItem = ({ number, title, description }: { number: string; title: string; description: string }) => (
-  <div style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderTop: '6px solid var(--osd-accent)', padding: 30, minHeight: 300 }}>
-    <div style={{ fontSize: 27, color: 'var(--osd-accent)', fontWeight: 700 }}>{number}</div>
-    <div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, margin: '16px 0' }}>{title}</div>
-    <div style={{ fontSize: 25, lineHeight: 1.45, color: ink.soft }}>{description}</div>
+  <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+    <div style={{ width: 118, height: 118, borderRadius: '50%', background: 'var(--osd-accent)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: font.display, fontSize: 52, fontWeight: 700, boxShadow: `0 0 0 12px ${ink.panel}` }}>{number}</div>
+    <div style={{ width: '100%', minHeight: 246, boxSizing: 'border-box', marginTop: 42, padding: '30px 24px', background: ink.panel, borderTop: '5px solid var(--osd-accent)' }}>
+      <div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, marginBottom: 16 }}>{title}</div>
+      <div style={{ fontSize: 25, lineHeight: 1.42, color: ink.soft }}>{description}</div>
+    </div>
   </div>
 );
 
 const ConceptTimeline: Page = () => (
   <Frame eyebrow="Chương I" title="Từ thị tộc đến dân tộc">
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, alignItems: 'center', height: '100%' }}>
-      <TimelineItem number="01" title="Thị tộc" description="Cộng đồng người có quan hệ huyết thống, cùng lao động và sinh hoạt." />
-      <TimelineItem number="02" title="Bộ lạc" description="Nhiều thị tộc liên kết, có lãnh thổ và sinh hoạt chung." />
-      <TimelineItem number="03" title="Bộ tộc" description="Cộng đồng rộng hơn, ngôn ngữ và văn hóa dần ổn định." />
-      <TimelineItem number="04" title="Dân tộc" description="Cộng đồng ổn định với những mối liên hệ kinh tế, văn hóa, chính trị." />
+    <div style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}>
+      <div style={{ position: 'absolute', left: 130, right: 130, top: 196, height: 6, background: 'var(--osd-accent)' }} />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, width: '100%' }}>
+        <TimelineItem number="01" title="Thị tộc" description="Cộng đồng người có quan hệ huyết thống, cùng lao động và sinh hoạt." />
+        <TimelineItem number="02" title="Bộ lạc" description="Nhiều thị tộc liên kết, có lãnh thổ và sinh hoạt chung." />
+        <TimelineItem number="03" title="Bộ tộc" description="Cộng đồng rộng hơn, ngôn ngữ và văn hóa dần ổn định." />
+        <TimelineItem number="04" title="Dân tộc" description="Cộng đồng ổn định với những mối liên hệ kinh tế, văn hóa, chính trị." />
+      </div>
     </div>
   </Frame>
 );
@@ -462,22 +469,50 @@ const TableCompare: Page = () => (
 
 const DivMarx = () => <Divider roman="II" label="CHƯƠNG II" sub="Quan hệ dân tộc và cương lĩnh Lênin" />;
 
-const TrendCard = ({ number, title, cause, result }: { number: string; title: string; cause: string; result: string }) => (
-  <div style={{ background: ink.panel, border: `1px solid ${ink.rule}`, padding: 42, height: 440 }}>
-    <div style={{ color: 'var(--osd-accent)', fontSize: 25, fontWeight: 700 }}>XU HƯỚNG {number}</div>
-    <h3 style={{ fontFamily: font.display, fontSize: 42, lineHeight: 1.2, margin: '20px 0 26px' }}>{title}</h3>
-    <div style={{ fontSize: 26, lineHeight: 1.45, color: ink.soft }}><strong>Cơ sở:</strong> {cause}</div>
-    <div style={{ height: 2, background: ink.rule, margin: '22px 0' }} />
-    <div style={{ fontSize: 26, lineHeight: 1.45, color: ink.soft }}><strong>Biểu hiện:</strong> {result}</div>
+const TrendVisual = ({ mode }: { mode: 'separate' | 'unite' }) => {
+  const color = mode === 'separate' ? '#8b2f2a' : '#2f6671';
+  const arrowId = mode === 'separate' ? 'trend-separate-arrow' : 'trend-unite-arrow';
+  return (
+    <svg viewBox="0 0 460 190" style={{ display: 'block', width: '100%', height: 174 }} aria-hidden="true">
+      <defs><marker id={arrowId} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1 L9 5 L1 9 Z" fill={color} /></marker></defs>
+      {mode === 'separate' ? (
+        <g stroke={color} strokeWidth="5" fill="none">
+          <path d="M198 80 L98 42" markerEnd={`url(#${arrowId})`} />
+          <path d="M198 110 L98 148" markerEnd={`url(#${arrowId})`} />
+          <path d="M262 80 L362 42" markerEnd={`url(#${arrowId})`} />
+          <path d="M262 110 L362 148" markerEnd={`url(#${arrowId})`} />
+        </g>
+      ) : (
+        <g stroke={color} strokeWidth="5" fill="none">
+          <path d="M90 39 L188 80" markerEnd={`url(#${arrowId})`} />
+          <path d="M90 151 L188 110" markerEnd={`url(#${arrowId})`} />
+          <path d="M370 39 L272 80" markerEnd={`url(#${arrowId})`} />
+          <path d="M370 151 L272 110" markerEnd={`url(#${arrowId})`} />
+        </g>
+      )}
+      <circle cx="230" cy="95" r="43" fill={color} />
+      <circle cx="69" cy="31" r="22" fill={color} opacity=".76" /><circle cx="69" cy="159" r="22" fill={color} opacity=".76" />
+      <circle cx="391" cy="31" r="22" fill={color} opacity=".76" /><circle cx="391" cy="159" r="22" fill={color} opacity=".76" />
+    </svg>
+  );
+};
+
+const TrendCard = ({ number, title, cause, result, mode }: { number: string; title: string; cause: string; result: string; mode: 'separate' | 'unite' }) => (
+  <div style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderTop: `7px solid ${mode === 'separate' ? '#8b2f2a' : '#2f6671'}`, padding: 34, height: '100%', boxSizing: 'border-box' }}>
+    <div style={{ color: mode === 'separate' ? '#8b2f2a' : '#2f6671', fontSize: 24, fontWeight: 700 }}>XU HƯỚNG {number}</div>
+    <h3 style={{ fontFamily: font.display, fontSize: 39, lineHeight: 1.18, margin: '12px 0 8px', minHeight: 92 }}>{title}</h3>
+    <TrendVisual mode={mode} />
+    <div style={{ fontSize: 26, lineHeight: 1.42, color: ink.soft, marginTop: 10 }}><strong>Cơ sở:</strong> {cause}</div>
+    <div style={{ height: 2, background: ink.rule, margin: '18px 0' }} />
+    <div style={{ fontSize: 26, lineHeight: 1.42, color: ink.soft }}><strong>Biểu hiện:</strong> {result}</div>
   </div>
 );
 
 const TwoTrends: Page = () => (
   <Frame eyebrow="Chương II · 2.1" title="Hai xu hướng khách quan">
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 92px 1fr', gap: 20, height: '100%', alignItems: 'center' }}>
-      <TrendCard number="01" title="Tách ra, hình thành dân tộc độc lập" cause="Sự thức tỉnh về ý thức dân tộc." result="Đấu tranh giải phóng dân tộc, thoát khỏi áp bức, đô hộ." />
-      <div style={{ textAlign: 'center', fontSize: 76, fontWeight: 700, color: 'var(--osd-accent)' }}>↔</div>
-      <TrendCard number="02" title="Các dân tộc liên hiệp lại" cause="Sự phát triển của lực lượng sản xuất, khoa học công nghệ và giao lưu." result="Các dân tộc tăng cường hợp tác trong và ngoài quốc gia." />
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30, height: '100%' }}>
+      <TrendCard number="01" mode="separate" title="Tách ra, hình thành dân tộc độc lập" cause="Sự thức tỉnh về ý thức dân tộc." result="Đấu tranh giải phóng dân tộc, thoát khỏi áp bức, đô hộ." />
+      <TrendCard number="02" mode="unite" title="Các dân tộc liên hiệp lại" cause="Sự phát triển của lực lượng sản xuất, khoa học công nghệ và giao lưu." result="Các dân tộc tăng cường hợp tác trong và ngoài quốc gia." />
     </div>
   </Frame>
 );
@@ -528,26 +563,36 @@ const LeninDetail: Page = () => (
 
 const DivVN = () => <Divider roman="III" label="CHƯƠNG III" sub="54 dân tộc và chính sách dân tộc ở Việt Nam" />;
 
-const FeatureNode = ({ number, children }: { number: string; children: ReactNode }) => (
-  <div style={{ background: ink.panel, border: `1px solid ${ink.rule}`, minHeight: 112, display: 'flex', alignItems: 'center', gap: 17, padding: '14px 22px', boxSizing: 'border-box' }}>
+const FeatureNode = ({ number, side, children }: { number: string; side: 'left' | 'right'; children: ReactNode }) => (
+  <div style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderRight: side === 'left' ? '5px solid var(--osd-accent)' : undefined, borderLeft: side === 'right' ? '5px solid var(--osd-accent)' : undefined, minHeight: 146, display: 'flex', alignItems: 'center', gap: 20, padding: '18px 25px', boxSizing: 'border-box' }}>
     <span style={{ fontFamily: font.display, fontSize: 38, color: 'var(--osd-accent)', fontWeight: 700 }}>{number}</span>
-    <span style={{ fontSize: 26, lineHeight: 1.35 }}>{children}</span>
+    <span style={{ fontSize: 28, lineHeight: 1.36 }}>{children}</span>
   </div>
 );
 
 const VNFeatures: Page = () => (
-  <Frame eyebrow="Chương III · 3.1" title="Sơ đồ / Sáu đặc điểm dân tộc Việt Nam">
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, height: '100%' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 32px 270px 32px 1fr', gridTemplateRows: 'repeat(3, 112px)', gap: '16px 0', height: 368 }}>
-        <FeatureNode number="01">Chênh lệch số dân giữa các tộc người</FeatureNode><div style={{ height: 3, background: 'var(--osd-accent)', alignSelf: 'center' }} />
-        <div style={{ gridColumn: 3, gridRow: '1 / span 3', alignSelf: 'center', justifySelf: 'center', width: 240, height: 240, borderRadius: '50%', background: 'var(--osd-accent)', color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}><div style={{ fontFamily: font.display, fontSize: 90, lineHeight: 1 }}>54</div><div style={{ fontSize: 26, lineHeight: 1.3 }}>dân tộc<br />Việt Nam</div></div>
-        <div style={{ height: 3, background: 'var(--osd-accent)', alignSelf: 'center' }} /><FeatureNode number="04">Trình độ phát triển không đều</FeatureNode>
-        <FeatureNode number="02">Cư trú xen kẽ với nhau</FeatureNode><div style={{ height: 3, background: 'var(--osd-accent)', alignSelf: 'center' }} /><div style={{ height: 3, background: 'var(--osd-accent)', alignSelf: 'center', gridColumn: 4 }} /><FeatureNode number="05">Truyền thống đoàn kết gắn bó lâu đời</FeatureNode>
-        <FeatureNode number="03">Dân tộc thiểu số chủ yếu ở địa bàn chiến lược</FeatureNode><div style={{ height: 3, background: 'var(--osd-accent)', alignSelf: 'center' }} /><div style={{ height: 3, background: 'var(--osd-accent)', alignSelf: 'center', gridColumn: 4 }} /><FeatureNode number="06">Bản sắc riêng làm phong phú văn hóa chung</FeatureNode>
+  <Frame eyebrow="Chương III · 3.1" title="Sáu đặc điểm dân tộc Việt Nam">
+    <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 360px 1fr', gap: 30, height: '100%', alignItems: 'center' }}>
+      <svg viewBox="0 0 1680 684" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} aria-hidden="true">
+        <g fill="none" stroke="var(--osd-accent)" strokeWidth="3" opacity=".65">
+          <path d="M630 172 C700 172 710 270 750 280" /><path d="M630 342 H700" /><path d="M630 512 C700 512 710 414 750 404" />
+          <path d="M1050 172 C980 172 970 270 930 280" /><path d="M1050 342 H980" /><path d="M1050 512 C980 512 970 414 930 404" />
+        </g>
+      </svg>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <FeatureNode number="01" side="left">Chênh lệch số dân giữa các tộc người</FeatureNode>
+        <FeatureNode number="02" side="left">Cư trú xen kẽ với nhau</FeatureNode>
+        <FeatureNode number="03" side="left">Dân tộc thiểu số chủ yếu ở địa bàn chiến lược</FeatureNode>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, height: 204 }}>
-        <img src={communityPhoto} alt="Cộng đồng vùng núi" style={{ width: '100%', height: 204, objectFit: 'cover', objectPosition: '75% center' }} />
-        <img src={farmingPhoto} alt="Canh tác ở vùng núi" style={{ width: '100%', height: 204, objectFit: 'cover' }} />
+      <div style={{ position: 'relative', width: 320, height: 320, justifySelf: 'center', borderRadius: '50%', background: ink.panel, border: '8px solid var(--osd-accent)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+        <div style={{ fontSize: 24, fontWeight: 700, color: 'var(--osd-accent)', letterSpacing: '0.12em' }}>VIỆT NAM</div>
+        <div style={{ fontFamily: font.display, fontSize: 112, fontWeight: 700, lineHeight: 1.05 }}>54</div>
+        <div style={{ fontSize: 29, fontWeight: 600 }}>dân tộc</div>
+      </div>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <FeatureNode number="04" side="right">Trình độ phát triển không đều</FeatureNode>
+        <FeatureNode number="05" side="right">Truyền thống đoàn kết gắn bó lâu đời</FeatureNode>
+        <FeatureNode number="06" side="right">Bản sắc riêng làm phong phú văn hóa chung</FeatureNode>
       </div>
     </div>
   </Frame>
@@ -572,8 +617,15 @@ const PartyView: Page = () => (
   </Frame>
 );
 
-const PolicyCard = ({ number, title, detail }: { number: string; title: string; detail: string }) => (
-  <div style={{ background: ink.panel, borderTop: '7px solid var(--osd-accent)', padding: 26, minHeight: 340 }}><div style={{ fontFamily: font.display, fontSize: 64, color: 'var(--osd-accent)', lineHeight: 1 }}>{number}</div><h3 style={{ fontSize: 32, lineHeight: 1.2, margin: '24px 0 18px' }}>{title}</h3><p style={{ fontSize: 24, lineHeight: 1.42, color: ink.soft, margin: 0 }}>{detail}</p></div>
+const PolicyCard = ({ number, title, detail, image, alt }: { number: string; title: string; detail: string; image: string; alt: string }) => (
+  <div style={{ background: ink.panel, borderTop: '6px solid var(--osd-accent)', minHeight: 390 }}>
+    <img src={image} alt={alt} style={{ display: 'block', width: '100%', height: 145, objectFit: 'cover', filter: 'saturate(.82)' }} />
+    <div style={{ padding: '20px 22px 24px' }}>
+      <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--osd-accent)' }}>{number}</div>
+      <h3 style={{ fontSize: 30, lineHeight: 1.17, margin: '8px 0 12px', minHeight: 70 }}>{title}</h3>
+      <p style={{ fontSize: 22, lineHeight: 1.36, color: ink.soft, margin: 0 }}>{detail}</p>
+    </div>
+  </div>
 );
 
 const PolicyMatrix: Page = () => (
@@ -582,12 +634,19 @@ const PolicyMatrix: Page = () => (
       <div style={{ background: 'var(--osd-accent)', color: '#fff', padding: '18px 52px', fontFamily: font.display, fontSize: 38, fontWeight: 700 }}>CHÍNH SÁCH DÂN TỘC</div>
       <div style={{ width: 3, height: 50, background: 'var(--osd-accent)' }} />
       <div style={{ width: '82%', height: 3, background: 'var(--osd-accent)' }} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 18, width: '100%', marginTop: 28 }}>
-        <PolicyCard number="01" title="Chính trị" detail="Bình đẳng, đoàn kết, tôn trọng và giúp nhau phát triển." />
-        <PolicyCard number="02" title="Kinh tế" detail="Phát huy tiềm năng, thu hẹp chênh lệch giữa các vùng." />
-        <PolicyCard number="03" title="Xã hội" detail="An sinh, giáo dục, y tế và công bằng xã hội." />
-        <PolicyCard number="04" title="Văn hóa" detail="Giữ bản sắc, nâng trình độ và mở rộng giao lưu." />
-        <PolicyCard number="05" title="Quốc phòng – an ninh" detail="Ổn định chính trị, trật tự và quan hệ quân dân." />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 18, width: '100%', height: 28 }}>
+        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
+        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
+        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
+        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
+        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 18, width: '100%' }}>
+        <PolicyCard number="01" title="Chính trị" detail="Bình đẳng, đoàn kết, tôn trọng và giúp nhau phát triển." image={communityPhoto} alt="Sinh hoạt cộng đồng" />
+        <PolicyCard number="02" title="Kinh tế" detail="Phát huy tiềm năng, thu hẹp chênh lệch giữa các vùng." image={bridgePhoto} alt="Cầu đường ở miền núi" />
+        <PolicyCard number="03" title="Xã hội" detail="An sinh, giáo dục, y tế và công bằng xã hội." image={schoolPhoto} alt="Trường học miền núi" />
+        <PolicyCard number="04" title="Văn hóa" detail="Giữ bản sắc, nâng trình độ và mở rộng giao lưu." image={craftPhoto} alt="Nghề dệt truyền thống" />
+        <PolicyCard number="05" title="Quốc phòng – an ninh" detail="Ổn định chính trị, trật tự và quan hệ quân dân." image={borderPhoto} alt="Cán bộ và người dân trò chuyện" />
       </div>
     </div>
   </Frame>
@@ -597,7 +656,7 @@ const PolicyPoliticalEconomic: Page = () => (
   <Frame eyebrow="Chương III · 3.2" title="Chính sách chính trị và kinh tế">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 34, height: '100%' }}>
       <div style={{ background: ink.panel, borderTop: '7px solid var(--osd-accent)' }}><img src={gatheringPhoto} alt="Sinh hoạt cộng đồng" style={{ width: '100%', height: 235, objectFit: 'cover' }} /><div style={{ padding: '24px 32px' }}><h3 style={{ fontFamily: font.display, fontSize: 40, margin: '0 0 16px' }}>Chính trị</h3><p style={{ fontSize: 27, lineHeight: 1.46, color: ink.soft, margin: 0 }}>Thực hiện bình đẳng, đoàn kết, tôn trọng và giúp nhau cùng phát triển; nâng cao nhận thức của đồng bào về đoàn kết dân tộc.</p></div></div>
-      <div style={{ background: ink.panel, borderTop: '7px solid '+ink.gold }}><img src={farmingPhoto} alt="Canh tác miền núi" style={{ width: '100%', height: 235, objectFit: 'cover' }} /><div style={{ padding: '24px 32px' }}><h3 style={{ fontFamily: font.display, fontSize: 40, margin: '0 0 16px' }}>Kinh tế</h3><p style={{ fontSize: 27, lineHeight: 1.46, color: ink.soft, margin: 0 }}>Phát huy tiềm năng vùng miền núi, dân tộc thiểu số; triển khai chương trình phát triển, thu hẹp chênh lệch và thúc đẩy kinh tế thị trường định hướng XHCN.</p></div></div>
+      <div style={{ background: ink.panel, borderTop: '7px solid '+ink.gold }}><img src={bridgePhoto} alt="Cầu đường ở miền núi" style={{ width: '100%', height: 235, objectFit: 'cover', filter: 'saturate(.82)' }} /><div style={{ padding: '24px 32px' }}><h3 style={{ fontFamily: font.display, fontSize: 40, margin: '0 0 16px' }}>Kinh tế</h3><p style={{ fontSize: 27, lineHeight: 1.46, color: ink.soft, margin: 0 }}>Phát huy tiềm năng vùng miền núi, dân tộc thiểu số; triển khai chương trình phát triển, thu hẹp chênh lệch và thúc đẩy kinh tế thị trường định hướng XHCN.</p></div></div>
     </div>
   </Frame>
 );
@@ -642,7 +701,10 @@ const PolicySecurity: Page = () => (
         <div style={{ background: ink.panel, borderLeft: '7px solid var(--osd-accent)', padding: 38 }}><div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, marginBottom: 20 }}>Bảo vệ Tổ quốc</div><div style={{ fontSize: 30, lineHeight: 1.48 }}>Bảo đảm ổn định chính trị, an ninh và trật tự an toàn xã hội ở vùng đồng bào dân tộc.</div></div>
         <div style={{ background: ink.panel, borderLeft: '7px solid '+ink.gold, padding: 38 }}><div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, marginBottom: 20 }}>Quan hệ quân dân</div><div style={{ fontSize: 30, lineHeight: 1.48 }}>Tăng cường gắn bó quân dân, tạo thế trận quốc phòng toàn dân tại địa bàn cư trú.</div></div>
       </div>
-      <img src={farmingPhoto} alt="Phong cảnh miền núi" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '70% center' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', background: ink.panel }}>
+        <img src={borderPhoto} alt="Cán bộ và người dân trò chuyện" style={{ width: '100%', height: 520, objectFit: 'cover', objectPosition: 'center 35%', filter: 'saturate(.82)' }} />
+        <div style={{ padding: '22px 30px', fontSize: 25, lineHeight: 1.4, color: ink.soft }}>Quan hệ quân dân ở vùng đồng bào dân tộc.</div>
+      </div>
     </div>
   </Frame>
 );
@@ -733,7 +795,7 @@ export const notes: (string | undefined)[] = [
   'Sáu đặc điểm: quy mô dân số chênh lệch; cư trú xen kẽ; địa bàn chiến lược; phát triển không đều; truyền thống đoàn kết; mỗi dân tộc có bản sắc riêng.',
   'Quan điểm của Đảng và Nhà nước đặt vấn đề dân tộc và đoàn kết dân tộc ở tầm chiến lược, đồng thời coi công tác dân tộc là nhiệm vụ của cả hệ thống chính trị.',
   'Năm lĩnh vực chính sách là chính trị, kinh tế, xã hội, văn hóa và quốc phòng – an ninh. Tài liệu xếp xã hội thành một lĩnh vực riêng.',
-  'Ở lĩnh vực chính trị, nói đến bình đẳng, đoàn kết và tôn trọng. Ở lĩnh vực kinh tế, nói đến tiềm năng vùng dân tộc thiểu số và việc thu hẹp chênh lệch giữa các vùng.',
+  'Ở lĩnh vực chính trị, nói đến bình đẳng, đoàn kết và tôn trọng. Ở lĩnh vực kinh tế, nói đến tiềm năng vùng dân tộc thiểu số và việc thu hẹp chênh lệch giữa các vùng. Ảnh hạ tầng là hình minh họa, không phải dẫn chứng về một địa điểm cụ thể.',
   'Chính sách xã hội gồm an sinh, bình đẳng và công bằng; các phần việc được nêu là giảm nghèo, dân số, y tế và giáo dục.',
   'Sáu ý trên trang gồm giữ giá trị truyền thống, nâng cao trình độ văn hóa, đào tạo cán bộ, xây dựng thiết chế, mở rộng giao lưu và chống tệ nạn xã hội.',
   'Quốc phòng – an ninh tập trung vào ổn định chính trị, trật tự an toàn xã hội, quan hệ quân dân và thế trận quốc phòng toàn dân ở vùng đồng bào dân tộc.',
