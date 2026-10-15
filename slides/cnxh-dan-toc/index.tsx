@@ -64,7 +64,7 @@ export const design: DesignSystem = {
     display: '"Lora", "Times New Roman", serif',
     body: '"Be Vietnam Pro", Inter, system-ui, sans-serif',
   },
-  typeScale: { hero: 156, body: 38 },
+  typeScale: { hero: 140, body: 38 },
   radius: 6,
 };
 
@@ -438,7 +438,6 @@ const Cover: Page = () => {
             animationDelay: '0.3s',
           }}
         >
-          {/* @slide-comment id="c-cee1aa6f" ts="2026-10-15T14:24:53.632Z" text="eyJub3RlIjoiUGjhuqduIG7DoHkgxJFhbmcgYuG7iyBwaOG6p24ga2jDoWMgZ2hpIMSRw6ggbMOqbiBsw6BtIG5nxrDhu51pIHhlbSBraMO0bmcgxJHhu41jIMSRxrDhu6NjIiwicGFnZSI6MH0" */}
           Từ lý thuyết Mác – Lênin đến đặc điểm và chính sách dân tộc ở Việt Nam — một vấn đề cốt lõi của khối đại đoàn kết dân tộc.
         </p>
       </div>
@@ -455,7 +454,6 @@ const Cover: Page = () => {
           animationDelay: '0.5s',
         }}
       >
-        {/* @slide-comment id="c-6af76649" ts="2026-10-15T14:25:38.143Z" text="eyJub3RlIjoicGjhuqduIG7DoHkgY8WpbmcgYuG7iyBwaOG6p24ga2jDoWMgZ2hpIMSRw6ggbMOqbiIsInBhZ2UiOjB9" */}
         <div>
           <div style={{ fontSize: 22, color: ink.muted, marginBottom: 8 }}>NHÓM THUYẾT TRÌNH</div>
           <div style={{ fontSize: 30, fontWeight: 600 }}>Thu Nhớ · Thảo My · Thảo Nguyên · Sơn</div>
