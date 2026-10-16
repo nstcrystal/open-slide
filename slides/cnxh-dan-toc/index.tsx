@@ -2,10 +2,12 @@ import {
   type DesignSystem,
   type Page,
   type SlideMeta,
+  type SlideTransition,
+  MorphElement,
   useIsActivePage,
   useSlidePageNumber,
 } from '@open-slide/core';
-import type { CSSProperties, ReactNode } from 'react';
+import { type CSSProperties, type ReactNode, useId } from 'react';
 import { motion, useReducedMotion, type MotionProps } from 'motion/react';
 import communityPhoto from './assets/vietnam-community.jpg';
 import craftPhoto from './assets/craft-weaving.jpg';
@@ -75,34 +77,63 @@ const fill: CSSProperties = {
 
 const P = 120;
 
+const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
+const MORPH_MS = 640;
+// Swap opaque sheets; only their contents animate. A whole-sheet crossfade
+// exposes the outgoing text through the incoming page's staggered reveals.
+const morphTransition: SlideTransition = {
+  duration: 280,
+  exit: { duration: 1, keyframes: [{ opacity: 1 }, { opacity: 1 }] },
+  // Mask the old sheet immediately; the shared-element overlay owns the motion.
+  enter: { duration: 1, keyframes: [{ opacity: 0 }, { opacity: 1 }] },
+  morph: { duration: MORPH_MS, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
+};
+
 const useEntry = (delay = 0, kind: 'rise' | 'fade' | 'stamp' = 'rise'): MotionProps => {
   const active = useIsActivePage();
   const reducedMotion = useReducedMotion();
   const from = kind === 'stamp'
-    ? { opacity: 0, scale: 0.82, rotate: -5 }
+    ? { opacity: 0, scale: 0.97, rotate: -2 }
     : kind === 'fade'
       ? { opacity: 0 }
       : { opacity: 0, y: 10 };
   return {
     initial: active && !reducedMotion ? from : false,
     animate: { opacity: 1, y: 0, scale: 1, rotate: 0 },
-    transition: { duration: reducedMotion ? 0 : 0.38, delay: reducedMotion ? 0 : delay * 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : delay, ease: MOTION_EASE },
   };
 };
 
-const StrokePath = ({ d, markerEnd, delay = 0.2 }: { d: string; markerEnd?: string; delay?: number }) => {
+const StrokePath = ({ d, markerEnd, delay = 0.2, duration = 0.8 }: { d: string; markerEnd?: string; delay?: number; duration?: number }) => {
   const active = useIsActivePage();
   const reducedMotion = useReducedMotion();
   return (
+    <>
     <motion.path
       d={d}
-      markerEnd={markerEnd}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       initial={active && !reducedMotion ? { pathLength: 0, opacity: 0 } : false}
       animate={{ pathLength: 1, opacity: 1 }}
-      transition={{ duration: reducedMotion ? 0 : 0.75, delay: reducedMotion ? 0 : delay, ease: 'easeInOut' }}
+      transition={{ pathLength: { duration: reducedMotion ? 0 : duration, delay: reducedMotion ? 0 : delay, ease: [0.45, 0, 0.25, 1] }, opacity: { duration: reducedMotion ? 0 : 0.12, delay: reducedMotion ? 0 : delay } }}
     />
+    {markerEnd && (
+      <motion.path
+        d={d}
+        markerEnd={markerEnd}
+        strokeOpacity={0}
+        initial={active && !reducedMotion ? { opacity: 0 } : false}
+        animate={{ opacity: 1 }}
+        transition={{ duration: reducedMotion ? 0 : 0.12, delay: reducedMotion ? 0 : delay + duration * 0.9 }}
+      />
+    )}
+    </>
   );
 };
+
+const Reveal = ({ children, delay = 0.2, style }: { children: ReactNode; delay?: number; style?: CSSProperties }) => (
+  <motion.div {...useEntry(delay)} style={style}>{children}</motion.div>
+);
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
@@ -171,14 +202,17 @@ const Frame = ({
   eyebrow,
   title,
   lead,
+  staticContent = false,
   children,
 }: {
   eyebrow: ReactNode;
   title: ReactNode;
   lead?: ReactNode;
+  staticContent?: boolean;
   children: ReactNode;
 }) => {
   const leadEntry = useEntry(0.12);
+  const contentEntry = useEntry(0.18);
   return (
     <div style={fill}>
       <Mark />
@@ -218,7 +252,7 @@ const Frame = ({
         </motion.p>
       )}
       <motion.div
-        {...useEntry(0.18)}
+        {...(staticContent ? { initial: false } : contentEntry)}
         style={{
           position: 'absolute',
           left: P,
@@ -352,7 +386,7 @@ const Cover: Page = () => (
 const DivConcept = () => <Divider roman="I" label="CHƯƠNG I" sub="Dân tộc theo nghĩa rộng và nghĩa hẹp" />;
 
 const TimelineItem = ({ number, title, description }: { number: string; title: string; description: string }) => (
-  <motion.div {...useEntry(Number(number) * 0.1)} style={{ position: 'relative', zIndex: 1, height: '100%', padding: '44px 24px 0 22px', boxSizing: 'border-box', borderLeft: number === '01' ? undefined : `1px solid ${ink.rule}` }}>
+  <motion.div {...useEntry(0.15 + Number(number) * 0.12)} style={{ position: 'relative', zIndex: 1, height: '100%', padding: '44px 24px 0 22px', boxSizing: 'border-box', borderLeft: number === '01' ? undefined : `1px solid ${ink.rule}` }}>
     <div style={{ fontFamily: font.display, fontSize: 112, lineHeight: 1, color: 'rgba(139, 47, 42, 0.21)', fontWeight: 700 }}>{number}</div>
     <div style={{ position: 'absolute', left: 22, top: 211, width: 18, height: 18, borderRadius: '50%', background: 'var(--osd-accent)', boxShadow: '0 0 0 8px var(--osd-bg)' }} />
     <div style={{ marginTop: 112, fontFamily: font.display, fontSize: 44, lineHeight: 1.15, fontWeight: 700 }}>{title}</div>
@@ -360,21 +394,16 @@ const TimelineItem = ({ number, title, description }: { number: string; title: s
   </motion.div>
 );
 
-const TimelineRule = () => {
-  const active = useIsActivePage();
-  const reducedMotion = useReducedMotion();
-  return (
-    <motion.div
-      initial={active && !reducedMotion ? { scaleX: 0 } : false}
-      animate={{ scaleX: 1 }}
-      transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
-      style={{ position: 'absolute', left: 22, right: 22, top: 218, height: 3, background: 'var(--osd-accent)', transformOrigin: 'left' }}
-    />
-  );
-};
+const TimelineRule = () => (
+  <svg width={1680} height={260} style={{ position: 'absolute', left: 0, top: 0 }} aria-hidden="true">
+    <g fill="none" stroke="var(--osd-accent)" strokeWidth={3}>
+      <StrokePath d="M31 220 H1291" delay={0.2} duration={1.05} />
+    </g>
+  </svg>
+);
 
 const ConceptTimeline: Page = () => (
-  <Frame eyebrow="Chương I" title="Từ thị tộc đến dân tộc">
+  <Frame staticContent eyebrow="Chương I" title="Từ thị tộc đến dân tộc">
     <div style={{ position: 'relative', height: '100%' }}>
       <TimelineRule />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', height: '100%', width: '100%' }}>
@@ -388,25 +417,41 @@ const ConceptTimeline: Page = () => (
 );
 
 const BranchRow = ({ number, label, detail }: { number: string; label: string; detail?: string }) => (
-  <div style={{ borderBottom: `1px solid ${ink.rule}`, padding: '18px 0', display: 'flex', alignItems: 'center', gap: 28, minHeight: 108, boxSizing: 'border-box' }}>
+  <motion.div {...useEntry(0.4 + Number(number) * 0.09)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, padding: '18px 26px', display: 'flex', alignItems: 'center', gap: 28, height: 92, boxSizing: 'border-box' }}>
     <span style={{ fontFamily: font.display, fontSize: 34, color: 'var(--osd-accent)', fontWeight: 700, minWidth: 56 }}>{number}</span>
     <span style={{ fontSize: 30, lineHeight: 1.35, color: ink.text }}>{label}{detail && <small style={{ display: 'block', fontSize: 22, color: ink.muted, marginTop: 3 }}>{detail}</small>}</span>
-  </div>
+  </motion.div>
+);
+
+// Fixed geometry: every branch lands at the left edge and centre of its node.
+const ConceptBranches = ({ narrow = false }: { narrow?: boolean }) => (
+  <svg width={1680} height={622} viewBox="0 0 1680 622" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} aria-hidden="true">
+    <g fill="none" stroke="var(--osd-accent)" strokeWidth={3}>
+      <StrokePath d="M540 311 H630" delay={0.15} duration={0.35} />
+      <StrokePath d={narrow ? 'M630 135 V487' : 'M630 87 V535'} delay={0.3} duration={0.6} />
+      <StrokePath d={narrow ? 'M630 135 H720' : 'M630 87 H720'} delay={0.4} duration={0.4} />
+      <StrokePath d={narrow ? 'M630 311 H720' : 'M630 199 H720'} delay={0.49} duration={0.4} />
+      <StrokePath d={narrow ? 'M630 487 H720' : 'M630 311 H720'} delay={0.58} duration={0.4} />
+      {!narrow && <StrokePath d="M630 423 H720" delay={0.67} duration={0.4} />}
+      {!narrow && <StrokePath d="M630 535 H720" delay={0.76} duration={0.4} />}
+    </g>
+  </svg>
 );
 
 const NationDiagram: Page = () => (
-  <Frame eyebrow="Chương I · 1" title="Sơ đồ 1 / Dân tộc theo nghĩa rộng" lead="Dân tộc theo nghĩa rộng là cộng đồng người ổn định làm thành nhân dân một nước.">
-    <div style={{ display: 'grid', gridTemplateColumns: '540px 1fr', gap: 78, height: '100%' }}>
-      <div style={{ background: 'var(--osd-accent)', color: '#fff', position: 'relative' }}>
-        <img src={farmingPhoto} alt="Cảnh đồng ruộng miền núi" style={{ width: '100%', height: 276, objectFit: 'cover', filter: 'saturate(.75)' }} />
+  <Frame staticContent eyebrow="Chương I · 1" title="Sơ đồ 1 / Dân tộc theo nghĩa rộng" lead="Dân tộc theo nghĩa rộng là cộng đồng người ổn định làm thành nhân dân một nước.">
+    <div style={{ position: 'relative', height: 622 }}>
+      <ConceptBranches />
+      <Reveal delay={0.1} style={{ background: 'var(--osd-accent)', color: '#fff', position: 'absolute', left: 0, top: 0, width: 540, height: 622 }}>
+        <img src={farmingPhoto} alt="Cảnh đồng ruộng miền núi" style={{ width: '100%', height: 246, objectFit: 'cover', filter: 'saturate(.75)' }} />
         <div style={{ padding: '25px 34px' }}>
           <div style={{ fontSize: 23, letterSpacing: '0.12em' }}>NGHĨA RỘNG · QUỐC GIA</div>
           <div style={{ fontFamily: font.display, fontSize: 45, lineHeight: 1.12, marginTop: 10 }}>Một cộng đồng quốc gia</div>
           <div style={{ fontSize: 23, lineHeight: 1.38, marginTop: 16 }}>Gắn bó bởi quyền lợi chính trị, kinh tế, truyền thống văn hóa và lịch sử dựng nước, giữ nước.</div>
           <div style={{ fontSize: 25, marginTop: 18 }}>Ví dụ: Việt Nam, Nhật Bản</div>
         </div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      </Reveal>
+      <div style={{ position: 'absolute', left: 720, top: 41, width: 960, display: 'flex', flexDirection: 'column', gap: 20 }}>
         <BranchRow number="01" label="Có chung vùng lãnh thổ ổn định" />
         <BranchRow number="02" label="Có chung phương thức sinh hoạt kinh tế" />
         <BranchRow number="03" label="Có chung ngôn ngữ giao tiếp" />
@@ -418,13 +463,14 @@ const NationDiagram: Page = () => (
 );
 
 const EthnieDiagram: Page = () => (
-  <Frame eyebrow="Chương I · 1" title="Sơ đồ 2 / Dân tộc theo nghĩa hẹp" lead="Dân tộc theo nghĩa hẹp là cộng đồng tộc người hình thành trong lịch sử, có liên hệ bền vững.">
-    <div style={{ display: 'grid', gridTemplateColumns: '650px 1fr', gap: 68, height: '100%' }}>
-      <div style={{ background: ink.panel, border: `1px solid ${ink.rule}` }}>
+  <Frame staticContent eyebrow="Chương I · 1" title="Sơ đồ 2 / Dân tộc theo nghĩa hẹp" lead="Dân tộc theo nghĩa hẹp là cộng đồng tộc người hình thành trong lịch sử, có liên hệ bền vững.">
+    <div style={{ position: 'relative', height: 622 }}>
+      <ConceptBranches narrow />
+      <Reveal delay={0.1} style={{ position: 'absolute', left: 0, top: 0, width: 540, height: 622, boxSizing: 'border-box', background: ink.panel, border: `1px solid ${ink.rule}` }}>
         <img src={gatheringPhoto} alt="Sinh hoạt văn hóa cộng đồng" style={{ width: '100%', height: 365, objectFit: 'cover' }} />
         <div style={{ padding: '26px 34px' }}><div style={{ fontFamily: font.display, fontSize: 43, fontWeight: 700 }}>Một cộng đồng tộc người</div><div style={{ fontSize: 27, color: ink.soft, marginTop: 12 }}>Ví dụ: dân tộc Kinh, dân tộc Thái</div></div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 24 }}>
+      </Reveal>
+      <div style={{ position: 'absolute', left: 720, top: 89, width: 960, display: 'flex', flexDirection: 'column', gap: 84 }}>
         <BranchRow number="01" label="Cộng đồng về ngôn ngữ" />
         <BranchRow number="02" label="Cộng đồng về văn hóa" />
         <BranchRow number="03" label="Ý thức tự giác tộc người" />
@@ -455,9 +501,23 @@ const TableCompare: Page = () => (
 
 const DivMarx = () => <Divider roman="II" label="CHƯƠNG II" sub="Quan hệ dân tộc và cương lĩnh Lênin" />;
 
+const TrendNode = ({ x, y, mode }: { x: number; y: number; mode: 'separate' | 'unite' }) => {
+  const active = useIsActivePage();
+  const reducedMotion = useReducedMotion();
+  return (
+    <motion.circle
+      r={22}
+      fill={mode === 'separate' ? '#8b2f2a' : '#2f6671'}
+      initial={active && !reducedMotion ? { cx: mode === 'separate' ? 230 : x < 230 ? x - 24 : x + 24, cy: mode === 'separate' ? 95 : y, opacity: 0 } : false}
+      animate={{ cx: x, cy: y, opacity: 0.76 }}
+      transition={{ duration: reducedMotion ? 0 : 0.85, delay: reducedMotion ? 0 : 0.15, ease: MOTION_EASE }}
+    />
+  );
+};
+
 const TrendVisual = ({ mode }: { mode: 'separate' | 'unite' }) => {
   const color = mode === 'separate' ? '#8b2f2a' : '#2f6671';
-  const arrowId = mode === 'separate' ? 'trend-separate-arrow' : 'trend-unite-arrow';
+  const arrowId = `cnxh-trend-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
   return (
     <svg viewBox="0 0 460 190" style={{ display: 'block', width: '100%', height: 174 }} aria-hidden="true">
       <defs><marker id={arrowId} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1 L9 5 L1 9 Z" fill={color} /></marker></defs>
@@ -477,25 +537,25 @@ const TrendVisual = ({ mode }: { mode: 'separate' | 'unite' }) => {
         </g>
       )}
       <circle cx="230" cy="95" r="43" fill={color} />
-      <circle cx="69" cy="31" r="22" fill={color} opacity=".76" /><circle cx="69" cy="159" r="22" fill={color} opacity=".76" />
-      <circle cx="391" cy="31" r="22" fill={color} opacity=".76" /><circle cx="391" cy="159" r="22" fill={color} opacity=".76" />
+      <TrendNode x={69} y={31} mode={mode} /><TrendNode x={69} y={159} mode={mode} />
+      <TrendNode x={391} y={31} mode={mode} /><TrendNode x={391} y={159} mode={mode} />
     </svg>
   );
 };
 
 const TrendCard = ({ number, title, cause, result, mode }: { number: string; title: string; cause: string; result: string; mode: 'separate' | 'unite' }) => (
-  <div style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderTop: `7px solid ${mode === 'separate' ? '#8b2f2a' : '#2f6671'}`, padding: 34, height: '100%', boxSizing: 'border-box' }}>
+  <motion.div {...useEntry(0.1 + Number(number) * 0.1)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderTop: `7px solid ${mode === 'separate' ? '#8b2f2a' : '#2f6671'}`, padding: 34, height: '100%', boxSizing: 'border-box' }}>
     <div style={{ color: mode === 'separate' ? '#8b2f2a' : '#2f6671', fontSize: 24, fontWeight: 700 }}>XU HƯỚNG {number}</div>
     <h3 style={{ fontFamily: font.display, fontSize: 39, lineHeight: 1.18, margin: '12px 0 8px', minHeight: 92 }}>{title}</h3>
     <TrendVisual mode={mode} />
     <div style={{ fontSize: 26, lineHeight: 1.42, color: ink.soft, marginTop: 10 }}><strong>Cơ sở:</strong> {cause}</div>
     <div style={{ height: 2, background: ink.rule, margin: '18px 0' }} />
     <div style={{ fontSize: 26, lineHeight: 1.42, color: ink.soft }}><strong>Biểu hiện:</strong> {result}</div>
-  </div>
+  </motion.div>
 );
 
 const TwoTrends: Page = () => (
-  <Frame eyebrow="Chương II · 2.1" title="Hai xu hướng khách quan">
+  <Frame staticContent eyebrow="Chương II · 2.1" title="Hai xu hướng khách quan">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30, height: '100%' }}>
       <TrendCard number="01" mode="separate" title="Tách ra, hình thành dân tộc độc lập" cause="Sự thức tỉnh về ý thức dân tộc." result="Đấu tranh giải phóng dân tộc, thoát khỏi áp bức, đô hộ." />
       <TrendCard number="02" mode="unite" title="Các dân tộc liên hiệp lại" cause="Sự phát triển của lực lượng sản xuất, khoa học công nghệ và giao lưu." result="Các dân tộc tăng cường hợp tác trong và ngoài quốc gia." />
@@ -523,13 +583,32 @@ const TrendContexts: Page = () => (
   </Frame>
 );
 
-const PillarCard = ({ number, title, detail }: { number: string; title: string; detail: string }) => (
-  <div style={{ background: 'var(--osd-accent)', color: '#fff', padding: 38, display: 'flex', flexDirection: 'column', gap: 22 }}><div style={{ fontFamily: font.display, fontSize: 72, lineHeight: 1, opacity: .7 }}>{number}</div><div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, lineHeight: 1.2 }}>{title}</div><div style={{ fontSize: 27, lineHeight: 1.45 }}>{detail}</div></div>
+const PillarCard = ({ number, title, detail, expanded = false }: { number: string; title: string; detail: string; expanded?: boolean }) => (
+  <div style={{ position: 'absolute', left: (Number(number) - 1) * 572, top: expanded ? 24 : 154, width: 536, height: expanded ? 620 : 510, color: expanded ? ink.text : '#fff' }}>
+    <MorphElement id={`lenin-principle-${number}`}>
+      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: expanded ? ink.panel : 'var(--osd-accent)', borderRadius: 6 }} />
+    </MorphElement>
+    <MorphElement id={`lenin-number-${number}`}>
+      <div style={{ position: 'absolute', left: 38, top: 38, width: 100, height: 86, fontFamily: font.display, fontSize: 72, lineHeight: 1, opacity: 0.7, color: expanded ? 'var(--osd-accent)' : '#fff' }}>{number}</div>
+    </MorphElement>
+    <Reveal delay={MORPH_MS / 1000} style={{ position: 'absolute', left: 38, right: 38, top: 134 }}>
+      <h3 style={{ fontFamily: font.display, fontSize: 38, lineHeight: 1.2, margin: 0, minHeight: 138 }}>{title}</h3>
+      <p style={{ fontSize: 28, lineHeight: 1.5, margin: '24px 0 0' }}>{detail}</p>
+    </Reveal>
+  </div>
 );
 
 const LeninPillars: Page = () => (
-  <Frame eyebrow="Chương II · 2.2" title="Cương lĩnh dân tộc của Lênin">
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 26, height: '100%' }}>
+  <Frame staticContent eyebrow="Chương II · 2.2" title="Cương lĩnh dân tộc của Lênin">
+    <div style={{ position: 'relative', height: 684 }}>
+      <Reveal delay={MORPH_MS / 1000} style={{ position: 'absolute', left: 572, top: 0, width: 536, height: 64, background: ink.panel, border: `1px solid ${ink.rule}`, boxSizing: 'border-box', display: 'grid', placeItems: 'center', fontSize: 28, fontWeight: 600 }}>BA NGUYÊN TẮC GẮN BÓ</Reveal>
+      <svg width={1680} height={154} style={{ position: 'absolute', top: 0, left: 0 }} aria-hidden="true">
+        <g fill="none" stroke="var(--osd-accent)" strokeWidth={3}>
+          <StrokePath d="M840 64 V104 H268 V154" delay={0.75} />
+          <StrokePath d="M840 104 V154" delay={0.85} duration={0.5} />
+          <StrokePath d="M840 104 H1412 V154" delay={0.95} />
+        </g>
+      </svg>
       <PillarCard number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Quyền và nghĩa vụ ngang nhau; chống áp bức và phân biệt dân tộc." />
       <PillarCard number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn con đường phát triển; quyết định việc chia tách hoặc liên hiệp." />
       <PillarCard number="03" title="Liên hiệp công nhân các dân tộc" detail="Liên hiệp tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích chung." />
@@ -538,31 +617,34 @@ const LeninPillars: Page = () => (
 );
 
 const LeninDetail: Page = () => (
-  <Frame eyebrow="Chương II · 2.2" title="Nội dung của ba nguyên tắc">
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 30, height: '100%', alignItems: 'center' }}>
-      <div style={{ padding: 35, background: ink.panel, minHeight: 420 }}><div style={{ fontSize: 62, color: 'var(--osd-accent)', fontFamily: font.display }}>01</div><h3 style={{ fontSize: 34, margin: '10px 0 24px' }}>Bình đẳng</h3><p style={{ fontSize: 27, lineHeight: 1.5, color: ink.soft }}>Các dân tộc có quyền và nghĩa vụ ngang nhau; trong một quốc gia, quyền này cần được pháp luật bảo đảm và thực thi.</p></div>
-      <div style={{ padding: 35, background: ink.panel, minHeight: 420 }}><div style={{ fontSize: 62, color: 'var(--osd-accent)', fontFamily: font.display }}>02</div><h3 style={{ fontSize: 34, margin: '10px 0 24px' }}>Tự quyết</h3><p style={{ fontSize: 27, lineHeight: 1.5, color: ink.soft }}>Dân tộc tự chọn con đường phát triển, quyết định việc chia tách hoặc liên hiệp; phản đối can thiệp vào công việc nội bộ.</p></div>
-      <div style={{ padding: 35, background: ink.panel, minHeight: 420 }}><div style={{ fontSize: 62, color: 'var(--osd-accent)', fontFamily: font.display }}>03</div><h3 style={{ fontSize: 34, margin: '10px 0 24px' }}>Liên hiệp</h3><p style={{ fontSize: 27, lineHeight: 1.5, color: ink.soft }}>Liên hiệp công nhân trên cơ sở tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích các dân tộc.</p></div>
+  <Frame staticContent eyebrow="Chương II · 2.2" title="Nội dung của ba nguyên tắc">
+    <div style={{ position: 'relative', height: 684 }}>
+      <PillarCard expanded number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Các dân tộc có quyền và nghĩa vụ ngang nhau; trong một quốc gia, quyền này cần được pháp luật bảo đảm và thực thi." />
+      <PillarCard expanded number="02" title="Các dân tộc được quyền tự quyết" detail="Dân tộc tự chọn con đường phát triển, quyết định việc chia tách hoặc liên hiệp; phản đối can thiệp vào công việc nội bộ." />
+      <PillarCard expanded number="03" title="Liên hiệp công nhân các dân tộc" detail="Liên hiệp công nhân trên cơ sở tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích các dân tộc." />
     </div>
   </Frame>
 );
 
+LeninPillars.transition = morphTransition;
+LeninDetail.transition = morphTransition;
+
 const DivVN = () => <Divider roman="III" label="CHƯƠNG III" sub="54 dân tộc và chính sách dân tộc ở Việt Nam" />;
 
 const FeatureNode = ({ number, side, children }: { number: string; side: 'left' | 'right'; children: ReactNode }) => (
-  <div style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderRight: side === 'left' ? '5px solid var(--osd-accent)' : undefined, borderLeft: side === 'right' ? '5px solid var(--osd-accent)' : undefined, minHeight: 146, display: 'flex', alignItems: 'center', gap: 20, padding: '18px 25px', boxSizing: 'border-box' }}>
+  <motion.div {...useEntry(0.35 + ((Number(number) - 1) % 3) * 0.14)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderRight: side === 'left' ? '5px solid var(--osd-accent)' : undefined, borderLeft: side === 'right' ? '5px solid var(--osd-accent)' : undefined, height: 146, display: 'flex', alignItems: 'center', gap: 20, padding: '18px 25px', boxSizing: 'border-box' }}>
     <span style={{ fontFamily: font.display, fontSize: 38, color: 'var(--osd-accent)', fontWeight: 700 }}>{number}</span>
     <span style={{ fontSize: 28, lineHeight: 1.36 }}>{children}</span>
-  </div>
+  </motion.div>
 );
 
 const VNFeatures: Page = () => (
-  <Frame eyebrow="Chương III · 3.1" title="Sáu đặc điểm dân tộc Việt Nam">
-    <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 360px 1fr', gap: 30, height: '100%', alignItems: 'center' }}>
+  <Frame staticContent eyebrow="Chương III · 3.1" title="Sáu đặc điểm dân tộc Việt Nam">
+    <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '630px 360px 630px', gap: 30, height: 684, alignItems: 'center' }}>
       <svg viewBox="0 0 1680 684" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} aria-hidden="true">
         <g fill="none" stroke="var(--osd-accent)" strokeWidth="3" opacity=".65">
-          <StrokePath d="M630 172 C700 172 710 270 750 280" delay={0.15} /><StrokePath d="M630 342 H700" delay={0.25} /><StrokePath d="M630 512 C700 512 710 414 750 404" delay={0.35} />
-          <StrokePath d="M1050 172 C980 172 970 270 930 280" delay={0.45} /><StrokePath d="M1050 342 H980" delay={0.55} /><StrokePath d="M1050 512 C980 512 970 414 930 404" delay={0.65} />
+          <StrokePath d="M730 230 C660 230 690 172 630 172" delay={0.2} /><StrokePath d="M680 342 H630" delay={0.34} /><StrokePath d="M730 454 C660 454 690 512 630 512" delay={0.48} />
+          <StrokePath d="M950 230 C1020 230 990 172 1050 172" delay={0.2} /><StrokePath d="M1000 342 H1050" delay={0.34} /><StrokePath d="M950 454 C1020 454 990 512 1050 512" delay={0.48} />
         </g>
       </svg>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -603,49 +685,58 @@ const PartyView: Page = () => (
   </Frame>
 );
 
-const PolicyCard = ({ number, title, detail, image, alt }: { number: string; title: string; detail: string; image: string; alt: string }) => (
-  <div style={{ background: ink.panel, borderTop: '6px solid var(--osd-accent)', minHeight: 390 }}>
-    <img src={image} alt={alt} style={{ display: 'block', width: '100%', height: 145, objectFit: 'cover', filter: 'saturate(.82)' }} />
-    <div style={{ padding: '20px 22px 24px' }}>
-      <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--osd-accent)' }}>{number}</div>
-      <h3 style={{ fontSize: 30, lineHeight: 1.17, margin: '8px 0 12px', minHeight: 70 }}>{title}</h3>
-      <p style={{ fontSize: 22, lineHeight: 1.36, color: ink.soft, margin: 0 }}>{detail}</p>
-    </div>
+const PolicyCard = ({ number, title, detail, image, alt, expanded = false }: { number: string; title: string; detail: string; image: string; alt: string; expanded?: boolean }) => (
+  <div style={{ position: 'absolute', left: (Number(number) - 1) * (expanded ? 857 : 340), top: expanded ? 0 : 150, width: expanded ? 823 : 320, height: expanded ? 650 : 526 }}>
+    <MorphElement id={`policy-${number}`}>
+      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: ink.panel, borderTop: '6px solid var(--osd-accent)', boxSizing: 'border-box' }} />
+    </MorphElement>
+    <Reveal delay={MORPH_MS / 1000} style={{ position: 'absolute', left: 0, right: 0, top: 6 }}>
+      <img src={image} alt={alt} style={{ display: 'block', width: '100%', height: expanded ? 235 : 145, objectFit: 'cover', filter: 'saturate(.82)' }} />
+    </Reveal>
+    <MorphElement id={`policy-number-${number}`}>
+      <div style={{ position: 'absolute', left: expanded ? 32 : 22, top: expanded ? 265 : 171, width: 64, height: 28, fontSize: 22, lineHeight: 1.2, fontWeight: 700, color: 'var(--osd-accent)' }}>{number}</div>
+    </MorphElement>
+    <Reveal delay={MORPH_MS / 1000 + 0.06} style={{ position: 'absolute', left: expanded ? 32 : 22, right: expanded ? 32 : 22, top: expanded ? 293 : 199 }}>
+      <h3 style={{ fontFamily: font.display, fontSize: expanded ? 40 : 30, lineHeight: 1.17, margin: '8px 0 12px', minHeight: 70 }}>{title}</h3>
+      <p style={{ fontSize: expanded ? 28 : 24, lineHeight: 1.4, color: ink.soft, margin: 0 }}>{detail}</p>
+    </Reveal>
   </div>
 );
 
 const PolicyMatrix: Page = () => (
-  <Frame eyebrow="Chương III · 3.2" title="Sơ đồ / Năm lĩnh vực chính sách">
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
-      <div style={{ background: 'var(--osd-accent)', color: '#fff', padding: '18px 52px', fontFamily: font.display, fontSize: 38, fontWeight: 700 }}>CHÍNH SÁCH DÂN TỘC</div>
-      <div style={{ width: 3, height: 50, background: 'var(--osd-accent)' }} />
-      <div style={{ width: '82%', height: 3, background: 'var(--osd-accent)' }} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 18, width: '100%', height: 28 }}>
-        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
-        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
-        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
-        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
-        <div style={{ width: 3, height: 28, background: 'var(--osd-accent)', justifySelf: 'center' }} />
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 18, width: '100%' }}>
-        <PolicyCard number="01" title="Chính trị" detail="Bình đẳng, đoàn kết, tôn trọng và giúp nhau phát triển." image={communityPhoto} alt="Sinh hoạt cộng đồng" />
+  <Frame staticContent eyebrow="Chương III · 3.2" title="Sơ đồ / Năm lĩnh vực chính sách">
+    <div style={{ position: 'relative', height: 684 }}>
+      <Reveal delay={MORPH_MS / 1000} style={{ position: 'absolute', left: 500, top: 0, width: 680, height: 70, display: 'grid', placeItems: 'center', background: 'var(--osd-accent)', color: '#fff', fontFamily: font.display, fontSize: 38, fontWeight: 700 }}>CHÍNH SÁCH DÂN TỘC</Reveal>
+      <svg width={1680} height={150} style={{ position: 'absolute', left: 0, top: 0 }} aria-hidden="true">
+        <g fill="none" stroke="var(--osd-accent)" strokeWidth={3}>
+          <StrokePath d="M840 70 V106" delay={0.7} duration={0.3} />
+          <StrokePath d="M840 106 H160 V150" delay={0.85} />
+          <StrokePath d="M500 106 V150" delay={0.95} duration={0.4} />
+          <StrokePath d="M840 106 V150" delay={1} duration={0.4} />
+          <StrokePath d="M840 106 H1520 V150" delay={0.85} />
+          <StrokePath d="M1180 106 V150" delay={0.95} duration={0.4} />
+        </g>
+      </svg>
+        <PolicyCard number="01" title="Chính trị" detail="Bình đẳng, đoàn kết, tôn trọng và giúp nhau phát triển." image={gatheringPhoto} alt="Sinh hoạt cộng đồng" />
         <PolicyCard number="02" title="Kinh tế" detail="Phát huy tiềm năng, thu hẹp chênh lệch giữa các vùng." image={bridgePhoto} alt="Cầu đường ở miền núi" />
         <PolicyCard number="03" title="Xã hội" detail="An sinh, giáo dục, y tế và công bằng xã hội." image={schoolPhoto} alt="Trường học miền núi" />
         <PolicyCard number="04" title="Văn hóa" detail="Giữ bản sắc, nâng trình độ và mở rộng giao lưu." image={craftPhoto} alt="Nghề dệt truyền thống" />
         <PolicyCard number="05" title="Quốc phòng – an ninh" detail="Ổn định chính trị, trật tự và quan hệ quân dân." image={borderPhoto} alt="Cán bộ và người dân trò chuyện" />
-      </div>
     </div>
   </Frame>
 );
 
 const PolicyPoliticalEconomic: Page = () => (
-  <Frame eyebrow="Chương III · 3.2" title="Chính sách chính trị và kinh tế">
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 34, height: '100%' }}>
-      <div style={{ background: ink.panel, borderTop: '7px solid var(--osd-accent)' }}><img src={gatheringPhoto} alt="Sinh hoạt cộng đồng" style={{ width: '100%', height: 235, objectFit: 'cover' }} /><div style={{ padding: '24px 32px' }}><h3 style={{ fontFamily: font.display, fontSize: 40, margin: '0 0 16px' }}>Chính trị</h3><p style={{ fontSize: 27, lineHeight: 1.46, color: ink.soft, margin: 0 }}>Thực hiện bình đẳng, đoàn kết, tôn trọng và giúp nhau cùng phát triển; nâng cao nhận thức của đồng bào về đoàn kết dân tộc.</p></div></div>
-      <div style={{ background: ink.panel, borderTop: '7px solid '+ink.gold }}><img src={bridgePhoto} alt="Cầu đường ở miền núi" style={{ width: '100%', height: 235, objectFit: 'cover', filter: 'saturate(.82)' }} /><div style={{ padding: '24px 32px' }}><h3 style={{ fontFamily: font.display, fontSize: 40, margin: '0 0 16px' }}>Kinh tế</h3><p style={{ fontSize: 27, lineHeight: 1.46, color: ink.soft, margin: 0 }}>Phát huy tiềm năng vùng miền núi, dân tộc thiểu số; triển khai chương trình phát triển, thu hẹp chênh lệch và thúc đẩy kinh tế thị trường định hướng XHCN.</p></div></div>
+  <Frame staticContent eyebrow="Chương III · 3.2" title="Chính sách chính trị và kinh tế">
+    <div style={{ position: 'relative', height: 684 }}>
+      <PolicyCard expanded number="01" title="Chính trị" detail="Thực hiện bình đẳng, đoàn kết, tôn trọng và giúp nhau cùng phát triển; nâng cao nhận thức của đồng bào về đoàn kết dân tộc." image={gatheringPhoto} alt="Sinh hoạt cộng đồng" />
+      <PolicyCard expanded number="02" title="Kinh tế" detail="Phát huy tiềm năng vùng miền núi, dân tộc thiểu số; triển khai chương trình phát triển, thu hẹp chênh lệch và thúc đẩy kinh tế thị trường định hướng XHCN." image={bridgePhoto} alt="Cầu đường ở miền núi" />
     </div>
   </Frame>
 );
+
+PolicyMatrix.transition = morphTransition;
+PolicyPoliticalEconomic.transition = morphTransition;
 
 const PolicySocial: Page = () => (
   <Frame eyebrow="Chương III · 3.2" title="Chính sách xã hội">
