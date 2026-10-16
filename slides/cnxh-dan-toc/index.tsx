@@ -2,11 +2,11 @@ import {
   type DesignSystem,
   type Page,
   type SlideMeta,
-  type SlideTransition,
   useIsActivePage,
   useSlidePageNumber,
 } from '@open-slide/core';
 import type { CSSProperties, ReactNode } from 'react';
+import { motion, useReducedMotion, type MotionProps } from 'motion/react';
 import communityPhoto from './assets/vietnam-community.jpg';
 import craftPhoto from './assets/craft-weaving.jpg';
 import schoolPhoto from './assets/mountain-school.jpg';
@@ -31,34 +31,6 @@ if (typeof document !== 'undefined') {
   }
   if (link.href !== FONT_HREF) link.href = FONT_HREF;
 }
-
-const STYLE_ID = 'osd-styles-cnxh-dan-toc';
-const CSS = `
-  .cnx { animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); animation-fill-mode: both; }
-  [data-still] .cnx { animation: none !important; }
-  @media (prefers-reduced-motion: reduce) { .cnx { animation: none !important; } }
-  @keyframes cnx-rise { from { opacity: 0; transform: translateY(10px); } }
-  @keyframes cnx-fade { from { opacity: 0; } }
-  @keyframes cnx-scale { from { opacity: 0; transform: scale(0.96); } }
-  @keyframes cnx-stamp { from { opacity: 0; transform: scale(0.7) rotate(-8deg); } }
-  @keyframes cnx-draw { from { width: 0; } }
-  .cnx-rise { animation-name: cnx-rise; animation-duration: 0.6s; }
-  .cnx-fade { animation-name: cnx-fade; animation-duration: 0.5s; }
-  .cnx-scale { animation-name: cnx-scale; animation-duration: 0.5s; }
-  .cnx-stamp { animation-name: cnx-stamp; animation-duration: 0.4s; }
-  .cnx-draw { width: 100%; animation-name: cnx-draw; animation-duration: 0.7s; }
-`;
-if (typeof document !== 'undefined') {
-  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
-  if (!style) {
-    style = document.createElement('style');
-    style.id = STYLE_ID;
-    document.head.appendChild(style);
-  }
-  if (style.textContent !== CSS) style.textContent = CSS;
-}
-
-const Styles = () => <style>{CSS}</style>;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Design system
@@ -103,20 +75,33 @@ const fill: CSSProperties = {
 
 const P = 120;
 
-const EASE_OUT = 'cubic-bezier(0, 0, 0.2, 1)';
-const EASE_IN = 'cubic-bezier(0.4, 0, 1, 1)';
+const useEntry = (delay = 0, kind: 'rise' | 'fade' | 'stamp' = 'rise'): MotionProps => {
+  const active = useIsActivePage();
+  const reducedMotion = useReducedMotion();
+  const from = kind === 'stamp'
+    ? { opacity: 0, scale: 0.82, rotate: -5 }
+    : kind === 'fade'
+      ? { opacity: 0 }
+      : { opacity: 0, y: 10 };
+  return {
+    initial: active && !reducedMotion ? from : false,
+    animate: { opacity: 1, y: 0, scale: 1, rotate: 0 },
+    transition: { duration: reducedMotion ? 0 : 0.38, delay: reducedMotion ? 0 : delay * 0.5, ease: [0.22, 1, 0.36, 1] },
+  };
+};
 
-export const transition: SlideTransition = {
-  duration: 260,
-  exit: { duration: 260, easing: EASE_IN, keyframes: [{ opacity: 1 }, { opacity: 1 }] },
-  enter: {
-    duration: 260,
-    easing: EASE_OUT,
-    keyframes: [
-      { opacity: 0, transform: 'translateY(6px)' },
-      { opacity: 1, transform: 'translateY(0)' },
-    ],
-  },
+const StrokePath = ({ d, markerEnd, delay = 0.2 }: { d: string; markerEnd?: string; delay?: number }) => {
+  const active = useIsActivePage();
+  const reducedMotion = useReducedMotion();
+  return (
+    <motion.path
+      d={d}
+      markerEnd={markerEnd}
+      initial={active && !reducedMotion ? { pathLength: 0, opacity: 0 } : false}
+      animate={{ pathLength: 1, opacity: 1 }}
+      transition={{ duration: reducedMotion ? 0 : 0.75, delay: reducedMotion ? 0 : delay, ease: 'easeInOut' }}
+    />
+  );
 };
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
@@ -124,8 +109,8 @@ const pad2 = (n: number) => String(n).padStart(2, '0');
 const Footer = () => {
   const { current, total } = useSlidePageNumber();
   return (
-    <div
-      className="cnx cnx-fade"
+    <motion.div
+      {...useEntry(0.25, 'fade')}
       style={{
         position: 'absolute',
         left: P,
@@ -138,20 +123,19 @@ const Footer = () => {
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
         color: ink.muted,
-        animationDelay: '0.25s',
       }}
     >
       <span>CNXH KHOA HỌC · DÂN TỘC</span>
       <span>
         {pad2(current)} / {pad2(total)}
       </span>
-    </div>
+    </motion.div>
   );
 };
 
 const Mark = () => (
-  <div
-    className="cnx cnx-stamp"
+  <motion.div
+    {...useEntry(0.05, 'stamp')}
     style={{
       position: 'absolute',
       left: P,
@@ -160,14 +144,13 @@ const Mark = () => (
       height: 24,
       borderRadius: 'var(--osd-radius)',
       background: 'var(--osd-accent)',
-      animationDelay: '0.05s',
     }}
   />
 );
 
 const Eyebrow = ({ children }: { children: ReactNode }) => (
-  <div
-    className="cnx cnx-rise"
+  <motion.div
+    {...useEntry()}
     style={{
       position: 'absolute',
       left: P + 40,
@@ -181,7 +164,7 @@ const Eyebrow = ({ children }: { children: ReactNode }) => (
     }}
   >
     {children}
-  </div>
+  </motion.div>
 );
 
 const Frame = ({
@@ -195,14 +178,13 @@ const Frame = ({
   lead?: ReactNode;
   children: ReactNode;
 }) => {
-  const active = useIsActivePage();
+  const leadEntry = useEntry(0.12);
   return (
-    <div style={fill} data-still={active ? undefined : ''}>
-      <Styles />
+    <div style={fill}>
       <Mark />
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2
-        className="cnx cnx-rise"
+      <motion.h2
+        {...useEntry(0.06)}
         style={{
           position: 'absolute',
           left: P,
@@ -213,15 +195,14 @@ const Frame = ({
           fontWeight: 700,
           letterSpacing: '-0.02em',
           lineHeight: 1.08,
-          animationDelay: '0.06s',
           maxWidth: 1680,
         }}
       >
         {title}
-      </h2>
+      </motion.h2>
       {lead && (
-        <p
-          className="cnx cnx-rise"
+        <motion.p
+          {...leadEntry}
           style={{
             position: 'absolute',
             left: P,
@@ -231,13 +212,13 @@ const Frame = ({
             fontSize: 26,
             lineHeight: 1.5,
             color: ink.soft,
-            animationDelay: '0.12s',
           }}
         >
           {lead}
-        </p>
+        </motion.p>
       )}
-      <div
+      <motion.div
+        {...useEntry(0.18)}
         style={{
           position: 'absolute',
           left: P,
@@ -247,17 +228,16 @@ const Frame = ({
         }}
       >
         {children}
-      </div>
+      </motion.div>
       <Footer />
     </div>
   );
 };
 
 const Divider = ({ roman, label, sub }: { roman: string; label: string; sub?: string }) => {
-  const active = useIsActivePage();
+  const subEntry = useEntry(0.22);
   return (
-    <div style={fill} data-still={active ? undefined : ''}>
-      <Styles />
+    <div style={fill}>
       <div
         style={{
           position: 'absolute',
@@ -270,8 +250,8 @@ const Divider = ({ roman, label, sub }: { roman: string; label: string; sub?: st
           justifyContent: 'center',
         }}
       >
-        <div
-          className="cnx cnx-fade"
+        <motion.div
+          {...useEntry(0, 'fade')}
           style={{
             position: 'absolute',
             right: P,
@@ -285,20 +265,19 @@ const Divider = ({ roman, label, sub }: { roman: string; label: string; sub?: st
           }}
         >
           {roman}
-        </div>
-        <div
-          className="cnx cnx-stamp"
+        </motion.div>
+        <motion.div
+          {...useEntry(0.05, 'stamp')}
           style={{
             width: 24,
             height: 24,
             borderRadius: 'var(--osd-radius)',
             background: 'var(--osd-accent)',
             marginBottom: 40,
-            animationDelay: '0.05s',
           }}
         />
-        <div
-          className="cnx cnx-rise"
+        <motion.div
+          {...useEntry(0.1)}
           style={{
             fontFamily: font.display,
             fontSize: 28,
@@ -307,13 +286,12 @@ const Divider = ({ roman, label, sub }: { roman: string; label: string; sub?: st
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             marginBottom: 24,
-            animationDelay: '0.1s',
           }}
         >
           {label}
-        </div>
-        <h2
-          className="cnx cnx-rise"
+        </motion.div>
+        <motion.h2
+          {...useEntry(0.16)}
           style={{
             margin: 0,
             fontFamily: font.display,
@@ -322,27 +300,25 @@ const Divider = ({ roman, label, sub }: { roman: string; label: string; sub?: st
             lineHeight: 1.05,
             color: 'var(--osd-text)',
             maxWidth: 1300,
-            animationDelay: '0.16s',
           }}
         >
           {roman === 'I' && 'Khái niệm, đặc trưng cơ bản của dân tộc'}
           {roman === 'II' && 'Chủ nghĩa Mác – Lênin về vấn đề dân tộc'}
           {roman === 'III' && 'Dân tộc và quan hệ dân tộc ở Việt Nam'}
-        </h2>
+        </motion.h2>
         {sub && (
-          <p
-            className="cnx cnx-rise"
+          <motion.p
+            {...subEntry}
             style={{
               marginTop: 32,
               maxWidth: 980,
               fontSize: 30,
               lineHeight: 1.5,
               color: ink.soft,
-              animationDelay: '0.22s',
             }}
           >
             {sub}
-          </p>
+          </motion.p>
         )}
       </div>
       <Footer />
@@ -355,21 +331,20 @@ const Divider = ({ roman, label, sub }: { roman: string; label: string; sub?: st
 // ─────────────────────────────────────────────────────────────────────────────
 const Cover: Page = () => (
   <div style={fill}>
-    <Styles />
     <img src={communityPhoto} alt="Minh họa cộng đồng ở vùng núi Việt Nam" style={{ position: 'absolute', right: 0, top: 0, width: 900, height: 1080, objectFit: 'cover', objectPosition: '70% center' }} />
     <div style={{ position: 'absolute', right: 0, top: 0, width: 1040, height: 1080, background: 'linear-gradient(90deg, #f3efe6 0%, rgba(243,239,230,.86) 12%, rgba(243,239,230,0) 45%)' }} />
-    <div style={{ position: 'absolute', left: P, top: 94, fontSize: 24, fontWeight: 700, letterSpacing: '0.16em', color: 'var(--osd-accent)' }}>CHỦ NGHĨA XÃ HỘI KHOA HỌC / NHÓM 3</div>
+    <motion.div {...useEntry(0.05)} style={{ position: 'absolute', left: P, top: 94, fontSize: 24, fontWeight: 700, letterSpacing: '0.16em', color: 'var(--osd-accent)' }}>CHỦ NGHĨA XÃ HỘI KHOA HỌC / NHÓM 3</motion.div>
     <div style={{ position: 'absolute', left: P, top: 240, width: 1010 }}>
-      <div style={{ width: 96, height: 8, background: 'var(--osd-accent)', marginBottom: 38 }} />
-      <h1 style={{ margin: 0, fontFamily: font.display, fontSize: 93, lineHeight: 1.07, letterSpacing: '-0.04em', fontWeight: 700 }}>Vấn đề dân tộc<br />trong thời kỳ<br />quá độ lên CNXH</h1>
-      <p style={{ margin: '34px 0 0', maxWidth: 870, fontSize: 30, lineHeight: 1.45, color: ink.soft }}>Hai cách hiểu về dân tộc, cương lĩnh Lênin và chính sách dân tộc ở Việt Nam.</p>
+      <motion.div {...useEntry(0.1, 'fade')} style={{ width: 96, height: 8, background: 'var(--osd-accent)', marginBottom: 38, transformOrigin: 'left' }} />
+      <motion.h1 {...useEntry(0.15)} style={{ margin: 0, fontFamily: font.display, fontSize: 93, lineHeight: 1.07, letterSpacing: '-0.04em', fontWeight: 700 }}>Vấn đề dân tộc<br />trong thời kỳ<br />quá độ lên CNXH</motion.h1>
+      <motion.p {...useEntry(0.24)} style={{ margin: '34px 0 0', maxWidth: 870, fontSize: 30, lineHeight: 1.45, color: ink.soft }}>Hai cách hiểu về dân tộc, cương lĩnh Lênin và chính sách dân tộc ở Việt Nam.</motion.p>
     </div>
-    <div style={{ position: 'absolute', left: P, top: 760, width: 900, fontSize: 22, lineHeight: 1.48, color: ink.soft }}>
+    <motion.div {...useEntry(0.32)} style={{ position: 'absolute', left: P, top: 760, width: 900, fontSize: 22, lineHeight: 1.48, color: ink.soft }}>
       <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--osd-accent)', marginBottom: 8 }}>THÀNH VIÊN NHÓM 3</div>
       Thu Nhớ · Thảo My · Thảo Nguyên · Sơn<br />
       Trường Sơn · Nhất Vũ · Hoàng Thiện · Quang Chiến<br />
       Văn Duy · Phạm Quỳnh · Minh Nhật · Quang Minh · Đức Vũ
-    </div>
+    </motion.div>
     <Footer />
   </div>
 );
@@ -377,20 +352,32 @@ const Cover: Page = () => (
 const DivConcept = () => <Divider roman="I" label="CHƯƠNG I" sub="Dân tộc theo nghĩa rộng và nghĩa hẹp" />;
 
 const TimelineItem = ({ number, title, description }: { number: string; title: string; description: string }) => (
-  <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-    <div style={{ width: 118, height: 118, borderRadius: '50%', background: 'var(--osd-accent)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: font.display, fontSize: 52, fontWeight: 700, boxShadow: `0 0 0 12px ${ink.panel}` }}>{number}</div>
-    <div style={{ width: '100%', minHeight: 246, boxSizing: 'border-box', marginTop: 42, padding: '30px 24px', background: ink.panel, borderTop: '5px solid var(--osd-accent)' }}>
-      <div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, marginBottom: 16 }}>{title}</div>
-      <div style={{ fontSize: 25, lineHeight: 1.42, color: ink.soft }}>{description}</div>
-    </div>
-  </div>
+  <motion.div {...useEntry(Number(number) * 0.1)} style={{ position: 'relative', zIndex: 1, height: '100%', padding: '44px 24px 0 22px', boxSizing: 'border-box', borderLeft: number === '01' ? undefined : `1px solid ${ink.rule}` }}>
+    <div style={{ fontFamily: font.display, fontSize: 112, lineHeight: 1, color: 'rgba(139, 47, 42, 0.21)', fontWeight: 700 }}>{number}</div>
+    <div style={{ position: 'absolute', left: 22, top: 211, width: 18, height: 18, borderRadius: '50%', background: 'var(--osd-accent)', boxShadow: '0 0 0 8px var(--osd-bg)' }} />
+    <div style={{ marginTop: 112, fontFamily: font.display, fontSize: 44, lineHeight: 1.15, fontWeight: 700 }}>{title}</div>
+    <div style={{ marginTop: 20, fontSize: 27, lineHeight: 1.46, color: ink.soft }}>{description}</div>
+  </motion.div>
 );
+
+const TimelineRule = () => {
+  const active = useIsActivePage();
+  const reducedMotion = useReducedMotion();
+  return (
+    <motion.div
+      initial={active && !reducedMotion ? { scaleX: 0 } : false}
+      animate={{ scaleX: 1 }}
+      transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
+      style={{ position: 'absolute', left: 22, right: 22, top: 218, height: 3, background: 'var(--osd-accent)', transformOrigin: 'left' }}
+    />
+  );
+};
 
 const ConceptTimeline: Page = () => (
   <Frame eyebrow="Chương I" title="Từ thị tộc đến dân tộc">
-    <div style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}>
-      <div style={{ position: 'absolute', left: 130, right: 130, top: 196, height: 6, background: 'var(--osd-accent)' }} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, width: '100%' }}>
+    <div style={{ position: 'relative', height: '100%' }}>
+      <TimelineRule />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', height: '100%', width: '100%' }}>
         <TimelineItem number="01" title="Thị tộc" description="Cộng đồng người có quan hệ huyết thống, cùng lao động và sinh hoạt." />
         <TimelineItem number="02" title="Bộ lạc" description="Nhiều thị tộc liên kết, có lãnh thổ và sinh hoạt chung." />
         <TimelineItem number="03" title="Bộ tộc" description="Cộng đồng rộng hơn, ngôn ngữ và văn hóa dần ổn định." />
@@ -401,26 +388,25 @@ const ConceptTimeline: Page = () => (
 );
 
 const BranchRow = ({ number, label, detail }: { number: string; label: string; detail?: string }) => (
-  <div style={{ position: 'relative', background: ink.panel, border: `1px solid ${ink.rule}`, padding: '15px 24px', display: 'flex', alignItems: 'center', gap: 24, minHeight: 98, boxSizing: 'border-box' }}>
-    <div style={{ position: 'absolute', left: -34, top: '50%', width: 34, height: 3, background: 'var(--osd-accent)' }} />
-    <span style={{ fontFamily: font.display, fontSize: 34, color: 'var(--osd-accent)', fontWeight: 700, minWidth: 54 }}>{number}</span>
-    <span style={{ fontSize: 28, lineHeight: 1.35, color: ink.text }}>{label}{detail && <small style={{ display: 'block', fontSize: 22, color: ink.muted, marginTop: 3 }}>{detail}</small>}</span>
+  <div style={{ borderBottom: `1px solid ${ink.rule}`, padding: '18px 0', display: 'flex', alignItems: 'center', gap: 28, minHeight: 108, boxSizing: 'border-box' }}>
+    <span style={{ fontFamily: font.display, fontSize: 34, color: 'var(--osd-accent)', fontWeight: 700, minWidth: 56 }}>{number}</span>
+    <span style={{ fontSize: 30, lineHeight: 1.35, color: ink.text }}>{label}{detail && <small style={{ display: 'block', fontSize: 22, color: ink.muted, marginTop: 3 }}>{detail}</small>}</span>
   </div>
 );
 
 const NationDiagram: Page = () => (
   <Frame eyebrow="Chương I · 1" title="Sơ đồ 1 / Dân tộc theo nghĩa rộng" lead="Dân tộc theo nghĩa rộng là cộng đồng người ổn định làm thành nhân dân một nước.">
-    <div style={{ display: 'grid', gridTemplateColumns: '520px 1fr', gap: 68, height: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '540px 1fr', gap: 78, height: '100%' }}>
       <div style={{ background: 'var(--osd-accent)', color: '#fff', position: 'relative' }}>
-        <img src={farmingPhoto} alt="Cảnh đồng ruộng miền núi" style={{ width: '100%', height: 215, objectFit: 'cover' }} />
-        <div style={{ padding: '28px 34px' }}>
+        <img src={farmingPhoto} alt="Cảnh đồng ruộng miền núi" style={{ width: '100%', height: 276, objectFit: 'cover', filter: 'saturate(.75)' }} />
+        <div style={{ padding: '25px 34px' }}>
           <div style={{ fontSize: 23, letterSpacing: '0.12em' }}>NGHĨA RỘNG · QUỐC GIA</div>
-          <div style={{ fontFamily: font.display, fontSize: 49, lineHeight: 1.12, marginTop: 12 }}>Một cộng đồng quốc gia</div>
-          <div style={{ fontSize: 23, lineHeight: 1.38, marginTop: 18 }}>Gắn bó bởi quyền lợi chính trị, kinh tế, truyền thống văn hóa và lịch sử dựng nước, giữ nước.</div>
-          <div style={{ fontSize: 25, marginTop: 22 }}>Ví dụ: Việt Nam, Nhật Bản</div>
+          <div style={{ fontFamily: font.display, fontSize: 45, lineHeight: 1.12, marginTop: 10 }}>Một cộng đồng quốc gia</div>
+          <div style={{ fontSize: 23, lineHeight: 1.38, marginTop: 16 }}>Gắn bó bởi quyền lợi chính trị, kinh tế, truyền thống văn hóa và lịch sử dựng nước, giữ nước.</div>
+          <div style={{ fontSize: 25, marginTop: 18 }}>Ví dụ: Việt Nam, Nhật Bản</div>
         </div>
       </div>
-      <div style={{ borderLeft: '4px solid var(--osd-accent)', paddingLeft: 32, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <BranchRow number="01" label="Có chung vùng lãnh thổ ổn định" />
         <BranchRow number="02" label="Có chung phương thức sinh hoạt kinh tế" />
         <BranchRow number="03" label="Có chung ngôn ngữ giao tiếp" />
@@ -438,7 +424,7 @@ const EthnieDiagram: Page = () => (
         <img src={gatheringPhoto} alt="Sinh hoạt văn hóa cộng đồng" style={{ width: '100%', height: 365, objectFit: 'cover' }} />
         <div style={{ padding: '26px 34px' }}><div style={{ fontFamily: font.display, fontSize: 43, fontWeight: 700 }}>Một cộng đồng tộc người</div><div style={{ fontSize: 27, color: ink.soft, marginTop: 12 }}>Ví dụ: dân tộc Kinh, dân tộc Thái</div></div>
       </div>
-      <div style={{ borderLeft: '4px solid var(--osd-accent)', paddingLeft: 32, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 24 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 24 }}>
         <BranchRow number="01" label="Cộng đồng về ngôn ngữ" />
         <BranchRow number="02" label="Cộng đồng về văn hóa" />
         <BranchRow number="03" label="Ý thức tự giác tộc người" />
@@ -477,17 +463,17 @@ const TrendVisual = ({ mode }: { mode: 'separate' | 'unite' }) => {
       <defs><marker id={arrowId} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1 L9 5 L1 9 Z" fill={color} /></marker></defs>
       {mode === 'separate' ? (
         <g stroke={color} strokeWidth="5" fill="none">
-          <path d="M198 80 L98 42" markerEnd={`url(#${arrowId})`} />
-          <path d="M198 110 L98 148" markerEnd={`url(#${arrowId})`} />
-          <path d="M262 80 L362 42" markerEnd={`url(#${arrowId})`} />
-          <path d="M262 110 L362 148" markerEnd={`url(#${arrowId})`} />
+          <StrokePath d="M198 80 L98 42" markerEnd={`url(#${arrowId})`} delay={0.2} />
+          <StrokePath d="M198 110 L98 148" markerEnd={`url(#${arrowId})`} delay={0.3} />
+          <StrokePath d="M262 80 L362 42" markerEnd={`url(#${arrowId})`} delay={0.4} />
+          <StrokePath d="M262 110 L362 148" markerEnd={`url(#${arrowId})`} delay={0.5} />
         </g>
       ) : (
         <g stroke={color} strokeWidth="5" fill="none">
-          <path d="M90 39 L188 80" markerEnd={`url(#${arrowId})`} />
-          <path d="M90 151 L188 110" markerEnd={`url(#${arrowId})`} />
-          <path d="M370 39 L272 80" markerEnd={`url(#${arrowId})`} />
-          <path d="M370 151 L272 110" markerEnd={`url(#${arrowId})`} />
+          <StrokePath d="M90 39 L188 80" markerEnd={`url(#${arrowId})`} delay={0.2} />
+          <StrokePath d="M90 151 L188 110" markerEnd={`url(#${arrowId})`} delay={0.3} />
+          <StrokePath d="M370 39 L272 80" markerEnd={`url(#${arrowId})`} delay={0.4} />
+          <StrokePath d="M370 151 L272 110" markerEnd={`url(#${arrowId})`} delay={0.5} />
         </g>
       )}
       <circle cx="230" cy="95" r="43" fill={color} />
@@ -575,8 +561,8 @@ const VNFeatures: Page = () => (
     <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1fr 360px 1fr', gap: 30, height: '100%', alignItems: 'center' }}>
       <svg viewBox="0 0 1680 684" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} aria-hidden="true">
         <g fill="none" stroke="var(--osd-accent)" strokeWidth="3" opacity=".65">
-          <path d="M630 172 C700 172 710 270 750 280" /><path d="M630 342 H700" /><path d="M630 512 C700 512 710 414 750 404" />
-          <path d="M1050 172 C980 172 970 270 930 280" /><path d="M1050 342 H980" /><path d="M1050 512 C980 512 970 414 930 404" />
+          <StrokePath d="M630 172 C700 172 710 270 750 280" delay={0.15} /><StrokePath d="M630 342 H700" delay={0.25} /><StrokePath d="M630 512 C700 512 710 414 750 404" delay={0.35} />
+          <StrokePath d="M1050 172 C980 172 970 270 930 280" delay={0.45} /><StrokePath d="M1050 342 H980" delay={0.55} /><StrokePath d="M1050 512 C980 512 970 414 930 404" delay={0.65} />
         </g>
       </svg>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -762,13 +748,12 @@ const Quiz: Page = () => (
 
 const Closing: Page = () => (
   <div style={fill}>
-    <Styles />
     <img src={communityPhoto} alt="Minh họa cộng đồng vùng núi Việt Nam" style={{ position: 'absolute', right: 0, top: 0, width: 850, height: 1080, objectFit: 'cover', objectPosition: '74% center' }} />
     <div style={{ position: 'absolute', left: 0, top: 0, width: 1160, height: 1080, background: 'linear-gradient(90deg, #f3efe6 82%, rgba(243,239,230,0))' }} />
     <div style={{ position: 'absolute', left: P, top: 240, width: 1020 }}>
-      <div style={{ width: 100, height: 8, background: 'var(--osd-accent)', marginBottom: 52 }} />
-      <h1 style={{ margin: 0, fontFamily: font.display, fontSize: 112, lineHeight: 1.1 }}>Cảm ơn<br />đã lắng nghe</h1>
-      <p style={{ fontSize: 33, lineHeight: 1.5, color: ink.soft, maxWidth: 850, marginTop: 40 }}>Mời giảng viên và các bạn đặt câu hỏi hoặc góp ý.</p>
+      <motion.div {...useEntry(0.05, 'fade')} style={{ width: 100, height: 8, background: 'var(--osd-accent)', marginBottom: 52 }} />
+      <motion.h1 {...useEntry(0.12)} style={{ margin: 0, fontFamily: font.display, fontSize: 112, lineHeight: 1.1 }}>Cảm ơn<br />đã lắng nghe</motion.h1>
+      <motion.p {...useEntry(0.22)} style={{ fontSize: 33, lineHeight: 1.5, color: ink.soft, maxWidth: 850, marginTop: 40 }}>Mời giảng viên và các bạn đặt câu hỏi hoặc góp ý.</motion.p>
     </div>
     <Footer />
   </div>
