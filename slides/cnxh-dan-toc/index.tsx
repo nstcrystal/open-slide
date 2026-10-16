@@ -7,7 +7,7 @@ import {
   useIsActivePage,
   useSlidePageNumber,
 } from '@open-slide/core';
-import { type CSSProperties, type ReactNode, useId } from 'react';
+import { type CSSProperties, type ReactNode, type Ref, useEffect, useId, useRef, useState } from 'react';
 import { motion, useReducedMotion, type MotionProps } from 'motion/react';
 import communityPhoto from './assets/vietnam-community.jpg';
 import craftPhoto from './assets/craft-weaving.jpg';
@@ -16,6 +16,11 @@ import gatheringPhoto from './assets/community-gathering.jpg';
 import farmingPhoto from './assets/terrace-farming.jpg';
 import borderPhoto from './assets/quan-dan-vung-bien.jpg';
 import bridgePhoto from './assets/ha-tang-vung-cao.jpg';
+import hmongMarketPhoto from './assets/hmong-coc-ly.jpg';
+import stiltHousePhoto from './assets/thai-stilt-house.jpg';
+import costumePhoto from './assets/hmong-costume.jpg';
+import dongVanPhoto from './assets/dong-van-market.jpg';
+import pagodaPhoto from './assets/chua-doi.jpg';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Webfont (module-level, slide-keyed)
@@ -439,7 +444,7 @@ const ConceptBranches = ({ narrow = false }: { narrow?: boolean }) => (
 );
 
 const NationDiagram: Page = () => (
-  <Frame staticContent eyebrow="Chương I · 1" title="Sơ đồ 1 / Dân tộc theo nghĩa rộng" lead="Dân tộc theo nghĩa rộng là cộng đồng người ổn định làm thành nhân dân một nước.">
+  <Frame staticContent eyebrow="Chương I · 1" title="Dân tộc theo nghĩa rộng" lead="Dân tộc theo nghĩa rộng là cộng đồng người ổn định làm thành nhân dân một nước.">
     <div style={{ position: 'relative', height: 622 }}>
       <ConceptBranches />
       <Reveal delay={0.1} style={{ background: 'var(--osd-accent)', color: '#fff', position: 'absolute', left: 0, top: 0, width: 540, height: 622 }}>
@@ -463,7 +468,7 @@ const NationDiagram: Page = () => (
 );
 
 const EthnieDiagram: Page = () => (
-  <Frame staticContent eyebrow="Chương I · 1" title="Sơ đồ 2 / Dân tộc theo nghĩa hẹp" lead="Dân tộc theo nghĩa hẹp là cộng đồng tộc người hình thành trong lịch sử, có liên hệ bền vững.">
+  <Frame staticContent eyebrow="Chương I · 1" title="Dân tộc theo nghĩa hẹp" lead="Dân tộc theo nghĩa hẹp là cộng đồng tộc người hình thành trong lịch sử, có liên hệ bền vững.">
     <div style={{ position: 'relative', height: 622 }}>
       <ConceptBranches narrow />
       <Reveal delay={0.1} style={{ position: 'absolute', left: 0, top: 0, width: 540, height: 622, boxSizing: 'border-box', background: ink.panel, border: `1px solid ${ink.rule}` }}>
@@ -815,27 +820,183 @@ const Summary: Page = () => (
   </Frame>
 );
 
-const Quiz: Page = () => (
-  <Frame eyebrow="Trò chơi" title="Kiểm tra nhanh hiểu bài">
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28, height: '100%', alignItems: 'center' }}>
-      <div style={{ background: ink.panel, padding: 32, borderTop: '6px solid var(--osd-accent)', minHeight: 360 }}>
-        <div style={{ fontSize: 24, color: 'var(--osd-accent)', fontWeight: 700 }}>CÂU 01</div>
-        <p style={{ fontSize: 30, lineHeight: 1.4, fontWeight: 700 }}>Dân tộc theo nghĩa rộng có mấy đặc trưng?</p>
-        <div style={{ fontSize: 25, lineHeight: 1.45, color: ink.soft }}>5: lãnh thổ, kinh tế, ngôn ngữ, văn hóa – tâm lý, nhà nước.</div>
-      </div>
-      <div style={{ background: ink.panel, padding: 32, borderTop: '6px solid var(--osd-accent)', minHeight: 360 }}>
-        <div style={{ fontSize: 24, color: 'var(--osd-accent)', fontWeight: 700 }}>CÂU 02</div>
-        <p style={{ fontSize: 30, lineHeight: 1.4, fontWeight: 700 }}>Cương lĩnh dân tộc Lênin gồm mấy nội dung?</p>
-        <div style={{ fontSize: 25, lineHeight: 1.45, color: ink.soft }}>3: bình đẳng, tự quyết, liên hiệp công nhân các dân tộc.</div>
-      </div>
-      <div style={{ background: ink.panel, padding: 32, borderTop: '6px solid var(--osd-accent)', minHeight: 360 }}>
-        <div style={{ fontSize: 24, color: 'var(--osd-accent)', fontWeight: 700 }}>CÂU 03</div>
-        <p style={{ fontSize: 30, lineHeight: 1.4, fontWeight: 700 }}>Việt Nam có bao nhiêu dân tộc?</p>
-        <div style={{ fontSize: 25, lineHeight: 1.45, color: ink.soft }}>54 dân tộc.</div>
-      </div>
-    </div>
-  </Frame>
+// Interactive interlude: Pommi-inspired stickers, chunky outlines and soft springs.
+// One game page keeps the existing deck/notes order intact.
+// Classroom game, styled with the deck's own tokens: panel cards, thin rules,
+// serif headings and the single red accent. No separate visual language.
+type QuizQuestion = { topic: string; question: string; options: readonly [string, string, string, string]; correct: number; explanation: string; img: string; alt: string };
+const quizQuestions: readonly QuizQuestion[] = [
+  { topic: 'Khởi động · Chương I', question: 'Thứ tự hình thành các cộng đồng người là gì?', options: ['Bộ lạc → thị tộc → dân tộc → bộ tộc', 'Thị tộc → bộ lạc → bộ tộc → dân tộc', 'Thị tộc → bộ tộc → bộ lạc → dân tộc', 'Dân tộc → bộ tộc → bộ lạc → thị tộc'], correct: 1, explanation: 'Tiến trình được trình bày: thị tộc, bộ lạc, bộ tộc rồi đến dân tộc.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
+  { topic: 'Giải mã khái niệm · Chương I', question: '“Dân tộc” theo nghĩa rộng chỉ cộng đồng nào?', options: ['Những người cùng một dòng họ', 'Một cộng đồng tộc người', 'Nhân dân của một nước', 'Những người cùng tôn giáo'], correct: 2, explanation: 'Nghĩa rộng nói đến cộng đồng quốc gia; ví dụ là Việt Nam hoặc Nhật Bản.', img: hmongMarketPhoto, alt: 'Phụ nữ dân tộc Mông ở chợ' },
+  { topic: 'Nhớ đúng, chọn nhanh · Chương I', question: 'Dân tộc theo nghĩa rộng có mấy đặc trưng cơ bản?', options: ['3 đặc trưng', '5 đặc trưng', '4 đặc trưng', '6 đặc trưng'], correct: 1, explanation: 'Năm đặc trưng: lãnh thổ, kinh tế, ngôn ngữ, văn hóa – tâm lý và nhà nước.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
+  { topic: 'Bắt đúng từ khóa · Chương I', question: 'Đâu là một đặc trưng của dân tộc theo nghĩa hẹp?', options: ['Ý thức tự giác tộc người', 'Có nhà nước riêng', 'Có lãnh thổ riêng biệt', 'Có một nền kinh tế độc lập'], correct: 0, explanation: 'Nghĩa hẹp có ba đặc trưng: ngôn ngữ, văn hóa và ý thức tự giác tộc người.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
+  { topic: 'Đổi góc nhìn · Chương II', question: 'Hai xu hướng khách quan của quan hệ dân tộc là gì?', options: ['Đô thị hóa và công nghiệp hóa', 'Cạnh tranh và khép kín', 'Đồng hóa và phân biệt', 'Tách ra độc lập và liên hiệp lại'], correct: 3, explanation: 'Hai xu hướng là hình thành dân tộc độc lập và các dân tộc xích lại gần, liên hiệp với nhau.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
+  { topic: 'Tìm nguyên nhân · Chương II', question: 'Yếu tố nào thúc đẩy các dân tộc liên hiệp lại?', options: ['Phát triển sản xuất, công nghệ, giao lưu', 'Sống biệt lập với thế giới', 'Áp bức và phân biệt dân tộc', 'Ngăn cản hợp tác quốc tế'], correct: 0, explanation: 'Lực lượng sản xuất, khoa học công nghệ và giao lưu phát triển thúc đẩy hợp tác giữa các dân tộc.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
+  { topic: 'Bộ ba nguyên tắc · Chương II', question: 'Bộ ba nào thuộc cương lĩnh dân tộc của Lênin?', options: ['Lãnh thổ – kinh tế – nhà nước', 'Độc lập – khép kín – tự cung tự cấp', 'Bình đẳng – tự quyết – liên hiệp công nhân', 'Ngôn ngữ – văn hóa – huyết thống'], correct: 2, explanation: 'Cương lĩnh gồm bình đẳng, quyền tự quyết và liên hiệp công nhân các dân tộc.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
+  { topic: 'Hiểu chứ không học vẹt · Chương II', question: 'Quyền tự quyết của dân tộc được hiểu như thế nào?', options: ['Can thiệp vào công việc dân tộc khác', 'Bắt buộc phải tách thành nước riêng', 'Tự chọn con đường phát triển', 'Từ chối mọi hình thức liên hiệp'], correct: 2, explanation: 'Tự quyết là tự chọn con đường phát triển, quyết định chia tách hoặc liên hiệp; không đồng nghĩa bắt buộc chia tách.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
+  { topic: 'Tự hào Việt Nam · Chương III', question: 'Cộng đồng các dân tộc Việt Nam có bao nhiêu dân tộc?', options: ['50 dân tộc', '52 dân tộc', '56 dân tộc', '54 dân tộc'], correct: 3, explanation: 'Việt Nam là quốc gia thống nhất của 54 dân tộc, mỗi dân tộc có bản sắc riêng.', img: hmongMarketPhoto, alt: 'Phụ nữ dân tộc Mông ở chợ' },
+  { topic: 'Về đích · Chương III', question: 'Chính sách dân tộc trong bài được chia thành mấy lĩnh vực?', options: ['5 lĩnh vực', '3 lĩnh vực', '4 lĩnh vực', '6 lĩnh vực'], correct: 0, explanation: 'Năm lĩnh vực: chính trị, kinh tế, xã hội, văn hóa và quốc phòng – an ninh.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
+  { topic: 'Đối chiếu ví dụ · Chương I', question: 'Cặp ví dụ nào đúng với “dân tộc theo nghĩa rộng”?', options: ['Người Kinh – người Thái', 'Việt Nam – Nhật Bản', 'Thị tộc – bộ lạc', 'Làng – bản'], correct: 1, explanation: 'Nghĩa rộng lấy quốc gia làm ví dụ: Việt Nam, Nhật Bản. Kinh, Thái là ví dụ của nghĩa hẹp.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
+  { topic: 'Loại trừ · Chương I', question: 'Đặc trưng nào KHÔNG được nêu riêng cho dân tộc theo nghĩa hẹp?', options: ['Cộng đồng ngôn ngữ', 'Có chung một nhà nước', 'Cộng đồng văn hóa', 'Ý thức tự giác tộc người'], correct: 1, explanation: 'Nhà nước là đặc trưng của nghĩa rộng; nghĩa hẹp chỉ nêu ngôn ngữ, văn hóa và ý thức tự giác.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
+  { topic: 'Trong một quốc gia · Chương II', question: 'Trong một quốc gia, xu hướng “tách ra” gắn với điều gì?', options: ['Nỗ lực giành tự do, bình đẳng của từng tộc người', 'Xây dựng liên minh toàn cầu', 'Phát triển khoa học công nghệ', 'Mở rộng giao lưu văn hóa'], correct: 0, explanation: 'Trong một quốc gia, xu hướng tách ra là nỗ lực của từng tộc người vì tự do, bình đẳng và phát triển của cộng đồng mình.', img: hmongMarketPhoto, alt: 'Phụ nữ dân tộc Mông ở chợ' },
+  { topic: 'Phạm vi quốc tế · Chương II', question: 'Trên phạm vi quốc tế, xu hướng “liên hiệp” biểu hiện ra sao?', options: ['Đấu tranh giành độc lập', 'Hợp tác, liên minh khu vực và toàn cầu', 'Khép kín biên giới', 'Chia tách thành nhiều quốc gia'], correct: 1, explanation: 'Trên phạm vi quốc tế, các dân tộc hợp tác và hình thành liên minh ở phạm vi khu vực hoặc toàn cầu.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
+  { topic: 'Nguyên tắc bình đẳng · Chương II', question: 'Nguyên tắc “bình đẳng” trong cương lĩnh Lênin yêu cầu điều gì?', options: ['Mọi dân tộc có quyền, nghĩa vụ ngang nhau; chống phân biệt', 'Dân tộc lớn lãnh đạo dân tộc nhỏ', 'Đồng hóa ngôn ngữ các tộc người', 'Mỗi dân tộc một nhà nước riêng'], correct: 0, explanation: 'Bình đẳng là quyền và nghĩa vụ ngang nhau; trong một quốc gia cần được pháp luật bảo đảm, chống áp bức và phân biệt.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
+  { topic: 'Sức mạnh đoàn kết · Chương II', question: '“Liên hiệp công nhân các dân tộc” dựa trên cơ sở nào?', options: ['Ép buộc và đồng hóa', 'Tự nguyện, bình đẳng, tôn trọng lẫn nhau', 'Lợi ích của dân tộc đa số', 'Can thiệp công việc nội bộ'], correct: 1, explanation: 'Liên hiệp trên cơ sở tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích các dân tộc.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
+  { topic: 'Chung sống · Chương III', question: 'Dân cư các tộc người ở Việt Nam phân bố ra sao?', options: ['Sống tách biệt trong vùng khép kín', 'Cư trú xen kẽ với nhau', 'Chỉ tập trung ở đồng bằng', 'Chỉ ở khu vực biên giới'], correct: 1, explanation: 'Một trong sáu đặc điểm là các tộc người cư trú xen kẽ với nhau trên cùng lãnh thổ.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
+  { topic: 'Trách nhiệm chung · Chương III', question: 'Theo quan điểm của Đảng, công tác dân tộc là nhiệm vụ của ai?', options: ['Riêng cơ quan dân tộc', 'Toàn Đảng, toàn dân, toàn quân và cả hệ thống chính trị', 'Chính quyền vùng dân tộc thiểu số', 'Các tổ chức quốc tế'], correct: 1, explanation: 'Công tác dân tộc được xác định là nhiệm vụ của toàn Đảng, toàn dân, toàn quân và hệ thống chính trị.', img: pagodaPhoto, alt: 'Cổng chùa của người Khmer ở Sóc Trăng' },
+  { topic: 'Giữ gìn bản sắc · Chương III', question: 'Chính sách văn hóa nhấn mạnh điều gì?', options: ['Giữ gìn, phát huy giá trị văn hóa truyền thống', 'Xóa bỏ phong tục các tộc người', 'Hạn chế giao lưu văn hóa', 'Đồng phục hóa đời sống tinh thần'], correct: 0, explanation: 'Chính sách văn hóa giữ gìn, phát huy giá trị truyền thống, nâng trình độ văn hóa và mở rộng giao lưu.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
+  { topic: 'Việc mình làm được · Liên hệ', question: 'Việc làm nào phù hợp với sinh viên?', options: ['Chia sẻ tin chưa kiểm chứng', 'Tìm hiểu, tôn trọng văn hóa các dân tộc', 'Kỳ thị khác biệt vùng miền', 'Tránh tiếp xúc với bạn dân tộc khác'], correct: 1, explanation: 'Tìm hiểu lịch sử, ngôn ngữ, văn hóa; tôn trọng khác biệt; kiểm chứng thông tin trước khi chia sẻ.', img: pagodaPhoto, alt: 'Cổng chùa của người Khmer ở Sóc Trăng' },
+];
+
+const QuizAction = ({ children, onClick, buttonRef }: { children: ReactNode; onClick: () => void; buttonRef?: Ref<HTMLButtonElement> }) => {
+  const reducedMotion = useReducedMotion();
+  return (
+    <motion.button ref={buttonRef} type="button" onClick={(event) => { event.stopPropagation(); onClick(); }} whileHover={reducedMotion ? undefined : { y: -3 }} whileTap={reducedMotion ? undefined : { scale: 0.98 }} transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 25 }} style={{ minHeight: 76, padding: '14px 30px', border: '2px solid var(--osd-accent)', borderRadius: 'var(--osd-radius)', background: ink.panel, color: 'var(--osd-accent)', fontFamily: font.body, fontSize: 28, lineHeight: 1.3, fontWeight: 700, cursor: 'pointer' }}>{children}</motion.button>
+  );
+};
+
+const QuizBoardButton = ({ number, done, selected, onSelect, buttonRef }: { number: number; done: boolean; selected: boolean; onSelect: () => void; buttonRef?: Ref<HTMLButtonElement> }) => {
+  const reducedMotion = useReducedMotion();
+  return (
+  <motion.button ref={buttonRef} type="button" onClick={(event) => { event.stopPropagation(); onSelect(); }} aria-label={`Câu ${number}: ${done ? 'đã xong' : selected ? 'đang chọn' : 'chưa xong'}`} aria-pressed={selected} whileHover={reducedMotion ? undefined : { y: -2 }} whileTap={reducedMotion ? undefined : { scale: 0.97 }} style={{ height: 76, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 0, border: selected ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)', background: done ? ink.accentSoft : selected ? ink.panel : ink.panel, color: done ? 'var(--osd-accent)' : ink.text, fontFamily: font.body, cursor: 'pointer' }}>
+    <span style={{ fontFamily: font.display, fontSize: 26, fontWeight: 700, lineHeight: 1.2 }}>{done ? '✓' : pad2(number)}</span>
+    <span style={{ fontSize: 17, fontWeight: 600, color: done ? 'var(--osd-accent)' : ink.muted }}>{done ? 'đã xong' : 'câu hỏi'}</span>
+  </motion.button>
+  );
+};
+
+const QuizBoard = ({ done, selected, onSelect, buttonRefs }: { done: boolean[]; selected: number; onSelect: (index: number) => void; buttonRefs: React.MutableRefObject<(HTMLButtonElement | null)[]> }) => (
+  <div role="group" aria-label="Chọn câu hỏi" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+    <QuizBoardButton number={1} done={done[0]} selected={selected === 0} onSelect={() => onSelect(0)} buttonRef={(node) => { buttonRefs.current[0] = node; }} />
+    <QuizBoardButton number={2} done={done[1]} selected={selected === 1} onSelect={() => onSelect(1)} buttonRef={(node) => { buttonRefs.current[1] = node; }} />
+    <QuizBoardButton number={3} done={done[2]} selected={selected === 2} onSelect={() => onSelect(2)} buttonRef={(node) => { buttonRefs.current[2] = node; }} />
+    <QuizBoardButton number={4} done={done[3]} selected={selected === 3} onSelect={() => onSelect(3)} buttonRef={(node) => { buttonRefs.current[3] = node; }} />
+    <QuizBoardButton number={5} done={done[4]} selected={selected === 4} onSelect={() => onSelect(4)} buttonRef={(node) => { buttonRefs.current[4] = node; }} />
+    <QuizBoardButton number={6} done={done[5]} selected={selected === 5} onSelect={() => onSelect(5)} buttonRef={(node) => { buttonRefs.current[5] = node; }} />
+    <QuizBoardButton number={7} done={done[6]} selected={selected === 6} onSelect={() => onSelect(6)} buttonRef={(node) => { buttonRefs.current[6] = node; }} />
+    <QuizBoardButton number={8} done={done[7]} selected={selected === 7} onSelect={() => onSelect(7)} buttonRef={(node) => { buttonRefs.current[7] = node; }} />
+    <QuizBoardButton number={9} done={done[8]} selected={selected === 8} onSelect={() => onSelect(8)} buttonRef={(node) => { buttonRefs.current[8] = node; }} />
+    <QuizBoardButton number={10} done={done[9]} selected={selected === 9} onSelect={() => onSelect(9)} buttonRef={(node) => { buttonRefs.current[9] = node; }} />
+    <QuizBoardButton number={11} done={done[10]} selected={selected === 10} onSelect={() => onSelect(10)} buttonRef={(node) => { buttonRefs.current[10] = node; }} />
+    <QuizBoardButton number={12} done={done[11]} selected={selected === 11} onSelect={() => onSelect(11)} buttonRef={(node) => { buttonRefs.current[11] = node; }} />
+    <QuizBoardButton number={13} done={done[12]} selected={selected === 12} onSelect={() => onSelect(12)} buttonRef={(node) => { buttonRefs.current[12] = node; }} />
+    <QuizBoardButton number={14} done={done[13]} selected={selected === 13} onSelect={() => onSelect(13)} buttonRef={(node) => { buttonRefs.current[13] = node; }} />
+    <QuizBoardButton number={15} done={done[14]} selected={selected === 14} onSelect={() => onSelect(14)} buttonRef={(node) => { buttonRefs.current[14] = node; }} />
+    <QuizBoardButton number={16} done={done[15]} selected={selected === 15} onSelect={() => onSelect(15)} buttonRef={(node) => { buttonRefs.current[15] = node; }} />
+    <QuizBoardButton number={17} done={done[16]} selected={selected === 16} onSelect={() => onSelect(16)} buttonRef={(node) => { buttonRefs.current[16] = node; }} />
+    <QuizBoardButton number={18} done={done[17]} selected={selected === 17} onSelect={() => onSelect(17)} buttonRef={(node) => { buttonRefs.current[17] = node; }} />
+    <QuizBoardButton number={19} done={done[18]} selected={selected === 18} onSelect={() => onSelect(18)} buttonRef={(node) => { buttonRefs.current[18] = node; }} />
+    <QuizBoardButton number={20} done={done[19]} selected={selected === 19} onSelect={() => onSelect(19)} buttonRef={(node) => { buttonRefs.current[19] = node; }} />
+  </div>
 );
+
+const QuizAnswer = ({ index, question, wrong, done, onChoose, buttonRef }: { index: number; question: QuizQuestion; wrong: boolean; done: boolean; onChoose: (index: number) => void; buttonRef?: Ref<HTMLButtonElement> }) => {
+  const reducedMotion = useReducedMotion();
+  const correct = done && index === question.correct;
+  const disabled = wrong || done;
+  return (
+    <motion.button ref={buttonRef} type="button" disabled={disabled} onClick={(event) => { event.stopPropagation(); onChoose(index); }} aria-label={`${'ABCD'[index]}. ${question.options[index]}${correct ? ' (đáp án đúng)' : wrong ? ' (đã thử, chưa đúng)' : ''}`} aria-describedby="cnxh-quiz-feedback" whileHover={disabled || reducedMotion ? undefined : { y: -3 }} whileTap={disabled || reducedMotion ? undefined : { scale: 0.99 }} animate={{ backgroundColor: correct ? ink.accentSoft : ink.panel, opacity: wrong ? 0.55 : 1 }} transition={{ duration: reducedMotion ? 0 : 0.2 }} style={{ width: '100%', height: 112, boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 18, textAlign: 'left', padding: '16px 22px', border: correct ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)', color: ink.text, fontFamily: font.body, cursor: disabled ? 'default' : 'pointer' }}>
+      <span aria-hidden="true" style={{ flexShrink: 0, width: 52, height: 52, display: 'grid', placeItems: 'center', borderRadius: 14, border: correct ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, background: correct ? 'var(--osd-accent)' : ink.panel, color: correct ? '#fff' : 'var(--osd-accent)', fontFamily: font.display, fontWeight: 700, fontSize: 28 }}>{correct ? '✓' : 'ABCD'[index]}</span>
+      <span style={{ fontSize: 26, lineHeight: 1.35, fontWeight: 500, textDecoration: wrong ? 'line-through' : 'none', color: wrong ? ink.muted : ink.text }}>{question.options[index]}</span>
+    </motion.button>
+  );
+};
+
+const Quiz: Page = () => {
+  const active = useIsActivePage();
+  const reducedMotion = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const boardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [selected, setSelected] = useState(0);
+  const [wrong, setWrong] = useState<number[][]>(() => quizQuestions.map(() => []));
+  const [done, setDone] = useState<boolean[]>(() => quizQuestions.map(() => false));
+  const question = quizQuestions[selected];
+  const isDone = done[selected];
+  const tried = wrong[selected];
+  const completed = done.filter(Boolean).length;
+  const allDone = completed === quizQuestions.length;
+  useEffect(() => {
+    // Answering correctly disables the focused option, dropping focus to the
+    // page body where slide shortcuts would catch it. Keep keyboard users
+    // inside the game by moving to the next unfinished question instead.
+    if (!active || !isDone) return;
+    const next = done.findIndex((value, index) => !value && index !== selected);
+    if (next !== -1) boardRefs.current[next]?.focus({ preventScroll: true });
+  }, [active, isDone, selected, done]);
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || !active) return;
+    const guard = (event: KeyboardEvent) => {
+      if (!(event.target instanceof HTMLElement) || !root.contains(event.target)) return;
+      if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', ' ', 'Enter', 'PageDown', 'PageUp', 'Home', 'End'].includes(event.key)) event.stopPropagation();
+    };
+    window.addEventListener('keydown', guard, { capture: true });
+    return () => window.removeEventListener('keydown', guard, { capture: true });
+  }, [active]);
+  const chooseQuestion = (index: number) => { if (!active) return; setSelected(index); };
+  const chooseAnswer = (answer: number) => {
+    if (!active || isDone) return;
+    if (answer === question.correct) setDone(previous => previous.map((value, index) => index === selected ? true : value));
+    else if (!tried.includes(answer)) setWrong(previous => previous.map((list, index) => index === selected ? [...list, answer] : list));
+  };
+  const reset = () => { if (!active) return; setWrong(quizQuestions.map(() => [])); setDone(quizQuestions.map(() => false)); setSelected(0); };
+  return (
+    <div ref={rootRef} className="cnxh-quiz" data-osd-interactive="true" style={{ ...fill }} onClick={event => event.stopPropagation()}>
+      <style>{`.cnxh-quiz button:focus-visible { outline: 3px solid #8b2f2a; outline-offset: 4px; } .cnxh-quiz button:disabled { opacity: 1; }`}</style>
+      <Mark />
+      <Eyebrow>Trò chơi · Cả lớp cùng chơi</Eyebrow>
+      <motion.h2
+        {...useEntry(0.06)}
+        style={{
+          position: 'absolute',
+          left: P,
+          top: 128,
+          margin: 0,
+          fontFamily: font.display,
+          fontSize: 56,
+          fontWeight: 700,
+          letterSpacing: '-0.02em',
+          lineHeight: 1.08,
+          maxWidth: 1200,
+        }}
+      >
+        Cùng tìm đáp án đúng
+      </motion.h2>
+      <div style={{ position: 'absolute', right: P, top: 128, fontSize: 22, fontWeight: 600, padding: '12px 22px', border: `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)', background: allDone ? ink.accentSoft : ink.panel, color: allDone ? 'var(--osd-accent)' : ink.soft }}>{allDone ? 'Xong cả 20 câu ✦' : `Đã xong ${completed} / 20`}</div>
+      <aside style={{ position: 'absolute', left: P, top: 248, width: 460, height: 684, boxSizing: 'border-box', padding: 26, background: ink.panel, border: `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)' }}>
+        <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--osd-accent)' }}>BẢNG CÂU HỎI</div>
+        <p style={{ margin: '10px 0 16px', fontSize: 22, lineHeight: 1.45, color: ink.soft }}>Chọn một câu, cả lớp cùng tìm đáp án đúng.</p>
+        <QuizBoard done={done} selected={selected} onSelect={chooseQuestion} buttonRefs={boardRefs} />
+      </aside>
+      <motion.div key={selected} {...useEntry(0)} style={{ position: 'absolute', left: 630, top: 248, width: 1170 }}>
+        <div style={{ display: 'flex', gap: 24, alignItems: 'stretch' }}>
+          <img src={question.img} alt={question.alt} style={{ width: 300, height: 196, objectFit: 'cover', borderRadius: 'var(--osd-radius)', border: `1px solid ${ink.rule}`, flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'inline-block', fontSize: 22, fontWeight: 700, letterSpacing: '0.06em', color: 'var(--osd-accent)' }}>{question.topic.toUpperCase()}</div>
+            <h2 style={{ fontFamily: font.display, fontSize: 44, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em', margin: '12px 0 0', minHeight: 132 }}>{question.question}</h2>
+          </div>
+        </div>
+        <div role="group" aria-label="Chọn một đáp án, sai được thử lại" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 20 }}>
+          <QuizAnswer index={0} question={question} wrong={tried.includes(0)} done={isDone} onChoose={chooseAnswer} />
+          <QuizAnswer index={1} question={question} wrong={tried.includes(1)} done={isDone} onChoose={chooseAnswer} />
+          <QuizAnswer index={2} question={question} wrong={tried.includes(2)} done={isDone} onChoose={chooseAnswer} />
+          <QuizAnswer index={3} question={question} wrong={tried.includes(3)} done={isDone} onChoose={chooseAnswer} />
+        </div>
+      </motion.div>
+      <div style={{ position: 'absolute', left: 630, top: 800, width: 1170, display: 'flex', alignItems: 'flex-start', gap: 28 }}>
+        <div id="cnxh-quiz-feedback" role="status" aria-live="polite" style={{ flex: 1, minHeight: 112 }}>
+          {isDone
+            ? <motion.div key={`done-${selected}`} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.25 }}><div style={{ fontSize: 27, fontWeight: 700, marginBottom: 6, color: 'var(--osd-accent)' }}>Đúng rồi ✦ Câu này đã xong!</div><div style={{ fontSize: 24, lineHeight: 1.45, color: ink.soft }}>{question.explanation}</div></motion.div>
+            : tried.length > 0
+              ? <motion.div key={`retry-${selected}-${tried.length}`} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.25 }}><div style={{ fontSize: 27, fontWeight: 700, marginBottom: 6 }}>Chưa đúng — cả lớp thử đáp án khác nhé!</div><div style={{ fontSize: 24, lineHeight: 1.45, color: ink.soft }}>Đáp án đã thử sẽ mờ đi. Cứ chọn tiếp đến khi tìm ra câu đúng.</div></motion.div>
+              : <span />}
+        </div>
+        {allDone && <QuizAction onClick={reset}>Đặt lại bảng ↻</QuizAction>}
+      </div>
+      <Footer />
+    </div>
+  );
+};
 
 const Closing: Page = () => (
   <div style={fill}>
@@ -877,7 +1038,7 @@ export const notes: (string | undefined)[] = [
   'Quốc phòng – an ninh tập trung vào ổn định chính trị, trật tự an toàn xã hội, quan hệ quân dân và thế trận quốc phòng toàn dân ở vùng đồng bào dân tộc.',
   'Phần liên hệ thực tiễn của tài liệu chưa triển khai chi tiết. Có thể mời lớp nêu ví dụ về tìm hiểu văn hóa, tôn trọng khác biệt và kiểm chứng thông tin trước khi chia sẻ.',
   'Nhắc lại hai nghĩa của dân tộc, hai xu hướng quan hệ dân tộc, ba nội dung cương lĩnh Lênin và năm lĩnh vực chính sách ở Việt Nam.',
-  'Mời lớp trả lời từng câu, rồi đối chiếu với đáp án trên trang. Giải thích ngắn nếu có câu trả lời khác.',
+  'Mời cả lớp chơi bảng 20 câu hỏi. Chọn một câu trên bảng, chọn A/B/C/D để trả lời; sai được thử tiếp đến khi đúng, câu đúng được đánh dấu đã xong. Không tính điểm, chỉ theo dõi số câu đã xong. Mỗi câu hỏi có ảnh minh họa từ Wikimedia Commons (ghi nguồn trong phần này). Phím mũi tên và Space khi đang chọn trong trò chơi không chuyển slide.',
   'Cảm ơn giảng viên và các bạn. Mời câu hỏi hoặc góp ý.',
 ];
 
