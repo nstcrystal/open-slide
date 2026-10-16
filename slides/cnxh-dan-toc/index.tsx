@@ -988,7 +988,7 @@ const Quiz: Page = () => {
           {isDone
             ? <motion.div key={`done-${selected}`} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.25 }}><div style={{ fontSize: 27, fontWeight: 700, marginBottom: 6, color: 'var(--osd-accent)' }}>Đúng rồi ✦ Câu này đã xong!</div><div style={{ fontSize: 24, lineHeight: 1.45, color: ink.soft }}>{question.explanation}</div></motion.div>
             : tried.length > 0
-              ? <motion.div key={`retry-${selected}-${tried.length}`} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.25 }}><div style={{ fontSize: 27, fontWeight: 700, marginBottom: 6 }}>Chưa đúng — cả lớp thử đáp án khác nhé!</div><div style={{ fontSize: 24, lineHeight: 1.45, color: ink.soft }}>Đáp án đã thử sẽ mờ đi. Cứ chọn tiếp đến khi tìm ra câu đúng.</div></motion.div>
+              ? <motion.div key={`retry-${selected}-${tried.length}`} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.25 }}><div style={{ fontSize: 27, fontWeight: 700, marginBottom: 6 }}>Chưa đúng — cả lớp thử đáp án khác nhé!</div></motion.div>
               : <span />}
         </div>
         {allDone && <QuizAction onClick={reset}>Đặt lại bảng ↻</QuizAction>}
