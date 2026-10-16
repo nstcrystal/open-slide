@@ -248,7 +248,7 @@ const Frame = ({
             top: 222,
             margin: 0,
             maxWidth: 1400,
-            fontSize: 26,
+            fontSize: 28,
             lineHeight: 1.5,
             color: ink.soft,
           }}
@@ -376,7 +376,7 @@ const Cover: Page = () => (
     <div style={{ position: 'absolute', left: P, top: 240, width: 1010 }}>
       <motion.div {...useEntry(0.1, 'fade')} style={{ width: 96, height: 8, background: 'var(--osd-accent)', marginBottom: 38, transformOrigin: 'left' }} />
       <motion.h1 {...useEntry(0.15)} style={{ margin: 0, fontFamily: font.display, fontSize: 93, lineHeight: 1.07, letterSpacing: '-0.04em', fontWeight: 700 }}>Vấn đề dân tộc<br />trong thời kỳ<br />quá độ lên CNXH</motion.h1>
-      <motion.p {...useEntry(0.24)} style={{ margin: '34px 0 0', maxWidth: 870, fontSize: 30, lineHeight: 1.45, color: ink.soft }}>Hai cách hiểu về dân tộc, cương lĩnh Lênin và chính sách dân tộc ở Việt Nam.</motion.p>
+      <motion.p {...useEntry(0.24)} style={{ margin: '34px 0 0', maxWidth: 870, fontSize: 30, lineHeight: 1.45, color: ink.soft }}>Từ hai nghĩa của dân tộc, cương lĩnh Lênin đến 54 dân tộc Việt Nam: thực trạng, chính sách và giải pháp.</motion.p>
     </div>
     <motion.div {...useEntry(0.32)} style={{ position: 'absolute', left: P, top: 760, width: 900, fontSize: 22, lineHeight: 1.48, color: ink.soft }}>
       <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--osd-accent)', marginBottom: 8 }}>THÀNH VIÊN NHÓM 3</div>
@@ -389,6 +389,17 @@ const Cover: Page = () => (
 );
 
 const DivConcept = () => <Divider roman="I" label="CHƯƠNG I" sub="Dân tộc theo nghĩa rộng và nghĩa hẹp" />;
+
+const WhyThisTopic: Page = () => (
+  <Frame eyebrow="Mở đầu" title="Vì sao cần hiểu đúng vấn đề dân tộc?" lead="Từ kiến thức lý luận đến cách cùng nhau học tập, sinh sống và phát triển trong một quốc gia đa dân tộc.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
+      <IssueCard number="01" title="Có cơ sở để nhìn nhận" text="Quan điểm Mác – Lênin giúp phân tích quan hệ dân tộc, thay vì chỉ nhìn từ những khác biệt về văn hóa." />
+      <IssueCard number="02" title="Hiểu thực tiễn Việt Nam" text="54 dân tộc cùng xây dựng đất nước; đoàn kết và cơ hội phát triển là nền tảng của sự ổn định lâu dài." />
+      <IssueCard number="03" title="Gắn phát triển với an ninh" text="Vùng dân tộc thiểu số và miền núi có vai trò quan trọng về quốc phòng, tài nguyên và môi trường." />
+      <IssueCard number="04" title="Nhận rõ trách nhiệm sinh viên" text="Tôn trọng khác biệt, bảo tồn giá trị văn hóa và kiểm chứng thông tin trước khi chia sẻ." />
+    </div>
+  </Frame>
+);
 
 const TimelineItem = ({ number, title, description }: { number: string; title: string; description: string }) => (
   <motion.div {...useEntry(0.15 + Number(number) * 0.12)} style={{ position: 'relative', zIndex: 1, height: '100%', padding: '44px 24px 0 22px', boxSizing: 'border-box', borderLeft: number === '01' ? undefined : `1px solid ${ink.rule}` }}>
@@ -422,7 +433,7 @@ const ConceptTimeline: Page = () => (
 );
 
 const BranchRow = ({ number, label, detail }: { number: string; label: string; detail?: string }) => (
-  <motion.div {...useEntry(0.4 + Number(number) * 0.09)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, padding: '18px 26px', display: 'flex', alignItems: 'center', gap: 28, height: 92, boxSizing: 'border-box' }}>
+  <motion.div {...useEntry(0.4 + Number(number) * 0.09)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, padding: '10px 26px', display: 'flex', alignItems: 'center', gap: 28, height: 92, boxSizing: 'border-box' }}>
     <span style={{ fontFamily: font.display, fontSize: 34, color: 'var(--osd-accent)', fontWeight: 700, minWidth: 56 }}>{number}</span>
     <span style={{ fontSize: 30, lineHeight: 1.35, color: ink.text }}>{label}{detail && <small style={{ display: 'block', fontSize: 22, color: ink.muted, marginTop: 3 }}>{detail}</small>}</span>
   </motion.div>
@@ -457,11 +468,11 @@ const NationDiagram: Page = () => (
         </div>
       </Reveal>
       <div style={{ position: 'absolute', left: 720, top: 41, width: 960, display: 'flex', flexDirection: 'column', gap: 20 }}>
-        <BranchRow number="01" label="Có chung vùng lãnh thổ ổn định" />
-        <BranchRow number="02" label="Có chung phương thức sinh hoạt kinh tế" />
-        <BranchRow number="03" label="Có chung ngôn ngữ giao tiếp" />
-        <BranchRow number="04" label="Có chung nền văn hóa và tâm lý" />
-        <BranchRow number="05" label="Có chung một nhà nước" />
+        <BranchRow number="01" label="Có chung vùng lãnh thổ ổn định" detail="Không gian sinh sống thuộc chủ quyền của một quốc gia." />
+        <BranchRow number="02" label="Có chung phương thức sinh hoạt kinh tế" detail="Phân công lao động và trao đổi gắn kết các vùng, địa phương." />
+        <BranchRow number="03" label="Có chung ngôn ngữ giao tiếp" detail="Ngôn ngữ chung tồn tại bên cạnh tiếng nói của từng tộc người." />
+        <BranchRow number="04" label="Có chung nền văn hóa và tâm lý" detail="Lịch sử và các giá trị chung tạo nên ý thức thống nhất." />
+        <BranchRow number="05" label="Có chung một nhà nước" detail="Tổ chức quyền lực chính trị quản lý xã hội và bảo vệ chủ quyền." />
       </div>
     </div>
   </Frame>
@@ -476,9 +487,9 @@ const EthnieDiagram: Page = () => (
         <div style={{ padding: '26px 34px' }}><div style={{ fontFamily: font.display, fontSize: 43, fontWeight: 700 }}>Một cộng đồng tộc người</div><div style={{ fontSize: 27, color: ink.soft, marginTop: 12 }}>Ví dụ: dân tộc Kinh, dân tộc Thái</div></div>
       </Reveal>
       <div style={{ position: 'absolute', left: 720, top: 89, width: 960, display: 'flex', flexDirection: 'column', gap: 84 }}>
-        <BranchRow number="01" label="Cộng đồng về ngôn ngữ" />
-        <BranchRow number="02" label="Cộng đồng về văn hóa" />
-        <BranchRow number="03" label="Ý thức tự giác tộc người" />
+        <BranchRow number="01" label="Cộng đồng về ngôn ngữ" detail="Tiếng mẹ đẻ gắn kết thành viên và lưu giữ ký ức cộng đồng." />
+        <BranchRow number="02" label="Cộng đồng về văn hóa" detail="Phong tục, lễ hội, trang phục và nghệ thuật tạo nên bản sắc riêng." />
+        <BranchRow number="03" label="Ý thức tự giác tộc người" detail="Mỗi người tự nhận mình thuộc về một tộc người nhất định." />
       </div>
     </div>
   </Frame>
@@ -491,20 +502,37 @@ const CompareRow = ({ criterion, nation, ethnie, header = false }: { criterion: 
 );
 
 const TableCompare: Page = () => (
-  <Frame eyebrow="Chương I · 1" title="Bảng phân biệt hai nghĩa">
+  <Frame eyebrow="Chương I · 1" title="Một từ, hai phạm vi khác nhau" lead="Nghĩa rộng nói về nhân dân một quốc gia; nghĩa hẹp nói về từng cộng đồng tộc người.">
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, height: '100%', justifyContent: 'center' }}>
-      <CompareRow header criterion="Tiêu chí" nation="Nghĩa rộng · Quốc gia" ethnie="Nghĩa hẹp · Tộc người" />
-      <CompareRow criterion="Đối tượng" nation="Nhân dân một nước" ethnie="Cộng đồng tộc người" />
-      <CompareRow criterion="Lãnh thổ" nation="Chung, ổn định" ethnie="Không nêu là đặc trưng riêng" />
-      <CompareRow criterion="Kinh tế / nhà nước" nation="Kinh tế thống nhất; một nhà nước" ethnie="Không nêu là đặc trưng riêng" />
-      <CompareRow criterion="Ngôn ngữ" nation="Ngôn ngữ chung" ethnie="Ngôn ngữ chung" />
-      <CompareRow criterion="Văn hóa / ý thức" nation="Văn hóa, tâm lý chung" ethnie="Văn hóa chung; ý thức tự giác" />
-      <CompareRow criterion="Ví dụ" nation="Việt Nam, Nhật Bản" ethnie="Kinh, Thái" />
+      <CompareRow header criterion="Tiêu chí" nation="Nghĩa rộng · Nation" ethnie="Nghĩa hẹp · Ethnie" />
+      <CompareRow criterion="Bản chất" nation="Cộng đồng chính trị – xã hội, quốc gia dân tộc" ethnie="Cộng đồng tộc người" />
+      <CompareRow criterion="Phạm vi" nation="Toàn thể nhân dân một quốc gia" ethnie="Từng tộc người, trong hoặc xuyên quốc gia" />
+      <CompareRow criterion="Đặc trưng" nation="Lãnh thổ, kinh tế, ngôn ngữ, văn hóa – tâm lý, nhà nước" ethnie="Ngôn ngữ, văn hóa, ý thức tự giác" />
+      <CompareRow criterion="Gắn kết" nation="Quyền lợi chính trị, kinh tế; truyền thống dựng nước, giữ nước" ethnie="Nguồn gốc, ngôn ngữ, văn hóa, ý thức tự giác" />
     </div>
   </Frame>
 );
 
-const DivMarx = () => <Divider roman="II" label="CHƯƠNG II" sub="Quan hệ dân tộc và cương lĩnh Lênin" />;
+const IssueCard = ({ number, title, text }: { number: string; title: string; text: string }) => (
+  <motion.div {...useEntry(0.12 + Number(number) * 0.08)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderTop: '7px solid var(--osd-accent)', padding: '30px 32px', boxSizing: 'border-box' }}>
+    <div style={{ fontSize: 23, fontWeight: 700, color: 'var(--osd-accent)' }}>{number}</div>
+    <h3 style={{ fontFamily: font.display, fontSize: 37, lineHeight: 1.2, margin: '10px 0 14px' }}>{title}</h3>
+    <div style={{ fontSize: 28, lineHeight: 1.45, color: ink.soft }}>{text}</div>
+  </motion.div>
+);
+
+const IssueDef: Page = () => (
+  <Frame eyebrow="Chương I · 1" title="Vấn đề dân tộc là gì" lead="Quan hệ giữa các tộc người trong một nước, và giữa các quốc gia dân tộc với nhau.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
+      <IssueCard number="01" title="Địa vị bình đẳng" text="Các cộng đồng có được tôn trọng và đối xử bình đẳng trong quan hệ với nhau hay không?" />
+      <IssueCard number="02" title="Quyền lợi của cộng đồng" text="Quyền tham gia chính trị, phát triển kinh tế và giữ gìn văn hóa được bảo đảm như thế nào?" />
+      <IssueCard number="03" title="Chênh lệch phát triển" text="Khoảng cách về điều kiện sống và cơ hội phát triển giữa các vùng, các dân tộc cần được giải quyết." />
+      <IssueCard number="04" title="Gắn với vấn đề giai cấp" text="Theo quan điểm Mác – Lênin, quan hệ dân tộc chịu tác động của lợi ích và quan hệ giai cấp." />
+    </div>
+  </Frame>
+);
+
+const DivMarx = () => <Divider roman="II" label="CHƯƠNG II" sub="Hai xu hướng, cương lĩnh Lênin, Hồ Chí Minh và thời kỳ quá độ" />;
 
 const TrendNode = ({ x, y, mode }: { x: number; y: number; mode: 'separate' | 'unite' }) => {
   const active = useIsActivePage();
@@ -562,8 +590,8 @@ const TrendCard = ({ number, title, cause, result, mode }: { number: string; tit
 const TwoTrends: Page = () => (
   <Frame staticContent eyebrow="Chương II · 2.1" title="Hai xu hướng khách quan">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30, height: '100%' }}>
-      <TrendCard number="01" mode="separate" title="Tách ra, hình thành dân tộc độc lập" cause="Sự thức tỉnh về ý thức dân tộc." result="Đấu tranh giải phóng dân tộc, thoát khỏi áp bức, đô hộ." />
-      <TrendCard number="02" mode="unite" title="Các dân tộc liên hiệp lại" cause="Sự phát triển của lực lượng sản xuất, khoa học công nghệ và giao lưu." result="Các dân tộc tăng cường hợp tác trong và ngoài quốc gia." />
+      <TrendCard number="01" mode="separate" title="Tách ra, lập quốc gia độc lập" cause="Ý thức dân tộc thức tỉnh; chống áp bức, giành độc lập ở thuộc địa." result="Đấu tranh giải phóng, thoát đô hộ, lập quốc gia dân tộc riêng." />
+      <TrendCard number="02" mode="unite" title="Các dân tộc liên hiệp lại" cause="Sản xuất, khoa học công nghệ và giao lưu phá hàng rào ngăn cách." result="Xích lại gần, hợp tác trong một nước và giữa các nước." />
     </div>
   </Frame>
 );
@@ -624,9 +652,9 @@ const LeninPillars: Page = () => (
 const LeninDetail: Page = () => (
   <Frame staticContent eyebrow="Chương II · 2.2" title="Nội dung của ba nguyên tắc">
     <div style={{ position: 'relative', height: 684 }}>
-      <PillarCard expanded number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Các dân tộc có quyền và nghĩa vụ ngang nhau; trong một quốc gia, quyền này cần được pháp luật bảo đảm và thực thi." />
-      <PillarCard expanded number="02" title="Các dân tộc được quyền tự quyết" detail="Dân tộc tự chọn con đường phát triển, quyết định việc chia tách hoặc liên hiệp; phản đối can thiệp vào công việc nội bộ." />
-      <PillarCard expanded number="03" title="Liên hiệp công nhân các dân tộc" detail="Liên hiệp công nhân trên cơ sở tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích các dân tộc." />
+      <PillarCard expanded number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Dù đông hay ít người, các dân tộc đều có quyền và nghĩa vụ ngang nhau. Bình đẳng phải được bảo đảm trong pháp luật và trong đời sống." />
+      <PillarCard expanded number="02" title="Các dân tộc được quyền tự quyết" detail="Tự lựa chọn con đường phát triển, phân lập hoặc tự nguyện liên hiệp. Theo Lênin, cần xem xét trên lập trường công nhân, chống lợi dụng để chia rẽ." />
+      <PillarCard expanded number="03" title="Liên hiệp công nhân các dân tộc" detail="Công nhân các dân tộc đoàn kết vì giải phóng dân tộc và giai cấp. Đây là sợi dây kết nối việc thực hiện bình đẳng với quyền tự quyết." />
     </div>
   </Frame>
 );
@@ -634,7 +662,42 @@ const LeninDetail: Page = () => (
 LeninPillars.transition = morphTransition;
 LeninDetail.transition = morphTransition;
 
-const DivVN = () => <Divider roman="III" label="CHƯƠNG III" sub="54 dân tộc và chính sách dân tộc ở Việt Nam" />;
+const HoChiMinh: Page = () => (
+  <Frame eyebrow="Chương II · Tư tưởng Hồ Chí Minh" title="Đoàn kết là sức mạnh sống còn" lead="Độc lập dân tộc gắn liền với chủ nghĩa xã hội; giải phóng dân tộc mở đường cho giải phóng giai cấp và con người.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
+      <motion.div {...useEntry(0.15)} style={{ background: 'var(--osd-accent)', color: '#fff', padding: '40px 38px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ fontFamily: font.display, fontSize: 42, lineHeight: 1.3, fontWeight: 700 }}>“Đoàn kết, đoàn kết, đại đoàn kết. Thành công, thành công, đại thành công.”</div>
+        <div style={{ marginTop: 24, fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Các dân tộc là anh em một nhà: bình đẳng, đoàn kết, tương trợ, cùng xây dựng và bảo vệ Tổ quốc.</div>
+        <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.35)', fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Chống tư tưởng dân tộc lớn và dân tộc hẹp hòi.</div>
+      </motion.div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <IssueCard number="01" title="Chăm lo đời sống" text="Phát triển kinh tế, văn hóa, giáo dục, y tế cho đồng bào thiểu số." />
+        <IssueCard number="02" title="Cán bộ người dân tộc" text="Phát huy vai trò đội ngũ cán bộ người dân tộc thiểu số." />
+      </div>
+    </div>
+  </Frame>
+);
+
+const TraitCard = ({ number, title, text }: { number: string; title: string; text: string }) => (
+  <motion.div {...useEntry(0.12 + Number(number) * 0.08)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderLeft: '7px solid var(--osd-accent)', padding: '28px 30px', boxSizing: 'border-box' }}>
+    <div style={{ fontSize: 23, fontWeight: 700, color: 'var(--osd-accent)' }}>{number}</div>
+    <h3 style={{ fontFamily: font.display, fontSize: 35, lineHeight: 1.2, margin: '10px 0 12px' }}>{title}</h3>
+    <div style={{ fontSize: 28, lineHeight: 1.45, color: ink.soft }}>{text}</div>
+  </motion.div>
+);
+
+const TransitionTraits: Page = () => (
+  <Frame eyebrow="Chương II · Thời kỳ quá độ" title="Từ bình đẳng pháp lý đến đời sống" lead="Quyền bình đẳng được xác lập không có nghĩa khoảng cách phát triển giữa các dân tộc đã được xóa bỏ.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
+      <TraitCard number="01" title="Khoảng cách thực tế còn tồn tại" text="Điều kiện lịch sử để lại chênh lệch về kinh tế và xã hội; thu hẹp khoảng cách là nhiệm vụ lâu dài." />
+      <TraitCard number="02" title="Giải quyết bằng phát triển" text="Bình đẳng cần đi cùng đầu tư cơ sở vật chất, giảm nghèo và nâng cao chất lượng cuộc sống." />
+      <TraitCard number="03" title="Khắc phục định kiến dân tộc" text="Tư tưởng kỳ thị, tự ti hoặc đề cao dân tộc mình vẫn có thể tồn tại và gây chia rẽ cộng đồng." />
+      <TraitCard number="04" title="Chịu tác động từ quốc tế" text="Toàn cầu hóa và quan hệ xuyên biên giới ảnh hưởng đến quan hệ dân tộc trong nước." />
+    </div>
+  </Frame>
+);
+
+const DivVN = () => <Divider roman="III" label="CHƯƠNG III" sub="54 dân tộc: thực trạng, chính sách và giải pháp" />;
 
 const FeatureNode = ({ number, side, children }: { number: string; side: 'left' | 'right'; children: ReactNode }) => (
   <motion.div {...useEntry(0.35 + ((Number(number) - 1) % 3) * 0.14)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderRight: side === 'left' ? '5px solid var(--osd-accent)' : undefined, borderLeft: side === 'right' ? '5px solid var(--osd-accent)' : undefined, height: 146, display: 'flex', alignItems: 'center', gap: 20, padding: '18px 25px', boxSizing: 'border-box' }}>
@@ -653,12 +716,12 @@ const VNFeatures: Page = () => (
         </g>
       </svg>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
-        <FeatureNode number="01" side="left">Chênh lệch số dân giữa các tộc người</FeatureNode>
+        <FeatureNode number="01" side="left">Kinh ~85,3%; 53 dân tộc thiểu số ~14,7% (2019)</FeatureNode>
         <FeatureNode number="02" side="left">Cư trú xen kẽ với nhau</FeatureNode>
         <FeatureNode number="03" side="left">Dân tộc thiểu số chủ yếu ở địa bàn chiến lược</FeatureNode>
       </div>
       <div style={{ position: 'relative', width: 320, height: 320, justifySelf: 'center', borderRadius: '50%', background: ink.panel, border: '8px solid var(--osd-accent)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-        <div style={{ fontSize: 24, fontWeight: 700, color: 'var(--osd-accent)', letterSpacing: '0.12em' }}>VIỆT NAM</div>
+        <div style={{ fontSize: 24, fontWeight: 700, color: 'var(--osd-accent)', letterSpacing: '0.12em' }}>VIỆT NAM · 2019</div>
         <div style={{ fontFamily: font.display, fontSize: 112, fontWeight: 700, lineHeight: 1.05 }}>54</div>
         <div style={{ fontSize: 29, fontWeight: 600 }}>dân tộc</div>
       </div>
@@ -690,6 +753,25 @@ const PartyView: Page = () => (
   </Frame>
 );
 
+const BasisCard = ({ number, title, text }: { number: string; title: string; text: string }) => (
+  <motion.div {...useEntry(0.12 + Number(number) * 0.08)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderTop: '7px solid var(--osd-accent)', padding: '28px 30px', boxSizing: 'border-box' }}>
+    <div style={{ fontSize: 23, fontWeight: 700, color: 'var(--osd-accent)' }}>{number}</div>
+    <h3 style={{ fontFamily: font.display, fontSize: 34, lineHeight: 1.2, margin: '10px 0 12px' }}>{title}</h3>
+    <div style={{ fontSize: 28, lineHeight: 1.45, color: ink.soft }}>{text}</div>
+  </motion.div>
+);
+
+const LegalBasis: Page = () => (
+  <Frame eyebrow="Chương III · 3.2" title="Cơ sở cho chính sách dân tộc" lead="Bốn văn kiện được sử dụng trong tiểu luận để làm rõ quyền, định hướng và chương trình hành động.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
+      <BasisCard number="01" title="Hiến pháp 2013 · Điều 5" text="Cấm kỳ thị, chia rẽ dân tộc; bảo đảm quyền dùng tiếng nói, chữ viết và giữ gìn bản sắc văn hóa." />
+      <BasisCard number="02" title="Nghị quyết 24-NQ/TW · 2003" text="Xác định công tác dân tộc là vấn đề chiến lược; gắn phát triển kinh tế – xã hội với quốc phòng, an ninh." />
+      <BasisCard number="03" title="Đại hội XIII · 2021" text="Khẳng định việc giải quyết quan hệ dân tộc và phát huy đại đoàn kết là nhiệm vụ trọng yếu, thường xuyên." />
+      <BasisCard number="04" title="Nghị quyết 120/2020/QH14" text="Phê duyệt chủ trương đầu tư chương trình mục tiêu quốc gia cho vùng dân tộc thiểu số và miền núi, 2021–2030." />
+    </div>
+  </Frame>
+);
+
 const PolicyCard = ({ number, title, detail, image, alt, expanded = false }: { number: string; title: string; detail: string; image: string; alt: string; expanded?: boolean }) => (
   <div style={{ position: 'absolute', left: (Number(number) - 1) * (expanded ? 857 : 340), top: expanded ? 0 : 150, width: expanded ? 823 : 320, height: expanded ? 650 : 526 }}>
     <MorphElement id={`policy-${number}`}>
@@ -709,7 +791,7 @@ const PolicyCard = ({ number, title, detail, image, alt, expanded = false }: { n
 );
 
 const PolicyMatrix: Page = () => (
-  <Frame staticContent eyebrow="Chương III · 3.2" title="Sơ đồ / Năm lĩnh vực chính sách">
+  <Frame staticContent eyebrow="Chương III · 3.2" title="Năm lĩnh vực chính sách">
     <div style={{ position: 'relative', height: 684 }}>
       <Reveal delay={MORPH_MS / 1000} style={{ position: 'absolute', left: 500, top: 0, width: 680, height: 70, display: 'grid', placeItems: 'center', background: 'var(--osd-accent)', color: '#fff', fontFamily: font.display, fontSize: 38, fontWeight: 700 }}>CHÍNH SÁCH DÂN TỘC</Reveal>
       <svg width={1680} height={150} style={{ position: 'absolute', left: 0, top: 0 }} aria-hidden="true">
@@ -734,8 +816,8 @@ const PolicyMatrix: Page = () => (
 const PolicyPoliticalEconomic: Page = () => (
   <Frame staticContent eyebrow="Chương III · 3.2" title="Chính sách chính trị và kinh tế">
     <div style={{ position: 'relative', height: 684 }}>
-      <PolicyCard expanded number="01" title="Chính trị" detail="Thực hiện bình đẳng, đoàn kết, tôn trọng và giúp nhau cùng phát triển; nâng cao nhận thức của đồng bào về đoàn kết dân tộc." image={gatheringPhoto} alt="Sinh hoạt cộng đồng" />
-      <PolicyCard expanded number="02" title="Kinh tế" detail="Phát huy tiềm năng vùng miền núi, dân tộc thiểu số; triển khai chương trình phát triển, thu hẹp chênh lệch và thúc đẩy kinh tế thị trường định hướng XHCN." image={bridgePhoto} alt="Cầu đường ở miền núi" />
+      <PolicyCard expanded number="01" title="Chính trị" detail="Bảo đảm bình đẳng và đoàn kết; củng cố hệ thống chính trị cơ sở, đào tạo và sử dụng cán bộ người dân tộc thiểu số." image={gatheringPhoto} alt="Sinh hoạt cộng đồng" />
+      <PolicyCard expanded number="02" title="Kinh tế" detail="Đầu tư hạ tầng, hỗ trợ sản xuất và sinh kế để giảm nghèo bền vững. Chương trình 135 trước đây và chương trình mục tiêu quốc gia 2021–2030 là các ví dụ." image={bridgePhoto} alt="Cầu đường ở miền núi" />
     </div>
   </Frame>
 );
@@ -791,16 +873,84 @@ const PolicySecurity: Page = () => (
   </Frame>
 );
 
+const FactRow = ({ number, text }: { number: string; text: string }) => (
+  <motion.div {...useEntry(0.1 + Number(number) * 0.07)} style={{ display: 'flex', gap: 22, alignItems: 'center', background: ink.panel, border: `1px solid ${ink.rule}`, padding: '20px 28px' }}>
+    <span style={{ fontFamily: font.display, fontSize: 38, color: 'var(--osd-accent)', fontWeight: 700, minWidth: 56 }}>{number}</span>
+    <span style={{ fontSize: 27, lineHeight: 1.4 }}>{text}</span>
+  </motion.div>
+);
+
+const Achievements: Page = () => (
+  <Frame eyebrow="Chương III · Thực trạng" title="Những chuyển biến sau Đổi mới" lead="Tiểu luận ghi nhận tiến bộ về đoàn kết, điều kiện sống và khả năng tiếp cận các dịch vụ thiết yếu.">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'center', height: '100%' }}>
+      <FactRow number="01" text="Khối đại đoàn kết được củng cố, tạo nền tảng cho ổn định và phát triển." />
+      <FactRow number="02" text="Hạ tầng được đầu tư, tỷ lệ hộ nghèo giảm và đời sống từng bước cải thiện." />
+      <FactRow number="03" text="Mạng lưới trường học và cơ sở khám chữa bệnh được mở rộng ở vùng xa." />
+      <FactRow number="04" text="Văn hóa các dân tộc được quan tâm bảo tồn; nhiều di sản được phát huy giá trị." />
+      <FactRow number="05" text="Quốc phòng, an ninh được giữ vững; sự gắn bó với nhân dân vùng biên được tăng cường." />
+    </div>
+  </Frame>
+);
+
+const Challenges: Page = () => (
+  <Frame eyebrow="Chương III · Thực trạng" title="Khoảng cách phát triển vẫn còn" lead="Những tiến bộ đạt được chưa đồng đều giữa các địa bàn và cộng đồng dân tộc.">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'center', height: '100%' }}>
+      <FactRow number="01" text="Tỷ lệ nghèo còn cao; nhiều hộ có nguy cơ tái nghèo khi sinh kế thiếu ổn định." />
+      <FactRow number="02" text="Một số nơi thiếu hạ tầng, nhân lực và điều kiện tiếp cận giáo dục, y tế." />
+      <FactRow number="03" text="Một số chính sách còn chồng chéo; nguồn lực và năng lực thực hiện còn hạn chế." />
+      <FactRow number="04" text="Thiếu đất sản xuất, di cư tự phát và biến đổi khí hậu gây sức ép lên sinh kế." />
+    </div>
+  </Frame>
+);
+
+const SolutionCard = ({ number, title, text }: { number: string; title: string; text: string }) => (
+  <motion.div {...useEntry(0.12 + Number(number) * 0.08)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderLeft: '7px solid var(--osd-accent)', padding: '26px 28px', boxSizing: 'border-box' }}>
+    <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--osd-accent)' }}>{number}</div>
+    <h3 style={{ fontFamily: font.display, fontSize: 33, lineHeight: 1.2, margin: '8px 0 10px' }}>{title}</h3>
+    <div style={{ fontSize: 30, lineHeight: 1.5, color: ink.soft }}>{text}</div>
+  </motion.div>
+);
+
+const CulturalChallenges: Page = () => (
+  <Frame eyebrow="Chương III · Thực trạng" title="Giữ bản sắc, củng cố niềm tin" lead="Bên cạnh kinh tế, tiểu luận nhấn mạnh hai thách thức đối với đời sống văn hóa và quan hệ cộng đồng.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36 }}>
+      <IssueCard number="05" title="Nguy cơ mai một văn hóa" text="Tác động của thị trường và hội nhập có thể làm suy giảm tiếng nói, nghề truyền thống và những giá trị văn hóa của cộng đồng." />
+      <IssueCard number="06" title="Thông tin gây chia rẽ" text="Thông tin sai lệch lợi dụng khác biệt dân tộc, tôn giáo có thể làm gia tăng định kiến và gây tổn hại đến đoàn kết." />
+    </div>
+    <div style={{ marginTop: 48, borderLeft: `6px solid ${ink.gold}`, padding: '24px 32px', fontSize: 32, lineHeight: 1.5, background: ink.panel }}>Giải pháp cần vừa cải thiện điều kiện sống, vừa tạo điều kiện để người dân gìn giữ văn hóa và tham gia xây dựng cộng đồng.</div>
+  </Frame>
+);
+
+const SolutionsA: Page = () => (
+  <Frame eyebrow="Chương III · Giải pháp 1–3" title="Mở rộng cơ hội phát triển" lead="Đồng bào cần được tham gia quyết định và thực hiện các hoạt động phát triển tại cộng đồng mình.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
+      <SolutionCard number="01" title="Nâng cao năng lực cơ sở" text="Tăng cường sự lãnh đạo của Đảng, phổ biến chính sách dân tộc và xây dựng đội ngũ cán bộ gần dân, hiểu nhu cầu của dân." />
+      <SolutionCard number="02" title="Giảm nghèo bền vững" text="Đầu tư hạ tầng và sinh kế theo lợi thế địa phương; giải quyết nhu cầu thiết yếu về đất sản xuất, nhà ở và nước sinh hoạt." />
+      <SolutionCard number="03" title="Đầu tư cho giáo dục" text="Củng cố trường nội trú, bán trú; đào tạo nghề phù hợp và thu hút giáo viên, bác sĩ về công tác tại vùng khó khăn." />
+    </div>
+  </Frame>
+);
+
+const SolutionsB: Page = () => (
+  <Frame eyebrow="Chương III · Giải pháp 4–6" title="Phát triển đi cùng gìn giữ" lead="Bảo tồn văn hóa, bảo đảm an ninh và cải thiện cách thực hiện chính sách cần được triển khai đồng thời.">
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
+      <SolutionCard number="04" title="Bảo tồn bản sắc văn hóa" text="Gắn bảo tồn di sản với du lịch bền vững và sinh kế cộng đồng; phát huy giá trị tốt đẹp, từng bước loại bỏ hủ tục." />
+      <SolutionCard number="05" title="Củng cố quốc phòng, an ninh" text="Kết hợp phát triển với bảo vệ vùng biên; tăng gắn bó quân dân và ngăn việc lợi dụng dân tộc, tôn giáo để chia rẽ." />
+      <SolutionCard number="06" title="Thực hiện chính sách hiệu quả" text="Rà soát chính sách chồng chéo; phân cấp gắn trách nhiệm giải trình và giám sát, với sự tham gia của chính đồng bào." />
+    </div>
+  </Frame>
+);
+
 const Practice: Page = () => (
-  <Frame eyebrow="Liên hệ thực tiễn" title="Việc sinh viên có thể làm">
+  <Frame eyebrow="Liên hệ thực tiễn" title="Sinh viên làm ba việc">
     <div style={{ display: 'grid', gridTemplateColumns: '620px 1fr', gap: 48, height: '100%' }}>
       <div style={{ background: ink.panel }}>
         <img src={craftPhoto} alt="Cảnh truyền nghề dệt" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
-        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>01 / TÌM HIỂU</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Tìm hiểu lịch sử, ngôn ngữ và văn hóa của các cộng đồng dân tộc.</div></div>
-        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>02 / TÔN TRỌNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Tôn trọng khác biệt, tránh định kiến và cách nói gây tổn thương.</div></div>
-        <div><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>03 / CHIA SẺ CÓ TRÁCH NHIỆM</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Kiểm chứng thông tin trước khi chia sẻ; không tiếp tay cho nội dung kích động chia rẽ.</div></div>
+        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>01 / HỌC ĐÚNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Nắm quan điểm Mác – Lênin và Hồ Chí Minh về dân tộc; hiểu 54 dân tộc, không học vẹt.</div></div>
+        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>02 / TÔN TRỌNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Tìm hiểu ngôn ngữ, lễ hội, trang phục từng tộc người; tránh định kiến vùng miền.</div></div>
+        <div><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>03 / CẢNH GIÁC</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Kiểm chứng trước khi chia sẻ; không tiếp tay cho nội dung kích động chia rẽ.</div></div>
       </div>
     </div>
   </Frame>
@@ -813,17 +963,14 @@ const SummaryPoint = ({ number, children }: { number: string; children: ReactNod
 const Summary: Page = () => (
   <Frame eyebrow="Tổng kết" title="Ba điểm cần nhớ">
     <div style={{ display: 'flex', flexDirection: 'column', gap: 25, justifyContent: 'center', height: '100%' }}>
-      <SummaryPoint number="01">Dân tộc có nghĩa rộng và nghĩa hẹp, với các đặc trưng khác nhau.</SummaryPoint>
-      <SummaryPoint number="02">Quan hệ dân tộc có hai xu hướng; cương lĩnh Lênin gồm ba nội dung.</SummaryPoint>
-      <SummaryPoint number="03">Việt Nam có 54 dân tộc; chính sách dân tộc được trình bày theo năm lĩnh vực.</SummaryPoint>
+      <SummaryPoint number="01">Dân tộc có thể chỉ nhân dân một quốc gia hoặc một tộc người. Cần xác định đúng nghĩa trong từng ngữ cảnh.</SummaryPoint>
+      <SummaryPoint number="02">Cương lĩnh Lênin gắn bình đẳng, tự quyết với liên hiệp công nhân; tư tưởng Hồ Chí Minh nhấn mạnh đại đoàn kết.</SummaryPoint>
+      <SummaryPoint number="03">Ở Việt Nam, bảo đảm bình đẳng cần đi cùng thu hẹp khoảng cách phát triển, tôn trọng bản sắc và củng cố đoàn kết.</SummaryPoint>
     </div>
   </Frame>
 );
 
-// Interactive interlude: Pommi-inspired stickers, chunky outlines and soft springs.
-// One game page keeps the existing deck/notes order intact.
-// Classroom game, styled with the deck's own tokens: panel cards, thin rules,
-// serif headings and the single red accent. No separate visual language.
+// A home board and a separate arena share progress within this game page.
 type QuizQuestion = { topic: string; question: string; options: readonly [string, string, string, string]; correct: number; explanation: string; img: string; alt: string };
 const quizQuestions: readonly QuizQuestion[] = [
   { topic: 'Khởi động · Chương I', question: 'Thứ tự hình thành các cộng đồng người là gì?', options: ['Bộ lạc → thị tộc → dân tộc → bộ tộc', 'Thị tộc → bộ lạc → bộ tộc → dân tộc', 'Thị tộc → bộ tộc → bộ lạc → dân tộc', 'Dân tộc → bộ tộc → bộ lạc → thị tộc'], correct: 1, explanation: 'Tiến trình được trình bày: thị tộc, bộ lạc, bộ tộc rồi đến dân tộc.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
@@ -858,15 +1005,15 @@ const QuizAction = ({ children, onClick, buttonRef }: { children: ReactNode; onC
 const QuizBoardButton = ({ number, done, selected, onSelect, buttonRef }: { number: number; done: boolean; selected: boolean; onSelect: () => void; buttonRef?: Ref<HTMLButtonElement> }) => {
   const reducedMotion = useReducedMotion();
   return (
-  <motion.button ref={buttonRef} type="button" onClick={(event) => { event.stopPropagation(); onSelect(); }} aria-label={`Câu ${number}: ${done ? 'đã xong' : selected ? 'đang chọn' : 'chưa xong'}`} aria-pressed={selected} whileHover={reducedMotion ? undefined : { y: -2 }} whileTap={reducedMotion ? undefined : { scale: 0.97 }} style={{ height: 76, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 0, border: selected ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)', background: done ? ink.accentSoft : selected ? ink.panel : ink.panel, color: done ? 'var(--osd-accent)' : ink.text, fontFamily: font.body, cursor: 'pointer' }}>
-    <span style={{ fontFamily: font.display, fontSize: 26, fontWeight: 700, lineHeight: 1.2 }}>{done ? '✓' : pad2(number)}</span>
-    <span style={{ fontSize: 17, fontWeight: 600, color: done ? 'var(--osd-accent)' : ink.muted }}>{done ? 'đã xong' : 'câu hỏi'}</span>
+  <motion.button ref={buttonRef} type="button" onClick={(event) => { event.stopPropagation(); onSelect(); }} aria-label={`Câu ${number}: ${done ? 'đã xong' : selected ? 'đang chọn' : 'chưa xong'}`} aria-pressed={selected} whileHover={reducedMotion ? undefined : { y: -5, rotate: number % 2 ? -2 : 2 }} whileTap={reducedMotion ? undefined : { scale: 0.97 }} style={{ height: 112, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, border: selected ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, borderBottom: `5px solid ${done ? ink.gold : ink.rule}`, borderRadius: 12, background: done ? ink.accentSoft : ink.panel, color: done ? 'var(--osd-accent)' : ink.text, fontFamily: font.body, cursor: 'pointer' }}>
+    <span style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, lineHeight: 1.2 }}>{pad2(number)} {done ? '✓' : ''}</span>
+    <span style={{ fontSize: 22, fontWeight: 600, color: done ? 'var(--osd-accent)' : ink.muted }}>{done ? 'đã hoàn thành' : 'mở câu hỏi'}</span>
   </motion.button>
   );
 };
 
 const QuizBoard = ({ done, selected, onSelect, buttonRefs }: { done: boolean[]; selected: number; onSelect: (index: number) => void; buttonRefs: React.MutableRefObject<(HTMLButtonElement | null)[]> }) => (
-  <div role="group" aria-label="Chọn câu hỏi" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+  <div role="group" aria-label="Chọn câu hỏi" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 18 }}>
     <QuizBoardButton number={1} done={done[0]} selected={selected === 0} onSelect={() => onSelect(0)} buttonRef={(node) => { buttonRefs.current[0] = node; }} />
     <QuizBoardButton number={2} done={done[1]} selected={selected === 1} onSelect={() => onSelect(1)} buttonRef={(node) => { buttonRefs.current[1] = node; }} />
     <QuizBoardButton number={3} done={done[2]} selected={selected === 2} onSelect={() => onSelect(2)} buttonRef={(node) => { buttonRefs.current[2] = node; }} />
@@ -890,39 +1037,132 @@ const QuizBoard = ({ done, selected, onSelect, buttonRefs }: { done: boolean[]; 
   </div>
 );
 
-const QuizAnswer = ({ index, question, wrong, done, onChoose, buttonRef }: { index: number; question: QuizQuestion; wrong: boolean; done: boolean; onChoose: (index: number) => void; buttonRef?: Ref<HTMLButtonElement> }) => {
+const QuizAnswer = ({ index, question, wrong, done, busy, kicked, onChoose, buttonRef }: { index: number; question: QuizQuestion; wrong: boolean; done: boolean; busy: boolean; kicked: boolean; onChoose: (index: number) => void; buttonRef?: Ref<HTMLButtonElement> }) => {
   const reducedMotion = useReducedMotion();
   const correct = done && index === question.correct;
-  const disabled = wrong || done;
+  const disabled = wrong || done || busy;
   return (
-    <motion.button ref={buttonRef} type="button" disabled={disabled} onClick={(event) => { event.stopPropagation(); onChoose(index); }} aria-label={`${'ABCD'[index]}. ${question.options[index]}${correct ? ' (đáp án đúng)' : wrong ? ' (đã thử, chưa đúng)' : ''}`} aria-describedby="cnxh-quiz-feedback" whileHover={disabled || reducedMotion ? undefined : { y: -3 }} whileTap={disabled || reducedMotion ? undefined : { scale: 0.99 }} animate={{ backgroundColor: correct ? ink.accentSoft : ink.panel, opacity: wrong ? 0.55 : 1 }} transition={{ duration: reducedMotion ? 0 : 0.2 }} style={{ width: '100%', height: 112, boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 18, textAlign: 'left', padding: '16px 22px', border: correct ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)', color: ink.text, fontFamily: font.body, cursor: disabled ? 'default' : 'pointer' }}>
+    <div style={{ position: 'relative', height: 112 }}>
+    {wrong && <div aria-hidden="true" style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', border: `1px dashed ${ink.rule}`, borderRadius: 6, fontSize: 24, color: ink.muted }}>{'ABCD'[index]} · Đã loại</div>}
+    <div className={kicked ? 'answer-kicked' : undefined} data-quiz-answer={index} style={{ position: 'relative', zIndex: kicked ? 5 : 0, visibility: wrong && !kicked ? 'hidden' : 'visible' }}>
+    <motion.button ref={buttonRef} type="button" disabled={disabled} onClick={(event) => { event.stopPropagation(); onChoose(index); }} aria-label={`${'ABCD'[index]}. ${question.options[index]}${correct ? ' (đáp án đúng)' : wrong ? ' (đã thử, chưa đúng)' : ''}`} aria-describedby="cnxh-quiz-feedback" whileHover={disabled || reducedMotion ? undefined : { y: -3 }} whileTap={disabled || reducedMotion ? undefined : { scale: 0.99 }} animate={{ backgroundColor: correct ? ink.accentSoft : ink.panel }} transition={{ duration: reducedMotion ? 0 : 0.2 }} style={{ width: '100%', height: 112, boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 18, textAlign: 'left', padding: '16px 22px', border: correct ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)', color: ink.text, fontFamily: font.body, cursor: disabled ? 'default' : 'pointer' }}>
       <span aria-hidden="true" style={{ flexShrink: 0, width: 52, height: 52, display: 'grid', placeItems: 'center', borderRadius: 14, border: correct ? '2px solid var(--osd-accent)' : `1px solid ${ink.rule}`, background: correct ? 'var(--osd-accent)' : ink.panel, color: correct ? '#fff' : 'var(--osd-accent)', fontFamily: font.display, fontWeight: 700, fontSize: 28 }}>{correct ? '✓' : 'ABCD'[index]}</span>
       <span style={{ fontSize: 26, lineHeight: 1.35, fontWeight: 500, textDecoration: wrong ? 'line-through' : 'none', color: wrong ? ink.muted : ink.text }}>{question.options[index]}</span>
     </motion.button>
+    </div>
+    </div>
   );
 };
+
+type FerrisMood = 'idle' | 'angry' | 'happy';
+
+// Original SVG illustration of Ferris: chapter costumes are roles, not ethnic dress.
+const Ferris = ({ chapter, mood }: { chapter: number; mood: FerrisMood }) => (
+  <svg viewBox="0 0 440 380" role="img" aria-label={`Ferris ${mood === 'angry' ? 'đang giận' : mood === 'happy' ? 'vui mừng' : 'đang đi dạo'}`} style={{ width: '100%', overflow: 'visible' }}>
+    <g stroke="#74392b" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
+      <g fill="none" stroke="#d65c38" strokeWidth="14">
+        <path className="ferris-kick-leg" style={{ transformOrigin: '135px 245px' }} d="M135 245 L85 264 L64 291" />
+        <path className="ferris-step-left" style={{ transformOrigin: '139px 265px' }} d="M139 265 L105 295 L104 318" />
+        <path className="ferris-step-right" style={{ transformOrigin: '305px 245px' }} d="M305 245 L355 264 L376 291 M301 265 L335 295 L336 318" />
+      </g>
+      <g className="ferris-claw" style={{ transformOrigin: '125px 215px' }}>
+        <path d="M133 218 Q80 226 61 163" fill="none" stroke="#e77c42" strokeWidth="22" />
+        <path d="M64 179 C15 171 15 104 49 83 L58 127 L85 92 C112 137 101 168 64 179Z" fill="#f7944b" />
+      </g>
+      <g style={{ transformOrigin: '315px 215px' }} className="ferris-wave">
+        <path d="M307 218 Q360 226 379 163" fill="none" stroke="#e77c42" strokeWidth="22" />
+        <path d="M376 179 C425 171 425 104 391 83 L382 127 L355 92 C328 137 339 168 376 179Z" fill="#f7944b" />
+      </g>
+      <path d="M103 221 L91 202 L115 195 L108 173 L135 173 C151 128 289 128 305 173 L332 173 L325 195 L349 202 L337 221 C345 310 95 310 103 221Z" fill={mood === 'angry' ? '#ef7044' : '#f7944b'} />
+      <path d="M128 251 Q220 280 312 251 L306 298 Q220 329 134 298Z" fill={chapter === 1 ? '#285565' : chapter === 2 ? '#495d50' : '#8b2f2a'} />
+      {chapter === 1 ? <g><path d="M137 152 L220 121 L303 152 L220 180Z" fill="#285565" /><path d="M279 163 V198" stroke="#d3a849" /><path d="M190 269 L220 280 L250 269 V310 L220 321 L190 310Z" fill="#fff4d6" strokeWidth="4" /><path d="M220 282 V316" strokeWidth="3" /></g>
+        : chapter === 2 ? <g><path d="M141 154 C140 91 301 91 299 154Z" fill="#d6ad52" /><path d="M131 156 H309 M220 110 V149" stroke="#846330" /><path d="M158 260 V291 M282 260 V291" stroke="#dbc7a3" /><rect x="190" y="273" width="60" height="32" rx="5" fill="#dbc7a3" strokeWidth="4" /></g>
+        : <g><ellipse cx="220" cy="139" rx="82" ry="21" fill="#8b2f2a" /><ellipse cx="220" cy="133" rx="57" ry="11" fill="#b45343" strokeWidth="4" /><path d="M212 268 L228 280 V311" fill="none" stroke="#e9c477" strokeWidth="4" /><circle cx="235" cy="290" r="3" fill="#e9c477" stroke="none" /></g>}
+      <ellipse cx="177" cy="211" rx="18" ry="25" fill="#fff7e9" strokeWidth="4" /><ellipse cx="263" cy="211" rx="18" ry="25" fill="#fff7e9" strokeWidth="4" />
+      <ellipse cx="181" cy="214" rx="7" ry="12" fill="#352c28" stroke="none" /><ellipse cx="259" cy="214" rx="7" ry="12" fill="#352c28" stroke="none" />
+      <g fill="none" stroke="#263c3c" strokeWidth="5"><rect x="151" y="190" width="53" height="46" rx="15" /><rect x="236" y="190" width="53" height="46" rx="15" /><path d="M204 207 Q220 199 236 207 M140 198 L151 203 M289 203 L300 198" /></g>
+      {mood === 'angry' ? <g><path d="M156 181 L193 194 M247 194 L284 181 M203 248 Q220 234 237 248" fill="none" /><path d="M321 110 V129 M312 120 H331" stroke="#8b2f2a" /></g>
+        : <path d={mood === 'happy' ? 'M198 239 Q220 278 242 239Z' : 'M204 242 Q220 258 236 242'} fill={mood === 'happy' ? '#74392b' : 'none'} strokeWidth="5" />}
+      <ellipse cx="146" cy="239" rx="12" ry="6" fill="#d45c3e" stroke="none" /><ellipse cx="294" cy="239" rx="12" ry="6" fill="#d45c3e" stroke="none" />
+    </g>
+  </svg>
+);
+
+const CelebrationPiece = ({ x, y, color, delay = 0 }: { x: number; y: number; color: string; delay?: number }) => (
+  <i className="cnxh-confetti" style={{ '--dx': `${x}px`, '--dy': `${y}px`, '--fall': `${340 + Math.abs(x) / 3}px`, background: color, animationDelay: `${delay}ms` } as CSSProperties} />
+);
+
+const quizMotionCSS = `
+  .cnxh-quiz button:focus-visible { outline: 4px solid #8b2f2a; outline-offset: 5px; }
+  .cnxh-quiz .ferris-idle { animation: cnxh-patrol 5s ease-in-out infinite; }
+  .cnxh-quiz .ferris-idle .ferris-step-left, .cnxh-quiz .ferris-angry .ferris-step-left { animation: cnxh-step .24s ease-in-out infinite alternate; }
+  .cnxh-quiz .ferris-idle .ferris-step-right, .cnxh-quiz .ferris-angry .ferris-step-right { animation: cnxh-step .24s ease-in-out infinite alternate-reverse; }
+  .cnxh-quiz .ferris-angry { animation: cnxh-approach 2.2s ease-in-out both; }
+  .cnxh-quiz .ferris-angry .ferris-kick-leg { animation: cnxh-kick 2.2s ease-in-out both; }
+  .cnxh-quiz .ferris-happy { animation: cnxh-jump 1.4s linear both; }
+  .cnxh-quiz .ferris-happy .ferris-wave { animation: cnxh-wave .28s ease-in-out 5 alternate; }
+  .cnxh-quiz .answer-kicked { animation: cnxh-fly 2.2s linear both; }
+  .cnxh-quiz .question-happy { animation: cnxh-correct .65s ease both; }
+  .cnxh-quiz .cnxh-confetti { position:absolute; left:50%; top:55%; width:13px; height:22px; border-radius:3px; animation:cnxh-gravity 1.4s linear both; }
+  @keyframes cnxh-patrol { 0%,100% { transform:translateX(0); } 25% { transform:translate(-36px,-5px) rotate(-2deg); } 75% { transform:translate(28px,-5px) rotate(2deg); } }
+  @keyframes cnxh-step { from { transform:rotate(-9deg); } to { transform:rotate(12deg); } }
+  @keyframes cnxh-approach { 0% { transform:translate(0,0); } 35%,56% { transform:translate(var(--kick-x),var(--kick-y)); } 42% { transform:translate(var(--kick-x),var(--kick-y)) rotate(7deg); } 47% { transform:translate(var(--kick-x),var(--kick-y)) rotate(-5deg); } 95%,100% { transform:translate(0,0); } }
+  @keyframes cnxh-kick { 0%,35%,65%,100% { transform:rotate(0); } 41% { transform:rotate(-35deg); } 46%,53% { transform:rotate(48deg); } }
+  @keyframes cnxh-fly { 0%,45% { transform:translate(0,0) rotate(0); opacity:1; } 57% { transform:translate(-210px,-125px) rotate(-16deg); } 69% { transform:translate(-480px,-140px) rotate(-32deg); } 81% { transform:translate(-850px,10px) rotate(-55deg); opacity:1; } 95%,100% { transform:translate(-1500px,500px) rotate(-90deg); opacity:0; } }
+  @keyframes cnxh-jump { 10% { transform:translateY(10px) scale(1.06,.9); } 27% { transform:translateY(-100px) rotate(-8deg); } 42% { transform:translateY(-135px) rotate(5deg); } 58% { transform:translateY(-100px) rotate(9deg); } 74% { transform:translateY(8px) scale(1.08,.9); } 86% { transform:translateY(-20px); } 100% { transform:none; } }
+  @keyframes cnxh-wave { to { transform:rotate(24deg); } }
+  @keyframes cnxh-correct { 45% { transform:translateY(-8px); box-shadow:0 16px 0 #b88a3b33; } }
+  @keyframes cnxh-gravity { 0% { transform:translate(0,0) rotate(0); opacity:0; } 10% { opacity:1; } 42% { transform:translate(calc(var(--dx) * .55),var(--dy)) rotate(160deg); } 65% { transform:translate(calc(var(--dx) * .8),calc(var(--dy) + 50px)) rotate(290deg); opacity:1; } 100% { transform:translate(var(--dx),var(--fall)) rotate(480deg); opacity:0; } }
+  @media (prefers-reduced-motion: reduce) { .cnxh-quiz *, .cnxh-quiz *::before { animation:none !important; } .cnxh-quiz .cnxh-confetti { display:none; } }
+`;
 
 const Quiz: Page = () => {
   const active = useIsActivePage();
   const reducedMotion = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
+  const homeRef = useRef<HTMLButtonElement>(null);
   const boardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const answerRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const answerLock = useRef(false);
+  const actorRef = useRef<HTMLDivElement>(null);
+  const lastReply = useRef(-1);
+  const [reply, setReply] = useState('');
+  const [kickedIndex, setKickedIndex] = useState(-1);
+  const [kickTarget, setKickTarget] = useState({ x: 0, y: 0 });
+  const [screen, setScreen] = useState<'home' | 'arena'>('home');
   const [selected, setSelected] = useState(0);
   const [wrong, setWrong] = useState<number[][]>(() => quizQuestions.map(() => []));
   const [done, setDone] = useState<boolean[]>(() => quizQuestions.map(() => false));
+  const [reaction, setReaction] = useState<{ mood: FerrisMood; id: number }>({ mood: 'idle', id: 0 });
   const question = quizQuestions[selected];
   const isDone = done[selected];
   const tried = wrong[selected];
   const completed = done.filter(Boolean).length;
   const allDone = completed === quizQuestions.length;
+  const busy = reaction.mood !== 'idle';
+  const chapter = question.topic.includes('Chương III') || question.topic.includes('Liên hệ') ? 3 : question.topic.includes('Chương II') ? 2 : 1;
+
   useEffect(() => {
-    // Answering correctly disables the focused option, dropping focus to the
-    // page body where slide shortcuts would catch it. Keep keyboard users
-    // inside the game by moving to the next unfinished question instead.
-    if (!active || !isDone) return;
-    const next = done.findIndex((value, index) => !value && index !== selected);
-    if (next !== -1) boardRefs.current[next]?.focus({ preventScroll: true });
-  }, [active, isDone, selected, done]);
+    if (!active) {
+      answerLock.current = false;
+      setReaction(previous => ({ ...previous, mood: 'idle' }));
+      return;
+    }
+    if (!busy) return;
+    const timer = window.setTimeout(() => {
+      answerLock.current = false;
+      setReaction(previous => ({ ...previous, mood: 'idle' }));
+    }, reducedMotion ? 100 : reaction.mood === 'angry' ? 2250 : 1450);
+    return () => window.clearTimeout(timer);
+  }, [active, busy, reaction.id, reducedMotion]);
+
+  useEffect(() => {
+    if (!active) return;
+    if (screen === 'home') boardRefs.current[selected]?.focus({ preventScroll: true });
+    else if (isDone || busy) homeRef.current?.focus({ preventScroll: true });
+    else answerRefs.current[[0, 1, 2, 3].find(index => !tried.includes(index)) ?? 0]?.focus({ preventScroll: true });
+  }, [active, screen, selected, isDone, busy, tried]);
+
   useEffect(() => {
     const root = rootRef.current;
     if (!root || !active) return;
@@ -933,66 +1173,88 @@ const Quiz: Page = () => {
     window.addEventListener('keydown', guard, { capture: true });
     return () => window.removeEventListener('keydown', guard, { capture: true });
   }, [active]);
-  const chooseQuestion = (index: number) => { if (!active) return; setSelected(index); };
+
+  const clearReaction = () => { answerLock.current = false; setReply(''); setKickedIndex(-1); setReaction(previous => ({ mood: 'idle', id: previous.id + 1 })); };
+  const chooseQuestion = (index: number) => { if (!active) return; clearReaction(); setSelected(index); setScreen('arena'); };
+  const goHome = () => { if (!active) return; clearReaction(); setScreen('home'); };
   const chooseAnswer = (answer: number) => {
-    if (!active || isDone) return;
-    if (answer === question.correct) setDone(previous => previous.map((value, index) => index === selected ? true : value));
-    else if (!tried.includes(answer)) setWrong(previous => previous.map((list, index) => index === selected ? [...list, answer] : list));
+    if (!active || isDone || answerLock.current || tried.includes(answer)) return;
+    answerLock.current = true;
+    const correct = answer === question.correct;
+    if (!correct) {
+      const replies = ['Khoan, đọc kỹ lại nào!', 'Câu này dễ nhầm thật.', 'Chưa trúng rồi. Chọn lại nhé!', 'Đáp án này chưa đúng đâu.', 'Ơ kìa, nghĩ thêm chút nữa!', 'Còn đáp án khác mà!', 'Mình cho thử lại đấy!', 'Nhìn lại từ khóa trong câu hỏi nhé.'];
+      const candidates = replies.map((_, index) => index).filter(index => index !== lastReply.current);
+      const nextReply = candidates[Math.floor(Math.random() * candidates.length)];
+      lastReply.current = nextReply;
+      setReply(replies[nextReply]);
+      setKickedIndex(answer);
+      const target = answerRefs.current[answer]?.getBoundingClientRect();
+      const actor = actorRef.current?.getBoundingClientRect();
+      const scale = (rootRef.current?.getBoundingClientRect().width ?? 1920) / 1920;
+      if (target && actor) setKickTarget({ x: (target.right - actor.left) / scale - 48, y: (target.top + target.height / 2 - actor.top) / scale - 264 });
+    } else setReply('Đúng rồi!');
+    setReaction(previous => ({ mood: correct ? 'happy' : 'angry', id: previous.id + 1 }));
+    if (correct) setDone(previous => previous.map((value, index) => index === selected ? true : value));
+    else setWrong(previous => previous.map((list, index) => index === selected ? [...list, answer] : list));
   };
-  const reset = () => { if (!active) return; setWrong(quizQuestions.map(() => [])); setDone(quizQuestions.map(() => false)); setSelected(0); };
+  const reset = () => { if (!active) return; clearReaction(); setWrong(quizQuestions.map(() => [])); setDone(quizQuestions.map(() => false)); setSelected(0); setScreen('home'); };
+
   return (
-    <div ref={rootRef} className="cnxh-quiz" data-osd-interactive="true" style={{ ...fill }} onClick={event => event.stopPropagation()}>
-      <style>{`.cnxh-quiz button:focus-visible { outline: 3px solid #8b2f2a; outline-offset: 4px; } .cnxh-quiz button:disabled { opacity: 1; }`}</style>
-      <Mark />
-      <Eyebrow>Trò chơi · Cả lớp cùng chơi</Eyebrow>
-      <motion.h2
-        {...useEntry(0.06)}
-        style={{
-          position: 'absolute',
-          left: P,
-          top: 128,
-          margin: 0,
-          fontFamily: font.display,
-          fontSize: 56,
-          fontWeight: 700,
-          letterSpacing: '-0.02em',
-          lineHeight: 1.08,
-          maxWidth: 1200,
-        }}
-      >
-        Cùng tìm đáp án đúng
-      </motion.h2>
-      <div style={{ position: 'absolute', right: P, top: 128, fontSize: 22, fontWeight: 600, padding: '12px 22px', border: `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)', background: allDone ? ink.accentSoft : ink.panel, color: allDone ? 'var(--osd-accent)' : ink.soft }}>{allDone ? 'Xong cả 20 câu ✦' : `Đã xong ${completed} / 20`}</div>
-      <aside style={{ position: 'absolute', left: P, top: 248, width: 460, height: 684, boxSizing: 'border-box', padding: 26, background: ink.panel, border: `1px solid ${ink.rule}`, borderRadius: 'var(--osd-radius)' }}>
-        <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--osd-accent)' }}>BẢNG CÂU HỎI</div>
-        <p style={{ margin: '10px 0 16px', fontSize: 22, lineHeight: 1.45, color: ink.soft }}>Chọn một câu, cả lớp cùng tìm đáp án đúng.</p>
-        <QuizBoard done={done} selected={selected} onSelect={chooseQuestion} buttonRefs={boardRefs} />
-      </aside>
-      <motion.div key={selected} {...useEntry(0)} style={{ position: 'absolute', left: 630, top: 248, width: 1170 }}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'stretch' }}>
-          <img src={question.img} alt={question.alt} style={{ width: 300, height: 196, objectFit: 'cover', borderRadius: 'var(--osd-radius)', border: `1px solid ${ink.rule}`, flexShrink: 0 }} />
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'inline-block', fontSize: 22, fontWeight: 700, letterSpacing: '0.06em', color: 'var(--osd-accent)' }}>{question.topic.toUpperCase()}</div>
-            <h2 style={{ fontFamily: font.display, fontSize: 44, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em', margin: '12px 0 0', minHeight: 132 }}>{question.question}</h2>
+    <div ref={rootRef} className="cnxh-quiz" data-osd-interactive="true" style={fill} onClick={event => event.stopPropagation()}>
+      <style>{quizMotionCSS}</style>
+      <Mark /><Eyebrow>Trò chơi ôn tập</Eyebrow>
+      <h2 style={{ position: 'absolute', left: P, top: 138, margin: 0, fontFamily: font.display, fontSize: 58, lineHeight: 1.15 }}>{screen === 'home' ? 'Chọn câu hỏi' : `Câu ${pad2(selected + 1)}`}</h2>
+      <div style={{ position: 'absolute', right: P, top: 142, display: 'flex', alignItems: 'center', gap: 30 }}>
+        <span style={{ fontSize: 26, color: ink.soft }}>{allDone ? 'Hoàn thành 20 / 20 ✦' : `Đã hoàn thành ${completed} / 20`}</span>
+        {screen === 'arena' && <QuizAction buttonRef={homeRef} onClick={goHome}>⌂ Home · Chọn câu</QuizAction>}
+      </div>
+      <div style={{ position: 'absolute', left: P, right: P, top: 234, height: 4, background: ink.rule }}><div style={{ width: `${completed / quizQuestions.length * 100}%`, height: '100%', background: ink.gold, transition: reducedMotion ? 'none' : 'width .4s ease' }} /></div>
+
+      {screen === 'home' ? <>
+        <div style={{ position: 'absolute', left: P, top: 282, width: 1120 }}>
+          <p style={{ margin: '0 0 26px', fontSize: 28, lineHeight: 1.5, color: ink.soft }}>Chọn một ô bất kỳ. Trả lời sai có thể thử lại.<br />Mỗi câu đúng sẽ được đánh dấu trên bảng.</p>
+          <QuizBoard done={done} selected={selected} onSelect={chooseQuestion} buttonRefs={boardRefs} />
+        </div>
+        <div style={{ position: 'absolute', left: 1320, top: 310, width: 450, textAlign: 'center' }}>
+          <div className={active ? 'ferris-idle' : undefined}><Ferris chapter={allDone ? 3 : 1} mood={allDone ? 'happy' : 'idle'} /></div>
+          <p style={{ fontFamily: font.display, fontSize: 34 }}>{allDone ? 'Xong cả 20 câu rồi!' : 'Chọn câu nào trước nhỉ?'}</p>
+          {allDone && <QuizAction onClick={reset}>Chơi lại từ đầu ↻</QuizAction>}
+        </div>
+      </> : <>
+        <div style={{ position: 'absolute', left: P, top: 282, width: 1190 }}>
+          <div key={`${selected}-${reaction.id}`} className={`question-${reaction.mood}`} data-quiz-question style={{ position: 'relative', zIndex: 2, boxSizing: 'border-box', minHeight: 224, padding: '26px 32px', border: `1px solid ${ink.rule}`, borderLeft: '7px solid var(--osd-accent)', background: ink.panel, borderRadius: 12 }}>
+            <div style={{ fontSize: 23, fontWeight: 700, color: 'var(--osd-accent)' }}>{question.topic}</div>
+            <h3 style={{ fontFamily: font.display, fontSize: 42, lineHeight: 1.25, margin: '16px 0 0' }}>{question.question}</h3>
+          </div>
+          <div role="group" aria-label="Chọn một đáp án, sai được thử lại" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, marginTop: 24 }}>
+            <QuizAnswer index={0} question={question} wrong={tried.includes(0)} done={isDone} busy={busy} kicked={reaction.mood === 'angry' && kickedIndex === 0} onChoose={chooseAnswer} buttonRef={node => { answerRefs.current[0] = node; }} />
+            <QuizAnswer index={1} question={question} wrong={tried.includes(1)} done={isDone} busy={busy} kicked={reaction.mood === 'angry' && kickedIndex === 1} onChoose={chooseAnswer} buttonRef={node => { answerRefs.current[1] = node; }} />
+            <QuizAnswer index={2} question={question} wrong={tried.includes(2)} done={isDone} busy={busy} kicked={reaction.mood === 'angry' && kickedIndex === 2} onChoose={chooseAnswer} buttonRef={node => { answerRefs.current[2] = node; }} />
+            <QuizAnswer index={3} question={question} wrong={tried.includes(3)} done={isDone} busy={busy} kicked={reaction.mood === 'angry' && kickedIndex === 3} onChoose={chooseAnswer} buttonRef={node => { answerRefs.current[3] = node; }} />
+          </div>
+          <div id="cnxh-quiz-feedback" role="status" aria-live="polite" style={{ marginTop: 26, minHeight: 130, fontSize: 28, lineHeight: 1.45 }}>
+            <strong style={{ color: 'var(--osd-accent)' }}>{isDone ? 'Chính xác.' : tried.length ? 'Chọn một đáp án khác nhé.' : ''}</strong>
+            {isDone && <div style={{ marginTop: 8, color: ink.soft, fontSize: 27 }}>{question.explanation}</div>}
           </div>
         </div>
-        <div role="group" aria-label="Chọn một đáp án, sai được thử lại" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 20 }}>
-          <QuizAnswer index={0} question={question} wrong={tried.includes(0)} done={isDone} onChoose={chooseAnswer} />
-          <QuizAnswer index={1} question={question} wrong={tried.includes(1)} done={isDone} onChoose={chooseAnswer} />
-          <QuizAnswer index={2} question={question} wrong={tried.includes(2)} done={isDone} onChoose={chooseAnswer} />
-          <QuizAnswer index={3} question={question} wrong={tried.includes(3)} done={isDone} onChoose={chooseAnswer} />
+        <div style={{ position: 'absolute', left: 1380, top: 293, width: 400, textAlign: 'center' }}>
+          <div role="status" aria-live="polite" data-ferris-speech style={{ minHeight: 74, fontFamily: font.display, fontSize: 30, lineHeight: 1.25, color: 'var(--osd-accent)' }}>{reply || (isDone ? 'Đúng rồi!' : '')}</div>
+          <div style={{ position: 'relative', marginTop: 36 }}>
+            <div style={{ position: 'absolute', bottom: 20, left: 70, right: 70, height: 24, borderRadius: '50%', background: '#d7cfbf' }} />
+            <div ref={actorRef} style={{ position: 'relative', zIndex: 8, pointerEvents: 'none', '--kick-x': `${kickTarget.x}px`, '--kick-y': `${kickTarget.y}px` } as CSSProperties}>
+              <div key={`${selected}-${reaction.id}`} className={active ? `ferris-${reaction.mood}` : undefined}><Ferris chapter={chapter} mood={isDone && !busy ? 'happy' : reaction.mood} /></div>
+            </div>
+            {reaction.mood === 'happy' && !reducedMotion && <div key={reaction.id} aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+              <CelebrationPiece x={-280} y={-190} color="#8b2f2a" /><CelebrationPiece x={220} y={-240} color="#b88a3b" />
+              <CelebrationPiece x={-170} y={-280} color="#285565" delay={30} /><CelebrationPiece x={310} y={-160} color="#8b2f2a" delay={60} />
+              <CelebrationPiece x={-90} y={-310} color="#b88a3b" delay={50} /><CelebrationPiece x={130} y={-290} color="#285565" delay={20} />
+              <CelebrationPiece x={-330} y={-120} color="#b88a3b" delay={80} /><CelebrationPiece x={270} y={-100} color="#285565" delay={100} />
+              <CelebrationPiece x={-210} y={-210} color="#e77c42" delay={120} /><CelebrationPiece x={80} y={-260} color="#8b2f2a" delay={80} />
+            </div>}
+          </div>
+          <img src={question.img} alt={question.alt} style={{ marginTop: 25, width: 260, height: 130, objectFit: 'cover', border: `6px solid ${ink.panel}`, transform: 'rotate(-3deg)' }} />
         </div>
-      </motion.div>
-      <div style={{ position: 'absolute', left: 630, top: 800, width: 1170, display: 'flex', alignItems: 'flex-start', gap: 28 }}>
-        <div id="cnxh-quiz-feedback" role="status" aria-live="polite" style={{ flex: 1, minHeight: 112 }}>
-          {isDone
-            ? <motion.div key={`done-${selected}`} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.25 }}><div style={{ fontSize: 27, fontWeight: 700, marginBottom: 6, color: 'var(--osd-accent)' }}>Đúng rồi ✦ Câu này đã xong!</div><div style={{ fontSize: 24, lineHeight: 1.45, color: ink.soft }}>{question.explanation}</div></motion.div>
-            : tried.length > 0
-              ? <motion.div key={`retry-${selected}-${tried.length}`} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.25 }}><div style={{ fontSize: 27, fontWeight: 700, marginBottom: 6 }}>Chưa đúng — cả lớp thử đáp án khác nhé!</div></motion.div>
-              : <span />}
-        </div>
-        {allDone && <QuizAction onClick={reset}>Đặt lại bảng ↻</QuizAction>}
-      </div>
+      </>}
       <Footer />
     </div>
   );
@@ -1017,51 +1279,71 @@ export const meta: SlideMeta = {
 };
 
 export const notes: (string | undefined)[] = [
-  'Chào giảng viên và các bạn, giới thiệu thành viên nhóm 3. Đề tài được phân công là vấn đề dân tộc trong thời kỳ quá độ lên chủ nghĩa xã hội. Bài trình bày bắt đầu từ khái niệm dân tộc, rồi đến cương lĩnh Lênin và chính sách ở Việt Nam.',
-  'Chương I trình bày quá trình hình thành cộng đồng người và hai cách hiểu từ “dân tộc”.',
-  'Theo tiến trình trong tài liệu: thị tộc, bộ lạc, bộ tộc rồi đến dân tộc. Mỗi ô trên trang chỉ nêu nét chính của một hình thức cộng đồng.',
-  'Nghĩa rộng nói đến nhân dân một nước. Năm đặc trưng gồm lãnh thổ, kinh tế, ngôn ngữ, văn hóa và tâm lý, nhà nước; ví dụ là Việt Nam và Nhật Bản.',
-  'Nghĩa hẹp nói đến tộc người. Ba đặc trưng trên sơ đồ là ngôn ngữ, văn hóa và ý thức tự giác; ví dụ là dân tộc Kinh và dân tộc Thái.',
-  'Đối chiếu theo từng hàng. Sơ đồ về nghĩa hẹp không liệt kê lãnh thổ, kinh tế hay nhà nước thành đặc trưng riêng; bảng không phủ nhận các yếu tố đó trong đời sống tộc người.',
-  'Chương II gồm hai xu hướng của quan hệ dân tộc và ba nội dung trong cương lĩnh Lênin.',
-  'Ý thức dân tộc có thể dẫn đến đấu tranh giành độc lập. Lực lượng sản xuất, khoa học công nghệ và giao lưu thúc đẩy các dân tộc hợp tác.',
-  'Trong một quốc gia, sơ đồ đặt cạnh quyền phát triển của từng tộc người và sự hợp tác giữa các tộc người. Trên phạm vi quốc tế, đó là đấu tranh giải phóng và liên minh khu vực hoặc toàn cầu.',
-  'Ba nội dung của cương lĩnh: các dân tộc hoàn toàn bình đẳng; các dân tộc được quyền tự quyết; liên hiệp công nhân các dân tộc.',
-  'Bình đẳng cần được pháp luật bảo đảm. Tự quyết gồm quyền chọn con đường phát triển, chia tách hoặc liên hiệp. Liên hiệp dựa trên tự nguyện và bình đẳng.',
-  'Chương III chuyển sang sáu đặc điểm dân tộc Việt Nam, quan điểm của Đảng và Nhà nước, rồi các lĩnh vực chính sách.',
-  'Sáu đặc điểm: quy mô dân số chênh lệch; cư trú xen kẽ; địa bàn chiến lược; phát triển không đều; truyền thống đoàn kết; mỗi dân tộc có bản sắc riêng.',
-  'Quan điểm của Đảng và Nhà nước đặt vấn đề dân tộc và đoàn kết dân tộc ở tầm chiến lược, đồng thời coi công tác dân tộc là nhiệm vụ của cả hệ thống chính trị.',
-  'Năm lĩnh vực chính sách là chính trị, kinh tế, xã hội, văn hóa và quốc phòng – an ninh. Tài liệu xếp xã hội thành một lĩnh vực riêng.',
-  'Ở lĩnh vực chính trị, nói đến bình đẳng, đoàn kết và tôn trọng. Ở lĩnh vực kinh tế, nói đến tiềm năng vùng dân tộc thiểu số và việc thu hẹp chênh lệch giữa các vùng. Ảnh hạ tầng là hình minh họa, không phải dẫn chứng về một địa điểm cụ thể.',
-  'Chính sách xã hội gồm an sinh, bình đẳng và công bằng; các phần việc được nêu là giảm nghèo, dân số, y tế và giáo dục.',
-  'Sáu ý trên trang gồm giữ giá trị truyền thống, nâng cao trình độ văn hóa, đào tạo cán bộ, xây dựng thiết chế, mở rộng giao lưu và chống tệ nạn xã hội.',
-  'Quốc phòng – an ninh tập trung vào ổn định chính trị, trật tự an toàn xã hội, quan hệ quân dân và thế trận quốc phòng toàn dân ở vùng đồng bào dân tộc.',
-  'Phần liên hệ thực tiễn của tài liệu chưa triển khai chi tiết. Có thể mời lớp nêu ví dụ về tìm hiểu văn hóa, tôn trọng khác biệt và kiểm chứng thông tin trước khi chia sẻ.',
-  'Nhắc lại hai nghĩa của dân tộc, hai xu hướng quan hệ dân tộc, ba nội dung cương lĩnh Lênin và năm lĩnh vực chính sách ở Việt Nam.',
-  'Mời cả lớp chơi bảng 20 câu hỏi. Chọn một câu trên bảng, chọn A/B/C/D để trả lời; sai được thử tiếp đến khi đúng, câu đúng được đánh dấu đã xong. Không tính điểm, chỉ theo dõi số câu đã xong. Mỗi câu hỏi có ảnh minh họa từ Wikimedia Commons (ghi nguồn trong phần này). Phím mũi tên và Space khi đang chọn trong trò chơi không chuyển slide.',
+  'Chào giảng viên và các bạn, nhóm 3 trình bày vấn đề dân tộc trong thời kỳ quá độ lên chủ nghĩa xã hội. Bài giữ bố cục ba phần của tài liệu thuyết trình: khái niệm; quan điểm Mác – Lênin; dân tộc và quan hệ dân tộc ở Việt Nam. Các phân tích về Hồ Chí Minh, thực trạng và giải pháp được bổ sung từ tiểu luận.',
+  'Vì sao chọn đề tài? Có bốn lý do: hiểu đúng lý luận, nhìn vào thực tiễn quốc gia 54 dân tộc, thấy mối liên hệ giữa phát triển với an ninh và xác định trách nhiệm sinh viên. Không cần đọc lại từng ô; hãy lấy một tình huống gần gũi như tôn trọng khác biệt của bạn học.',
+  'Chương I: hai cách hiểu từ dân tộc và vấn đề dân tộc là gì.',
+  'Thị tộc, bộ lạc, bộ tộc rồi đến dân tộc. Mỗi ô chỉ nêu nét chính.',
+  'Nghĩa rộng là nhân dân một nước: lãnh thổ, kinh tế, ngôn ngữ, văn hóa – tâm lý, nhà nước. Ví dụ Việt Nam, Nhật Bản.',
+  'Nghĩa hẹp là tộc người: ngôn ngữ, văn hóa, ý thức tự giác. Ví dụ Kinh, Thái.',
+  'Bảng 1.1 trong tiểu luận: bản chất, phạm vi, đặc trưng, yếu tố gắn kết. Đọc theo hàng để thấy Nation khác Ethnie ở đâu.',
+  'Vấn đề dân tộc là quan hệ giữa các tộc người và giữa các quốc gia: địa vị bình đẳng, quyền lợi thiết thân, chênh lệch phát triển, gắn với giai cấp.',
+  'Chương II: hai xu hướng, cương lĩnh Lênin, Hồ Chí Minh và bốn điểm của thời kỳ quá độ.',
+  'Xu hướng tách ra lập quốc gia độc lập; xu hướng liên hiệp lại khi sản xuất, công nghệ và giao lưu phá hàng rào ngăn cách.',
+  'Trong một nước là quyền phát triển của từng tộc người và hợp tác giữa họ. Ra quốc tế là giải phóng dân tộc và liên minh khu vực, toàn cầu.',
+  'Ba nội dung cương lĩnh: bình đẳng, tự quyết, liên hiệp công nhân các dân tộc.',
+  'Bình đẳng ghi trong luật và làm ngoài đời. Tự quyết là tự chọn đường đi, tách hay hiệp, trên lập trường công nhân. Liên hiệp tự nguyện, bình đẳng.',
+  'Hồ Chí Minh: độc lập dân tộc gắn chủ nghĩa xã hội; các dân tộc là anh em một nhà; chăm lo đời sống, dùng cán bộ người dân tộc, chống dân tộc lớn và hẹp hòi.',
+  'Bình đẳng trong pháp luật là nền tảng, nhưng điều kiện lịch sử khiến cơ hội phát triển thực tế chưa đồng đều. Vì vậy, cần đồng thời đầu tư phát triển, khắc phục định kiến và chú ý tác động quốc tế.',
+  'Chương III: 54 dân tộc, bốn căn cứ, năm lĩnh vực chính sách, thực trạng và sáu giải pháp.',
+  'Kinh khoảng 85,3%, 53 dân tộc thiểu số khoảng 14,7% theo tổng điều tra 2019. Sáu đặc điểm giữ nguyên, bổ sung số liệu vào ý đầu.',
+  'Năm quan điểm của Đảng: đoàn kết là chiến lược lâu dài và cấp bách; bình đẳng cùng phát triển; phát triển toàn diện vùng thiểu số; ưu tiên hạ tầng, giảm nghèo; việc của cả hệ thống chính trị.',
+  'Bốn căn cứ được dẫn trong tiểu luận: Điều 5 Hiến pháp 2013; Nghị quyết 24-NQ/TW năm 2003; Văn kiện Đại hội XIII năm 2021; Nghị quyết 120/2020/QH14 phê duyệt chủ trương đầu tư chương trình mục tiêu quốc gia 2021–2030. Chương trình 135 là ví dụ của giai đoạn trước, không phải tên gọi khác của chương trình mới.',
+  'Năm lĩnh vực: chính trị, kinh tế, xã hội, văn hóa, quốc phòng – an ninh.',
+  'Chính trị là bình đẳng, đoàn kết, tôn trọng. Kinh tế là Chương trình 135 và mục tiêu quốc gia 2021 – 2030, thu hẹp chênh lệch.',
+  'Xã hội là an sinh, công bằng qua giáo dục, y tế, giảm nghèo, dân số.',
+  'Văn hóa là giữ giá trị truyền thống, nâng trình độ, đào tạo cán bộ, mở giao lưu, chống tệ nạn và diễn biến hòa bình.',
+  'Quốc phòng – an ninh là ổn định chính trị, trật tự, quan hệ quân dân, thế trận toàn dân vùng đồng bào.',
+  'Theo phần 2.3 của tiểu luận, những thành tựu gồm củng cố đoàn kết, đầu tư hạ tầng, cải thiện đời sống, mở rộng giáo dục và y tế, bảo tồn văn hóa, giữ vững quốc phòng an ninh. Đây là đánh giá định tính, không hàm ý mọi địa bàn đã có mức tiếp cận như nhau.',
+  'Bốn nhóm khó khăn về phát triển: nghèo và nguy cơ tái nghèo; thiếu hạ tầng và nhân lực; chính sách chồng chéo và năng lực thực hiện; áp lực đất đai, di cư và khí hậu. Nguyên nhân gồm điều kiện tự nhiên, xuất phát điểm, nguồn lực và tổ chức thực hiện.',
+  'Hai thách thức còn lại trong phần 2.4 của tiểu luận là nguy cơ mai một văn hóa và thông tin gây chia rẽ dân tộc, tôn giáo. Phân biệt việc tôn trọng khác biệt với lan truyền định kiến; người dân cần được tham gia bảo tồn và quyết định hướng phát triển của cộng đồng.',
+  'Ba giải pháp đầu: nâng cao nhận thức và năng lực hệ thống chính trị cơ sở; đầu tư hạ tầng, sinh kế để giảm nghèo bền vững; giáo dục, đào tạo nghề và thu hút nhân lực. Nhấn mạnh đồng bào là chủ thể tham gia, không chỉ là người nhận hỗ trợ.',
+  'Ba giải pháp sau: bảo tồn văn hóa gắn sinh kế; kết hợp phát triển với quốc phòng an ninh; rà soát chính sách, phân cấp gắn trách nhiệm giải trình và giám sát. Sự tham gia của đồng bào và người có uy tín giúp chính sách sát nhu cầu hơn.',
+  'Sinh viên làm ba việc theo kết luận tiểu luận: học đúng lý luận, tôn trọng đa dạng văn hóa, cảnh giác tin xuyên tạc.',
+  'Kết luận bằng ba ý thay vì đọc lại các con số: xác định đúng hai nghĩa dân tộc; hiểu mối liên hệ giữa các nội dung cương lĩnh và đại đoàn kết; chuyển bình đẳng pháp lý thành cơ hội phát triển thực tế, đồng thời tôn trọng bản sắc.',
+  'Mời cả lớp chọn một câu và trả lời bằng A, B, C hoặc D. Nếu trả lời sai, đáp án đó bị loại và cả lớp được thử lại. Ferris đi tới đá đáp án sai, nói một câu ngẫu nhiên rồi quay về. Khi trả lời đúng, phần giải thích hiện bên dưới. Bấm Home để chọn câu khác; bảng giữ lại các câu đã hoàn thành. Sau 20 câu có thể chơi lại từ đầu.',
   'Cảm ơn giảng viên và các bạn. Mời câu hỏi hoặc góp ý.',
 ];
 
 export default [
   Cover,
+  WhyThisTopic,
   DivConcept,
   ConceptTimeline,
   NationDiagram,
   EthnieDiagram,
   TableCompare,
+  IssueDef,
   DivMarx,
   TwoTrends,
   TrendContexts,
   LeninPillars,
   LeninDetail,
+  HoChiMinh,
+  TransitionTraits,
   DivVN,
   VNFeatures,
   PartyView,
+  LegalBasis,
   PolicyMatrix,
   PolicyPoliticalEconomic,
   PolicySocial,
   PolicyCulture,
   PolicySecurity,
+  Achievements,
+  Challenges,
+  CulturalChallenges,
+  SolutionsA,
+  SolutionsB,
   Practice,
   Summary,
   Quiz,
