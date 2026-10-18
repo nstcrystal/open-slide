@@ -10,17 +10,15 @@ import {
 import { type CSSProperties, type ReactNode, type Ref, useEffect, useId, useRef, useState } from 'react';
 import { motion, useReducedMotion, type MotionProps } from 'motion/react';
 import communityPhoto from './assets/vietnam-community.jpg';
+import vietnamPhoto from './assets/vietnam-hd.png';
 import craftPhoto from './assets/craft-weaving.jpg';
+import volunteersPhoto from './assets/sinh-vien-tinh-nguyen-vung-cao.jpg';
 import schoolPhoto from './assets/mountain-school.jpg';
 import gatheringPhoto from './assets/community-gathering.jpg';
-import farmingPhoto from './assets/terrace-farming.jpg';
+import terracesPhoto from './assets/ruong-bac-thang-hd.png';
+import wrappingCakePhoto from './assets/goi-banh-hd.png';
 import borderPhoto from './assets/quan-dan-vung-bien.jpg';
 import bridgePhoto from './assets/ha-tang-vung-cao.jpg';
-import hmongMarketPhoto from './assets/hmong-coc-ly.jpg';
-import stiltHousePhoto from './assets/thai-stilt-house.jpg';
-import costumePhoto from './assets/hmong-costume.jpg';
-import dongVanPhoto from './assets/dong-van-market.jpg';
-import pagodaPhoto from './assets/chua-doi.jpg';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Webfont (module-level, slide-keyed)
@@ -370,8 +368,7 @@ const Divider = ({ roman, label, sub }: { roman: string; label: string; sub?: st
 // ─────────────────────────────────────────────────────────────────────────────
 const Cover: Page = () => (
   <div style={fill}>
-    <img src={communityPhoto} alt="Minh họa cộng đồng ở vùng núi Việt Nam" style={{ position: 'absolute', right: 0, top: 0, width: 900, height: 1080, objectFit: 'cover', objectPosition: '70% center' }} />
-    <div style={{ position: 'absolute', right: 0, top: 0, width: 1040, height: 1080, background: 'linear-gradient(90deg, #f3efe6 0%, rgba(243,239,230,.86) 12%, rgba(243,239,230,0) 45%)' }} />
+    <img src={vietnamPhoto} alt="Bản đồ Việt Nam ghép từ hình ảnh con người và văn hóa" style={{ position: 'absolute', right: 40, top: 0, width: 760, height: 1080, objectFit: 'contain', mixBlendMode: 'multiply' }} />
     <motion.div {...useEntry(0.05)} style={{ position: 'absolute', left: P, top: 94, fontSize: 24, fontWeight: 700, letterSpacing: '0.16em', color: 'var(--osd-accent)' }}>CHỦ NGHĨA XÃ HỘI KHOA HỌC / NHÓM 3</motion.div>
     <div style={{ position: 'absolute', left: P, top: 240, width: 1010 }}>
       <motion.div {...useEntry(0.1, 'fade')} style={{ width: 96, height: 8, background: 'var(--osd-accent)', marginBottom: 38, transformOrigin: 'left' }} />
@@ -459,7 +456,7 @@ const NationDiagram: Page = () => (
     <div style={{ position: 'relative', height: 622 }}>
       <ConceptBranches />
       <Reveal delay={0.1} style={{ background: 'var(--osd-accent)', color: '#fff', position: 'absolute', left: 0, top: 0, width: 540, height: 622 }}>
-        <img src={farmingPhoto} alt="Cảnh đồng ruộng miền núi" style={{ width: '100%', height: 246, objectFit: 'cover', filter: 'saturate(.75)' }} />
+        <img src={terracesPhoto} alt="Ruộng bậc thang vùng cao Việt Nam" style={{ width: '100%', height: 246, objectFit: 'cover', objectPosition: 'center 58%', filter: 'saturate(.75)' }} />
         <div style={{ padding: '25px 34px' }}>
           <div style={{ fontSize: 23, letterSpacing: '0.12em' }}>NGHĨA RỘNG · QUỐC GIA</div>
           <div style={{ fontFamily: font.display, fontSize: 45, lineHeight: 1.12, marginTop: 10 }}>Một cộng đồng quốc gia</div>
@@ -483,7 +480,7 @@ const EthnieDiagram: Page = () => (
     <div style={{ position: 'relative', height: 622 }}>
       <ConceptBranches narrow />
       <Reveal delay={0.1} style={{ position: 'absolute', left: 0, top: 0, width: 540, height: 622, boxSizing: 'border-box', background: ink.panel, border: `1px solid ${ink.rule}` }}>
-        <img src={gatheringPhoto} alt="Sinh hoạt văn hóa cộng đồng" style={{ width: '100%', height: 365, objectFit: 'cover' }} />
+        <img src={wrappingCakePhoto} alt="Gia đình quây quần gói bánh truyền thống" style={{ width: '100%', height: 365, objectFit: 'cover' }} />
         <div style={{ padding: '26px 34px' }}><div style={{ fontFamily: font.display, fontSize: 43, fontWeight: 700 }}>Một cộng đồng tộc người</div><div style={{ fontSize: 27, color: ink.soft, marginTop: 12 }}>Ví dụ: dân tộc Kinh, dân tộc Thái</div></div>
       </Reveal>
       <div style={{ position: 'absolute', left: 720, top: 89, width: 960, display: 'flex', flexDirection: 'column', gap: 84 }}>
@@ -946,7 +943,7 @@ const Practice: Page = () => (
   <Frame eyebrow="Liên hệ thực tiễn" title="Sinh viên làm ba việc">
     <div style={{ display: 'grid', gridTemplateColumns: '620px 1fr', gap: 48, height: '100%' }}>
       <div style={{ background: ink.panel }}>
-        <img src={craftPhoto} alt="Cảnh truyền nghề dệt" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+        <img src={volunteersPhoto} alt="Sinh viên tình nguyện cùng đồng bào vùng cao" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '53% center' }} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
         <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>01 / HỌC ĐÚNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Nắm quan điểm Mác – Lênin và Hồ Chí Minh về dân tộc; hiểu 54 dân tộc, không học vẹt.</div></div>
@@ -972,28 +969,28 @@ const Summary: Page = () => (
 );
 
 // A home board and a separate arena share progress within this game page.
-type QuizQuestion = { topic: string; question: string; options: readonly [string, string, string, string]; correct: number; explanation: string; img: string; alt: string };
+type QuizQuestion = { topic: string; question: string; options: readonly [string, string, string, string]; correct: number; explanation: string };
 const quizQuestions: readonly QuizQuestion[] = [
-  { topic: 'Khởi động · Chương I', question: 'Thứ tự hình thành các cộng đồng người là gì?', options: ['Bộ lạc → thị tộc → dân tộc → bộ tộc', 'Thị tộc → bộ lạc → bộ tộc → dân tộc', 'Thị tộc → bộ tộc → bộ lạc → dân tộc', 'Dân tộc → bộ tộc → bộ lạc → thị tộc'], correct: 1, explanation: 'Tiến trình được trình bày: thị tộc, bộ lạc, bộ tộc rồi đến dân tộc.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
-  { topic: 'Giải mã khái niệm · Chương I', question: '“Dân tộc” theo nghĩa rộng chỉ cộng đồng nào?', options: ['Những người cùng một dòng họ', 'Một cộng đồng tộc người', 'Nhân dân của một nước', 'Những người cùng tôn giáo'], correct: 2, explanation: 'Nghĩa rộng nói đến cộng đồng quốc gia; ví dụ là Việt Nam hoặc Nhật Bản.', img: hmongMarketPhoto, alt: 'Phụ nữ dân tộc Mông ở chợ' },
-  { topic: 'Nhớ đúng, chọn nhanh · Chương I', question: 'Dân tộc theo nghĩa rộng có mấy đặc trưng cơ bản?', options: ['3 đặc trưng', '5 đặc trưng', '4 đặc trưng', '6 đặc trưng'], correct: 1, explanation: 'Năm đặc trưng: lãnh thổ, kinh tế, ngôn ngữ, văn hóa – tâm lý và nhà nước.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
-  { topic: 'Bắt đúng từ khóa · Chương I', question: 'Đâu là một đặc trưng của dân tộc theo nghĩa hẹp?', options: ['Ý thức tự giác tộc người', 'Có nhà nước riêng', 'Có lãnh thổ riêng biệt', 'Có một nền kinh tế độc lập'], correct: 0, explanation: 'Nghĩa hẹp có ba đặc trưng: ngôn ngữ, văn hóa và ý thức tự giác tộc người.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
-  { topic: 'Đổi góc nhìn · Chương II', question: 'Hai xu hướng khách quan của quan hệ dân tộc là gì?', options: ['Đô thị hóa và công nghiệp hóa', 'Cạnh tranh và khép kín', 'Đồng hóa và phân biệt', 'Tách ra độc lập và liên hiệp lại'], correct: 3, explanation: 'Hai xu hướng là hình thành dân tộc độc lập và các dân tộc xích lại gần, liên hiệp với nhau.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
-  { topic: 'Tìm nguyên nhân · Chương II', question: 'Yếu tố nào thúc đẩy các dân tộc liên hiệp lại?', options: ['Phát triển sản xuất, công nghệ, giao lưu', 'Sống biệt lập với thế giới', 'Áp bức và phân biệt dân tộc', 'Ngăn cản hợp tác quốc tế'], correct: 0, explanation: 'Lực lượng sản xuất, khoa học công nghệ và giao lưu phát triển thúc đẩy hợp tác giữa các dân tộc.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
-  { topic: 'Bộ ba nguyên tắc · Chương II', question: 'Bộ ba nào thuộc cương lĩnh dân tộc của Lênin?', options: ['Lãnh thổ – kinh tế – nhà nước', 'Độc lập – khép kín – tự cung tự cấp', 'Bình đẳng – tự quyết – liên hiệp công nhân', 'Ngôn ngữ – văn hóa – huyết thống'], correct: 2, explanation: 'Cương lĩnh gồm bình đẳng, quyền tự quyết và liên hiệp công nhân các dân tộc.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
-  { topic: 'Hiểu chứ không học vẹt · Chương II', question: 'Quyền tự quyết của dân tộc được hiểu như thế nào?', options: ['Can thiệp vào công việc dân tộc khác', 'Bắt buộc phải tách thành nước riêng', 'Tự chọn con đường phát triển', 'Từ chối mọi hình thức liên hiệp'], correct: 2, explanation: 'Tự quyết là tự chọn con đường phát triển, quyết định chia tách hoặc liên hiệp; không đồng nghĩa bắt buộc chia tách.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
-  { topic: 'Tự hào Việt Nam · Chương III', question: 'Cộng đồng các dân tộc Việt Nam có bao nhiêu dân tộc?', options: ['50 dân tộc', '52 dân tộc', '56 dân tộc', '54 dân tộc'], correct: 3, explanation: 'Việt Nam là quốc gia thống nhất của 54 dân tộc, mỗi dân tộc có bản sắc riêng.', img: hmongMarketPhoto, alt: 'Phụ nữ dân tộc Mông ở chợ' },
-  { topic: 'Về đích · Chương III', question: 'Chính sách dân tộc trong bài được chia thành mấy lĩnh vực?', options: ['5 lĩnh vực', '3 lĩnh vực', '4 lĩnh vực', '6 lĩnh vực'], correct: 0, explanation: 'Năm lĩnh vực: chính trị, kinh tế, xã hội, văn hóa và quốc phòng – an ninh.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
-  { topic: 'Đối chiếu ví dụ · Chương I', question: 'Cặp ví dụ nào đúng với “dân tộc theo nghĩa rộng”?', options: ['Người Kinh – người Thái', 'Việt Nam – Nhật Bản', 'Thị tộc – bộ lạc', 'Làng – bản'], correct: 1, explanation: 'Nghĩa rộng lấy quốc gia làm ví dụ: Việt Nam, Nhật Bản. Kinh, Thái là ví dụ của nghĩa hẹp.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
-  { topic: 'Loại trừ · Chương I', question: 'Đặc trưng nào KHÔNG được nêu riêng cho dân tộc theo nghĩa hẹp?', options: ['Cộng đồng ngôn ngữ', 'Có chung một nhà nước', 'Cộng đồng văn hóa', 'Ý thức tự giác tộc người'], correct: 1, explanation: 'Nhà nước là đặc trưng của nghĩa rộng; nghĩa hẹp chỉ nêu ngôn ngữ, văn hóa và ý thức tự giác.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
-  { topic: 'Trong một quốc gia · Chương II', question: 'Trong một quốc gia, xu hướng “tách ra” gắn với điều gì?', options: ['Nỗ lực giành tự do, bình đẳng của từng tộc người', 'Xây dựng liên minh toàn cầu', 'Phát triển khoa học công nghệ', 'Mở rộng giao lưu văn hóa'], correct: 0, explanation: 'Trong một quốc gia, xu hướng tách ra là nỗ lực của từng tộc người vì tự do, bình đẳng và phát triển của cộng đồng mình.', img: hmongMarketPhoto, alt: 'Phụ nữ dân tộc Mông ở chợ' },
-  { topic: 'Phạm vi quốc tế · Chương II', question: 'Trên phạm vi quốc tế, xu hướng “liên hiệp” biểu hiện ra sao?', options: ['Đấu tranh giành độc lập', 'Hợp tác, liên minh khu vực và toàn cầu', 'Khép kín biên giới', 'Chia tách thành nhiều quốc gia'], correct: 1, explanation: 'Trên phạm vi quốc tế, các dân tộc hợp tác và hình thành liên minh ở phạm vi khu vực hoặc toàn cầu.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
-  { topic: 'Nguyên tắc bình đẳng · Chương II', question: 'Nguyên tắc “bình đẳng” trong cương lĩnh Lênin yêu cầu điều gì?', options: ['Mọi dân tộc có quyền, nghĩa vụ ngang nhau; chống phân biệt', 'Dân tộc lớn lãnh đạo dân tộc nhỏ', 'Đồng hóa ngôn ngữ các tộc người', 'Mỗi dân tộc một nhà nước riêng'], correct: 0, explanation: 'Bình đẳng là quyền và nghĩa vụ ngang nhau; trong một quốc gia cần được pháp luật bảo đảm, chống áp bức và phân biệt.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
-  { topic: 'Sức mạnh đoàn kết · Chương II', question: '“Liên hiệp công nhân các dân tộc” dựa trên cơ sở nào?', options: ['Ép buộc và đồng hóa', 'Tự nguyện, bình đẳng, tôn trọng lẫn nhau', 'Lợi ích của dân tộc đa số', 'Can thiệp công việc nội bộ'], correct: 1, explanation: 'Liên hiệp trên cơ sở tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích các dân tộc.', img: dongVanPhoto, alt: 'Chợ vùng cao đông người' },
-  { topic: 'Chung sống · Chương III', question: 'Dân cư các tộc người ở Việt Nam phân bố ra sao?', options: ['Sống tách biệt trong vùng khép kín', 'Cư trú xen kẽ với nhau', 'Chỉ tập trung ở đồng bằng', 'Chỉ ở khu vực biên giới'], correct: 1, explanation: 'Một trong sáu đặc điểm là các tộc người cư trú xen kẽ với nhau trên cùng lãnh thổ.', img: stiltHousePhoto, alt: 'Nhà sàn của người Thái' },
-  { topic: 'Trách nhiệm chung · Chương III', question: 'Theo quan điểm của Đảng, công tác dân tộc là nhiệm vụ của ai?', options: ['Riêng cơ quan dân tộc', 'Toàn Đảng, toàn dân, toàn quân và cả hệ thống chính trị', 'Chính quyền vùng dân tộc thiểu số', 'Các tổ chức quốc tế'], correct: 1, explanation: 'Công tác dân tộc được xác định là nhiệm vụ của toàn Đảng, toàn dân, toàn quân và hệ thống chính trị.', img: pagodaPhoto, alt: 'Cổng chùa của người Khmer ở Sóc Trăng' },
-  { topic: 'Giữ gìn bản sắc · Chương III', question: 'Chính sách văn hóa nhấn mạnh điều gì?', options: ['Giữ gìn, phát huy giá trị văn hóa truyền thống', 'Xóa bỏ phong tục các tộc người', 'Hạn chế giao lưu văn hóa', 'Đồng phục hóa đời sống tinh thần'], correct: 0, explanation: 'Chính sách văn hóa giữ gìn, phát huy giá trị truyền thống, nâng trình độ văn hóa và mở rộng giao lưu.', img: costumePhoto, alt: 'Trang phục truyền thống người Mông' },
-  { topic: 'Việc mình làm được · Liên hệ', question: 'Việc làm nào phù hợp với sinh viên?', options: ['Chia sẻ tin chưa kiểm chứng', 'Tìm hiểu, tôn trọng văn hóa các dân tộc', 'Kỳ thị khác biệt vùng miền', 'Tránh tiếp xúc với bạn dân tộc khác'], correct: 1, explanation: 'Tìm hiểu lịch sử, ngôn ngữ, văn hóa; tôn trọng khác biệt; kiểm chứng thông tin trước khi chia sẻ.', img: pagodaPhoto, alt: 'Cổng chùa của người Khmer ở Sóc Trăng' },
+  { topic: 'Khởi động · Chương I', question: 'Thứ tự hình thành các cộng đồng người là gì?', options: ['Bộ lạc → thị tộc → dân tộc → bộ tộc', 'Thị tộc → bộ lạc → bộ tộc → dân tộc', 'Thị tộc → bộ tộc → bộ lạc → dân tộc', 'Dân tộc → bộ tộc → bộ lạc → thị tộc'], correct: 1, explanation: 'Tiến trình được trình bày: thị tộc, bộ lạc, bộ tộc rồi đến dân tộc.' },
+  { topic: 'Giải mã khái niệm · Chương I', question: '“Dân tộc” theo nghĩa rộng chỉ cộng đồng nào?', options: ['Những người cùng một dòng họ', 'Một cộng đồng tộc người', 'Nhân dân của một nước', 'Những người cùng tôn giáo'], correct: 2, explanation: 'Nghĩa rộng nói đến cộng đồng quốc gia; ví dụ là Việt Nam hoặc Nhật Bản.' },
+  { topic: 'Nhớ đúng, chọn nhanh · Chương I', question: 'Dân tộc theo nghĩa rộng có mấy đặc trưng cơ bản?', options: ['3 đặc trưng', '5 đặc trưng', '4 đặc trưng', '6 đặc trưng'], correct: 1, explanation: 'Năm đặc trưng: lãnh thổ, kinh tế, ngôn ngữ, văn hóa – tâm lý và nhà nước.' },
+  { topic: 'Bắt đúng từ khóa · Chương I', question: 'Đâu là một đặc trưng của dân tộc theo nghĩa hẹp?', options: ['Ý thức tự giác tộc người', 'Có nhà nước riêng', 'Có lãnh thổ riêng biệt', 'Có một nền kinh tế độc lập'], correct: 0, explanation: 'Nghĩa hẹp có ba đặc trưng: ngôn ngữ, văn hóa và ý thức tự giác tộc người.' },
+  { topic: 'Đổi góc nhìn · Chương II', question: 'Hai xu hướng khách quan của quan hệ dân tộc là gì?', options: ['Đô thị hóa và công nghiệp hóa', 'Cạnh tranh và khép kín', 'Đồng hóa và phân biệt', 'Tách ra độc lập và liên hiệp lại'], correct: 3, explanation: 'Hai xu hướng là hình thành dân tộc độc lập và các dân tộc xích lại gần, liên hiệp với nhau.' },
+  { topic: 'Tìm nguyên nhân · Chương II', question: 'Yếu tố nào thúc đẩy các dân tộc liên hiệp lại?', options: ['Phát triển sản xuất, công nghệ, giao lưu', 'Sống biệt lập với thế giới', 'Áp bức và phân biệt dân tộc', 'Ngăn cản hợp tác quốc tế'], correct: 0, explanation: 'Lực lượng sản xuất, khoa học công nghệ và giao lưu phát triển thúc đẩy hợp tác giữa các dân tộc.' },
+  { topic: 'Bộ ba nguyên tắc · Chương II', question: 'Bộ ba nào thuộc cương lĩnh dân tộc của Lênin?', options: ['Lãnh thổ – kinh tế – nhà nước', 'Độc lập – khép kín – tự cung tự cấp', 'Bình đẳng – tự quyết – liên hiệp công nhân', 'Ngôn ngữ – văn hóa – huyết thống'], correct: 2, explanation: 'Cương lĩnh gồm bình đẳng, quyền tự quyết và liên hiệp công nhân các dân tộc.' },
+  { topic: 'Hiểu chứ không học vẹt · Chương II', question: 'Quyền tự quyết của dân tộc được hiểu như thế nào?', options: ['Can thiệp vào công việc dân tộc khác', 'Bắt buộc phải tách thành nước riêng', 'Tự chọn con đường phát triển', 'Từ chối mọi hình thức liên hiệp'], correct: 2, explanation: 'Tự quyết là tự chọn con đường phát triển, quyết định chia tách hoặc liên hiệp; không đồng nghĩa bắt buộc chia tách.' },
+  { topic: 'Tự hào Việt Nam · Chương III', question: 'Cộng đồng các dân tộc Việt Nam có bao nhiêu dân tộc?', options: ['50 dân tộc', '52 dân tộc', '56 dân tộc', '54 dân tộc'], correct: 3, explanation: 'Việt Nam là quốc gia thống nhất của 54 dân tộc, mỗi dân tộc có bản sắc riêng.' },
+  { topic: 'Về đích · Chương III', question: 'Chính sách dân tộc trong bài được chia thành mấy lĩnh vực?', options: ['5 lĩnh vực', '3 lĩnh vực', '4 lĩnh vực', '6 lĩnh vực'], correct: 0, explanation: 'Năm lĩnh vực: chính trị, kinh tế, xã hội, văn hóa và quốc phòng – an ninh.' },
+  { topic: 'Đối chiếu ví dụ · Chương I', question: 'Cặp ví dụ nào đúng với “dân tộc theo nghĩa rộng”?', options: ['Người Kinh – người Thái', 'Việt Nam – Nhật Bản', 'Thị tộc – bộ lạc', 'Làng – bản'], correct: 1, explanation: 'Nghĩa rộng lấy quốc gia làm ví dụ: Việt Nam, Nhật Bản. Kinh, Thái là ví dụ của nghĩa hẹp.' },
+  { topic: 'Loại trừ · Chương I', question: 'Đặc trưng nào KHÔNG được nêu riêng cho dân tộc theo nghĩa hẹp?', options: ['Cộng đồng ngôn ngữ', 'Có chung một nhà nước', 'Cộng đồng văn hóa', 'Ý thức tự giác tộc người'], correct: 1, explanation: 'Nhà nước là đặc trưng của nghĩa rộng; nghĩa hẹp chỉ nêu ngôn ngữ, văn hóa và ý thức tự giác.' },
+  { topic: 'Trong một quốc gia · Chương II', question: 'Trong một quốc gia, xu hướng “tách ra” gắn với điều gì?', options: ['Nỗ lực giành tự do, bình đẳng của từng tộc người', 'Xây dựng liên minh toàn cầu', 'Phát triển khoa học công nghệ', 'Mở rộng giao lưu văn hóa'], correct: 0, explanation: 'Trong một quốc gia, xu hướng tách ra là nỗ lực của từng tộc người vì tự do, bình đẳng và phát triển của cộng đồng mình.' },
+  { topic: 'Phạm vi quốc tế · Chương II', question: 'Trên phạm vi quốc tế, xu hướng “liên hiệp” biểu hiện ra sao?', options: ['Đấu tranh giành độc lập', 'Hợp tác, liên minh khu vực và toàn cầu', 'Khép kín biên giới', 'Chia tách thành nhiều quốc gia'], correct: 1, explanation: 'Trên phạm vi quốc tế, các dân tộc hợp tác và hình thành liên minh ở phạm vi khu vực hoặc toàn cầu.' },
+  { topic: 'Nguyên tắc bình đẳng · Chương II', question: 'Nguyên tắc “bình đẳng” trong cương lĩnh Lênin yêu cầu điều gì?', options: ['Mọi dân tộc có quyền, nghĩa vụ ngang nhau; chống phân biệt', 'Dân tộc lớn lãnh đạo dân tộc nhỏ', 'Đồng hóa ngôn ngữ các tộc người', 'Mỗi dân tộc một nhà nước riêng'], correct: 0, explanation: 'Bình đẳng là quyền và nghĩa vụ ngang nhau; trong một quốc gia cần được pháp luật bảo đảm, chống áp bức và phân biệt.' },
+  { topic: 'Sức mạnh đoàn kết · Chương II', question: '“Liên hiệp công nhân các dân tộc” dựa trên cơ sở nào?', options: ['Ép buộc và đồng hóa', 'Tự nguyện, bình đẳng, tôn trọng lẫn nhau', 'Lợi ích của dân tộc đa số', 'Can thiệp công việc nội bộ'], correct: 1, explanation: 'Liên hiệp trên cơ sở tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích các dân tộc.' },
+  { topic: 'Chung sống · Chương III', question: 'Dân cư các tộc người ở Việt Nam phân bố ra sao?', options: ['Sống tách biệt trong vùng khép kín', 'Cư trú xen kẽ với nhau', 'Chỉ tập trung ở đồng bằng', 'Chỉ ở khu vực biên giới'], correct: 1, explanation: 'Một trong sáu đặc điểm là các tộc người cư trú xen kẽ với nhau trên cùng lãnh thổ.' },
+  { topic: 'Trách nhiệm chung · Chương III', question: 'Theo quan điểm của Đảng, công tác dân tộc là nhiệm vụ của ai?', options: ['Riêng cơ quan dân tộc', 'Toàn Đảng, toàn dân, toàn quân và cả hệ thống chính trị', 'Chính quyền vùng dân tộc thiểu số', 'Các tổ chức quốc tế'], correct: 1, explanation: 'Công tác dân tộc được xác định là nhiệm vụ của toàn Đảng, toàn dân, toàn quân và hệ thống chính trị.' },
+  { topic: 'Giữ gìn bản sắc · Chương III', question: 'Chính sách văn hóa nhấn mạnh điều gì?', options: ['Giữ gìn, phát huy giá trị văn hóa truyền thống', 'Xóa bỏ phong tục các tộc người', 'Hạn chế giao lưu văn hóa', 'Đồng phục hóa đời sống tinh thần'], correct: 0, explanation: 'Chính sách văn hóa giữ gìn, phát huy giá trị truyền thống, nâng trình độ văn hóa và mở rộng giao lưu.' },
+  { topic: 'Việc mình làm được · Liên hệ', question: 'Việc làm nào phù hợp với sinh viên?', options: ['Chia sẻ tin chưa kiểm chứng', 'Tìm hiểu, tôn trọng văn hóa các dân tộc', 'Kỳ thị khác biệt vùng miền', 'Tránh tiếp xúc với bạn dân tộc khác'], correct: 1, explanation: 'Tìm hiểu lịch sử, ngôn ngữ, văn hóa; tôn trọng khác biệt; kiểm chứng thông tin trước khi chia sẻ.' },
 ];
 
 const QuizAction = ({ children, onClick, buttonRef }: { children: ReactNode; onClick: () => void; buttonRef?: Ref<HTMLButtonElement> }) => {
@@ -1253,7 +1250,6 @@ const Quiz: Page = () => {
               <CelebrationPiece x={-210} y={-210} color="#e77c42" delay={120} /><CelebrationPiece x={80} y={-260} color="#8b2f2a" delay={80} />
             </div>}
           </div>
-          <img src={question.img} alt={question.alt} style={{ marginTop: 25, width: 260, height: 130, objectFit: 'cover', border: `6px solid ${ink.panel}`, transform: 'rotate(-3deg)' }} />
         </div>
       </>}
       <Footer />
