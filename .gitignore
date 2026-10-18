@@ -4,3 +4,5 @@ dist
 
 .agents/
 .claude/
+# Ensure a single lockfile (npm) so Vercel does not auto-detect pnpm
+pnpm-lock.yaml
