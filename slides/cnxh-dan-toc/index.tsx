@@ -642,8 +642,8 @@ const LeninPillars: Page = () => (
           <StrokePath d="M840 104 H1412 V154" delay={0.95} />
         </g>
       </svg>
-      <PillarCard number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Quyền và nghĩa vụ ngang nhau; chống áp bức và phân biệt dân tộc." />
-      <PillarCard number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn con đường phát triển; quyết định việc chia tách hoặc liên hiệp." />
+      <PillarCard number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Quyền và nghĩa vụ ngang nhau, chống áp bức và phân biệt dân tộc." />
+      <PillarCard number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn con đường phát triển, quyết định việc chia tách hoặc liên hiệp." />
       <PillarCard number="03" title="Liên hiệp công nhân các dân tộc" detail="Liên hiệp tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích chung." />
     </div>
   </Frame>
@@ -663,11 +663,11 @@ LeninPillars.transition = morphTransition;
 LeninDetail.transition = morphTransition;
 
 const HoChiMinh: Page = () => (
-  <Frame eyebrow="Chương II · Tư tưởng Hồ Chí Minh" title="Đoàn kết là sức mạnh sống còn" lead="Độc lập dân tộc gắn liền với chủ nghĩa xã hội; giải phóng dân tộc mở đường cho giải phóng giai cấp và con người.">
+  <Frame eyebrow="Chương II · Tư tưởng Hồ Chí Minh" title="Đoàn kết là sức mạnh sống còn" lead="Độc lập dân tộc gắn liền với chủ nghĩa xã hội, giải phóng dân tộc mở đường cho giải phóng giai cấp và con người.">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'stretch' }}>
       <motion.div {...useEntry(0.15)} style={{ background: 'var(--osd-accent)', color: '#fff', padding: '40px 38px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ fontFamily: font.display, fontSize: 42, lineHeight: 1.3, fontWeight: 700 }}>“Đoàn kết, đoàn kết, đại đoàn kết. Thành công, thành công, đại thành công.”</div>
-        <div style={{ marginTop: 24, fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Các dân tộc là anh em một nhà: bình đẳng, đoàn kết, tương trợ, cùng xây dựng và bảo vệ Tổ quốc.</div>
+        <div style={{ marginTop: 24, fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Các dân tộc là anh em một nhà: Bình đẳng, đoàn kết, tương trợ, cùng xây dựng và bảo vệ Tổ quốc.</div>
         <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.35)', fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Chống tư tưởng dân tộc lớn và dân tộc hẹp hòi.</div>
       </motion.div>
       <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 24 }}>
@@ -697,7 +697,7 @@ const TransitionTraits: Page = () => (
   </Frame>
 );
 
-const DivVN = () => <Divider roman="III" label="CHƯƠNG III" sub="54 dân tộc: thực trạng, chính sách và giải pháp" />;
+const DivVN = () => <Divider roman="III" label="CHƯƠNG III" sub="54 dân tộc: Thực trạng, chính sách và giải pháp" />;
 
 const FeatureNode = ({ number, side, children }: { number: string; side: 'left' | 'right'; children: ReactNode }) => (
   <motion.div {...useEntry(0.35 + ((Number(number) - 1) % 3) * 0.14)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderRight: side === 'left' ? '5px solid var(--osd-accent)' : undefined, borderLeft: side === 'right' ? '5px solid var(--osd-accent)' : undefined, height: 146, display: 'flex', alignItems: 'center', gap: 20, padding: '18px 25px', boxSizing: 'border-box' }}>
@@ -716,7 +716,7 @@ const VNFeatures: Page = () => (
         </g>
       </svg>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
-        <FeatureNode number="01" side="left">Kinh ~85,3%; 53 dân tộc thiểu số ~14,7% (2019)</FeatureNode>
+        <FeatureNode number="01" side="left">Kinh ~85,3%, 53 dân tộc thiểu số ~14,7% (2019)</FeatureNode>
         <FeatureNode number="02" side="left">Cư trú xen kẽ với nhau</FeatureNode>
         <FeatureNode number="03" side="left">Dân tộc thiểu số chủ yếu ở địa bàn chiến lược</FeatureNode>
       </div>
@@ -838,21 +838,21 @@ const PolicySocial: Page = () => (
   </Frame>
 );
 
-const CulturePoint = ({ number, text }: { number: string; text: string }) => (
-  <div style={{ display: 'flex', gap: 18, alignItems: 'center', borderBottom: `1px solid ${ink.rule}`, padding: '9px 0' }}><span style={{ color: 'var(--osd-accent)', fontSize: 27, fontWeight: 700, minWidth: 40 }}>{number}</span><span style={{ fontSize: 25, lineHeight: 1.35 }}>{text}</span></div>
+const CulturePoint = ({ text }: { text: string }) => (
+  <div style={{ background: ink.panel, borderLeft: '5px solid var(--osd-accent)', padding: '13px 24px', fontSize: 25, lineHeight: 1.35 }}>{text}</div>
 );
 
 const PolicyCulture: Page = () => (
   <Frame eyebrow="Chương III · 3.2" title="Chính sách văn hóa">
     <div style={{ display: 'grid', gridTemplateColumns: '650px 1fr', gap: 44, height: '100%' }}>
       <img src={craftPhoto} alt="Nghề dệt truyền thống" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '44% center' }} />
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <CulturePoint number="01" text="Xây dựng nền văn hóa Việt Nam tiên tiến, đậm đà bản sắc dân tộc." />
-        <CulturePoint number="02" text="Giữ gìn và phát huy giá trị văn hóa truyền thống của các tộc người." />
-        <CulturePoint number="03" text="Nâng cao trình độ văn hóa cho nhân dân các dân tộc." />
-        <CulturePoint number="04" text="Đào tạo cán bộ văn hóa, xây dựng môi trường và thiết chế văn hóa phù hợp." />
-        <CulturePoint number="05" text="Mở rộng giao lưu văn hóa với quốc gia, khu vực và thế giới." />
-        <CulturePoint number="06" text="Đấu tranh chống tệ nạn xã hội và diễn biến hòa bình trên mặt trận văn hóa – tư tưởng." />
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10 }}>
+        <CulturePoint text="Xây dựng nền văn hóa Việt Nam tiên tiến, đậm đà bản sắc dân tộc." />
+        <CulturePoint text="Giữ gìn và phát huy giá trị văn hóa truyền thống của các tộc người." />
+        <CulturePoint text="Nâng cao trình độ văn hóa cho nhân dân các dân tộc." />
+        <CulturePoint text="Đào tạo cán bộ văn hóa, xây dựng môi trường và thiết chế văn hóa phù hợp." />
+        <CulturePoint text="Mở rộng giao lưu văn hóa với quốc gia, khu vực và thế giới." />
+        <CulturePoint text="Đấu tranh chống tệ nạn xã hội và diễn biến hòa bình trên mặt trận văn hóa – tư tưởng." />
       </div>
     </div>
   </Frame>
