@@ -664,13 +664,13 @@ LeninDetail.transition = morphTransition;
 
 const HoChiMinh: Page = () => (
   <Frame eyebrow="Chương II · Tư tưởng Hồ Chí Minh" title="Đoàn kết là sức mạnh sống còn" lead="Độc lập dân tộc gắn liền với chủ nghĩa xã hội; giải phóng dân tộc mở đường cho giải phóng giai cấp và con người.">
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'stretch' }}>
       <motion.div {...useEntry(0.15)} style={{ background: 'var(--osd-accent)', color: '#fff', padding: '40px 38px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ fontFamily: font.display, fontSize: 42, lineHeight: 1.3, fontWeight: 700 }}>“Đoàn kết, đoàn kết, đại đoàn kết. Thành công, thành công, đại thành công.”</div>
         <div style={{ marginTop: 24, fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Các dân tộc là anh em một nhà: bình đẳng, đoàn kết, tương trợ, cùng xây dựng và bảo vệ Tổ quốc.</div>
         <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.35)', fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Chống tư tưởng dân tộc lớn và dân tộc hẹp hòi.</div>
       </motion.div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 24 }}>
         <IssueCard number="01" title="Chăm lo đời sống" text="Phát triển kinh tế, văn hóa, giáo dục, y tế cho đồng bào thiểu số." />
         <IssueCard number="02" title="Cán bộ người dân tộc" text="Phát huy vai trò đội ngũ cán bộ người dân tộc thiểu số." />
       </div>
@@ -863,7 +863,8 @@ const PolicySecurity: Page = () => (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 760px', gap: 44, height: '100%' }}>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 28 }}>
         <div style={{ background: ink.panel, borderLeft: '7px solid var(--osd-accent)', padding: 38 }}><div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, marginBottom: 20 }}>Bảo vệ Tổ quốc</div><div style={{ fontSize: 30, lineHeight: 1.48 }}>Bảo đảm ổn định chính trị, an ninh và trật tự an toàn xã hội ở vùng đồng bào dân tộc.</div></div>
-        <div style={{ background: ink.panel, borderLeft: '7px solid '+ink.gold, padding: 38 }}><div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, marginBottom: 20 }}>Quan hệ quân dân</div><div style={{ fontSize: 30, lineHeight: 1.48 }}>Tăng cường gắn bó quân dân, tạo thế trận quốc phòng toàn dân tại địa bàn cư trú.</div></div>
+        <div style={{ background: ink.panel, borderLeft: '7px solid var(--osd-accent)', padding: 38 }}>
+          <div style={{ fontFamily: font.display, fontSize: 38, fontWeight: 700, marginBottom: 20 }}>Quan hệ quân dân</div><div style={{ fontSize: 30, lineHeight: 1.48 }}>Tăng cường gắn bó quân dân, tạo thế trận quốc phòng toàn dân tại địa bàn cư trú.</div></div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', background: ink.panel }}>
         <img src={borderPhoto} alt="Cán bộ và người dân trò chuyện" style={{ width: '100%', height: 520, objectFit: 'cover', objectPosition: 'center 35%', filter: 'saturate(.82)' }} />
