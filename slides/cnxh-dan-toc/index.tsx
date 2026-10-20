@@ -373,7 +373,7 @@ const Cover: Page = () => (
     <div style={{ position: 'absolute', left: P, top: 240, width: 1010 }}>
       <motion.div {...useEntry(0.1, 'fade')} style={{ width: 96, height: 8, background: 'var(--osd-accent)', marginBottom: 38, transformOrigin: 'left' }} />
       <motion.h1 {...useEntry(0.15)} style={{ margin: 0, fontFamily: font.display, fontSize: 93, lineHeight: 1.07, letterSpacing: '-0.04em', fontWeight: 700 }}>Vấn đề dân tộc<br />trong thời kỳ<br />quá độ lên CNXH</motion.h1>
-      <motion.p {...useEntry(0.24)} style={{ margin: '34px 0 0', maxWidth: 870, fontSize: 30, lineHeight: 1.45, color: ink.soft }}>Từ hai nghĩa của dân tộc, cương lĩnh Lênin đến 54 dân tộc Việt Nam: thực trạng, chính sách và giải pháp.</motion.p>
+      <motion.p {...useEntry(0.24)} style={{ margin: '34px 0 0', maxWidth: 870, fontSize: 30, lineHeight: 1.45, color: ink.soft }}>Khái niệm dân tộc, quan điểm Mác – Lênin và chính sách dân tộc ở Việt Nam.</motion.p>
     </div>
     <motion.div {...useEntry(0.32)} style={{ position: 'absolute', left: P, top: 760, width: 900, fontSize: 22, lineHeight: 1.48, color: ink.soft }}>
       <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--osd-accent)', marginBottom: 8 }}>THÀNH VIÊN NHÓM 3</div>
@@ -388,12 +388,12 @@ const Cover: Page = () => (
 const DivConcept = () => <Divider roman="I" label="CHƯƠNG I" sub="Dân tộc theo nghĩa rộng và nghĩa hẹp" />;
 
 const WhyThisTopic: Page = () => (
-  <Frame eyebrow="Mở đầu" title="Vì sao cần hiểu đúng vấn đề dân tộc?" lead="Từ kiến thức lý luận đến cách cùng nhau học tập, sinh sống và phát triển trong một quốc gia đa dân tộc.">
+  <Frame eyebrow="Mở đầu" title="Vì sao cần hiểu đúng vấn đề dân tộc?">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
-      <IssueCard number="01" title="Có cơ sở để nhìn nhận" text="Quan điểm Mác – Lênin giúp phân tích quan hệ dân tộc, thay vì chỉ nhìn từ những khác biệt về văn hóa." />
-      <IssueCard number="02" title="Hiểu thực tiễn Việt Nam" text="54 dân tộc cùng xây dựng đất nước; đoàn kết và cơ hội phát triển là nền tảng của sự ổn định lâu dài." />
-      <IssueCard number="03" title="Gắn phát triển với an ninh" text="Vùng dân tộc thiểu số và miền núi có vai trò quan trọng về quốc phòng, tài nguyên và môi trường." />
-      <IssueCard number="04" title="Nhận rõ trách nhiệm sinh viên" text="Tôn trọng khác biệt, bảo tồn giá trị văn hóa và kiểm chứng thông tin trước khi chia sẻ." />
+      <IssueCard number="01" title="Hiểu quan hệ dân tộc" text="Quan điểm Mác – Lênin giúp giải thích vì sao các dân tộc đặt ra yêu cầu về bình đẳng, quyền tự quyết và hợp tác." />
+      <IssueCard number="02" title="Nhìn vào Việt Nam" text="Trong một quốc gia có 54 dân tộc, quyền bình đẳng cần đi kèm cơ hội học tập, làm việc và phát triển cho từng cộng đồng." />
+      <IssueCard number="03" title="Chính trị và an ninh" text="Vùng dân tộc thiểu số và miền núi có vị trí chiến lược về quốc phòng, an ninh, tài nguyên và môi trường. Cần nhận diện những hành vi kích động chia rẽ." />
+      <IssueCard number="04" title="Ứng xử có trách nhiệm" text="Sinh viên có thể bắt đầu bằng việc tôn trọng bạn bè khác dân tộc, tìm hiểu văn hóa và kiểm chứng thông tin trước khi chia sẻ." />
     </div>
   </Frame>
 );
@@ -420,10 +420,10 @@ const ConceptTimeline: Page = () => (
     <div style={{ position: 'relative', height: '100%' }}>
       <TimelineRule />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', height: '100%', width: '100%' }}>
-        <TimelineItem number="01" title="Thị tộc" description="Cộng đồng người có quan hệ huyết thống, cùng lao động và sinh hoạt." />
-        <TimelineItem number="02" title="Bộ lạc" description="Nhiều thị tộc liên kết, có lãnh thổ và sinh hoạt chung." />
-        <TimelineItem number="03" title="Bộ tộc" description="Cộng đồng rộng hơn, ngôn ngữ và văn hóa dần ổn định." />
-        <TimelineItem number="04" title="Dân tộc" description="Cộng đồng ổn định với những mối liên hệ kinh tế, văn hóa, chính trị." />
+        <TimelineItem number="01" title="Thị tộc" description="Những người có quan hệ huyết thống cùng lao động, sinh sống và duy trì phong tục chung." />
+        <TimelineItem number="02" title="Bộ lạc" description="Nhiều thị tộc liên kết với nhau, cùng cư trú trên một vùng lãnh thổ." />
+        <TimelineItem number="03" title="Bộ tộc" description="Cộng đồng mở rộng hơn, dần hình thành tiếng nói và đời sống văn hóa tương đối ổn định." />
+        <TimelineItem number="04" title="Dân tộc" description="Cộng đồng ổn định được gắn kết bởi đời sống kinh tế, văn hóa và quan hệ chính trị." />
       </div>
     </div>
   </Frame>
@@ -499,7 +499,7 @@ const CompareRow = ({ criterion, nation, ethnie, header = false }: { criterion: 
 );
 
 const TableCompare: Page = () => (
-  <Frame eyebrow="Chương I · 1" title="Một từ, hai phạm vi khác nhau" lead="Nghĩa rộng nói về nhân dân một quốc gia; nghĩa hẹp nói về từng cộng đồng tộc người.">
+  <Frame eyebrow="Chương I · 1" title="Hai nghĩa của khái niệm dân tộc">
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, height: '100%', justifyContent: 'center' }}>
       <CompareRow header criterion="Tiêu chí" nation="Nghĩa rộng · Nation" ethnie="Nghĩa hẹp · Ethnie" />
       <CompareRow criterion="Bản chất" nation="Cộng đồng chính trị – xã hội, quốc gia dân tộc" ethnie="Cộng đồng tộc người" />
@@ -519,17 +519,17 @@ const IssueCard = ({ number, title, text }: { number: string; title: string; tex
 );
 
 const IssueDef: Page = () => (
-  <Frame eyebrow="Chương I · 1" title="Vấn đề dân tộc là gì" lead="Quan hệ giữa các tộc người trong một nước, và giữa các quốc gia dân tộc với nhau.">
+  <Frame eyebrow="Chương I · 1" title="Vấn đề dân tộc thể hiện ở đâu?">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
-      <IssueCard number="01" title="Địa vị bình đẳng" text="Các cộng đồng có được tôn trọng và đối xử bình đẳng trong quan hệ với nhau hay không?" />
-      <IssueCard number="02" title="Quyền lợi của cộng đồng" text="Quyền tham gia chính trị, phát triển kinh tế và giữ gìn văn hóa được bảo đảm như thế nào?" />
-      <IssueCard number="03" title="Chênh lệch phát triển" text="Khoảng cách về điều kiện sống và cơ hội phát triển giữa các vùng, các dân tộc cần được giải quyết." />
-      <IssueCard number="04" title="Gắn với vấn đề giai cấp" text="Theo quan điểm Mác – Lênin, quan hệ dân tộc chịu tác động của lợi ích và quan hệ giai cấp." />
+      <IssueCard number="01" title="Bình đẳng giữa các dân tộc" text="Quan hệ giữa các tộc người và các quốc gia đặt ra yêu cầu tôn trọng, đối xử bình đẳng, không áp bức hay phân biệt." />
+      <IssueCard number="02" title="Quyền lợi của cộng đồng" text="Mỗi cộng đồng cần được bảo đảm quyền tham gia chính trị, phát triển kinh tế và gìn giữ ngôn ngữ, văn hóa của mình." />
+      <IssueCard number="03" title="Khoảng cách phát triển" text="Chênh lệch về điều kiện sống, giáo dục và sinh kế khiến cơ hội phát triển giữa các vùng, các dân tộc chưa đồng đều." />
+      <IssueCard number="04" title="Quan hệ với vấn đề giai cấp" text="Theo quan điểm Mác – Lênin, lợi ích và quan hệ giai cấp có tác động đến cách các dân tộc giải quyết mâu thuẫn." />
     </div>
   </Frame>
 );
 
-const DivMarx = () => <Divider roman="II" label="CHƯƠNG II" sub="Hai xu hướng, cương lĩnh Lênin, Hồ Chí Minh và thời kỳ quá độ" />;
+const DivMarx = () => <Divider roman="II" label="CHƯƠNG II" />;
 
 const TrendNode = ({ x, y, mode }: { x: number; y: number; mode: 'separate' | 'unite' }) => {
   const active = useIsActivePage();
@@ -587,8 +587,8 @@ const TrendCard = ({ number, title, cause, result, mode }: { number: string; tit
 const TwoTrends: Page = () => (
   <Frame staticContent eyebrow="Chương II · 2.1" title="Hai xu hướng khách quan">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30, height: '100%' }}>
-      <TrendCard number="01" mode="separate" title="Tách ra, lập quốc gia độc lập" cause="Ý thức dân tộc thức tỉnh; chống áp bức, giành độc lập ở thuộc địa." result="Đấu tranh giải phóng, thoát đô hộ, lập quốc gia dân tộc riêng." />
-      <TrendCard number="02" mode="unite" title="Các dân tộc liên hiệp lại" cause="Sản xuất, khoa học công nghệ và giao lưu phá hàng rào ngăn cách." result="Xích lại gần, hợp tác trong một nước và giữa các nước." />
+      <TrendCard number="01" mode="separate" title="Tách ra, lập quốc gia độc lập" cause="Ý thức dân tộc phát triển, thúc đẩy các cộng đồng đấu tranh chống áp bức và đòi quyền tự quyết." result="Các dân tộc đấu tranh thoát khỏi sự đô hộ, hướng tới xây dựng quốc gia độc lập." />
+      <TrendCard number="02" mode="unite" title="Các dân tộc liên hiệp lại" cause="Sản xuất, khoa học công nghệ và giao lưu ngày càng phát triển, làm giảm sự ngăn cách giữa các dân tộc." result="Các dân tộc hợp tác chặt chẽ hơn trong một quốc gia và trên phạm vi quốc tế." />
     </div>
   </Frame>
 );
@@ -639,9 +639,9 @@ const LeninPillars: Page = () => (
           <StrokePath d="M840 104 H1412 V154" delay={0.95} />
         </g>
       </svg>
-      <PillarCard number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Quyền và nghĩa vụ ngang nhau, chống áp bức và phân biệt dân tộc." />
-      <PillarCard number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn con đường phát triển, quyết định việc chia tách hoặc liên hiệp." />
-      <PillarCard number="03" title="Liên hiệp công nhân các dân tộc" detail="Liên hiệp tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích chung." />
+      <PillarCard number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Mọi dân tộc đều có quyền và nghĩa vụ ngang nhau; không dân tộc nào được áp bức hoặc phân biệt dân tộc khác." />
+      <PillarCard number="02" title="Các dân tộc được quyền tự quyết" detail="Mỗi dân tộc có quyền lựa chọn con đường phát triển, kể cả việc tách ra hoặc tự nguyện liên hiệp." />
+      <PillarCard number="03" title="Liên hiệp công nhân các dân tộc" detail="Công nhân các dân tộc đoàn kết trên cơ sở tự nguyện, bình đẳng và tôn trọng quyền tự quyết." />
     </div>
   </Frame>
 );
@@ -660,7 +660,7 @@ LeninPillars.transition = morphTransition;
 LeninDetail.transition = morphTransition;
 
 const HoChiMinh: Page = () => (
-  <Frame eyebrow="Chương II · Tư tưởng Hồ Chí Minh" title="Đoàn kết là sức mạnh sống còn" lead="Độc lập dân tộc gắn liền với chủ nghĩa xã hội, giải phóng dân tộc mở đường cho giải phóng giai cấp và con người.">
+  <Frame eyebrow="Chương II · Tư tưởng Hồ Chí Minh" title="Đại đoàn kết các dân tộc" lead="Hồ Chí Minh đặt độc lập dân tộc trong mối quan hệ với chủ nghĩa xã hội và quyền làm chủ của nhân dân.">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'stretch' }}>
       <motion.div {...useEntry(0.15)} style={{ background: 'var(--osd-accent)', color: '#fff', padding: '40px 38px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ fontFamily: font.display, fontSize: 42, lineHeight: 1.3, fontWeight: 700 }}>“Đoàn kết, đoàn kết, đại đoàn kết. Thành công, thành công, đại thành công.”</div>
@@ -668,8 +668,8 @@ const HoChiMinh: Page = () => (
         <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.35)', fontSize: 25, lineHeight: 1.5, opacity: 0.92 }}>Chống tư tưởng dân tộc lớn và dân tộc hẹp hòi.</div>
       </motion.div>
       <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 24 }}>
-        <IssueCard number="01" title="Chăm lo đời sống" text="Phát triển kinh tế, văn hóa, giáo dục, y tế cho đồng bào thiểu số." />
-        <IssueCard number="02" title="Cán bộ người dân tộc" text="Phát huy vai trò đội ngũ cán bộ người dân tộc thiểu số." />
+        <IssueCard number="01" title="Chăm lo đời sống" text="Cần chú ý đời sống kinh tế, văn hóa, giáo dục và y tế của đồng bào dân tộc thiểu số." />
+        <IssueCard number="02" title="Phát huy cán bộ tại chỗ" text="Đào tạo, sử dụng cán bộ người dân tộc thiểu số để họ tham gia giải quyết công việc của cộng đồng." />
       </div>
     </div>
   </Frame>
@@ -684,12 +684,12 @@ const TraitCard = ({ number, title, text }: { number: string; title: string; tex
 );
 
 const TransitionTraits: Page = () => (
-  <Frame eyebrow="Chương II · Thời kỳ quá độ" title="Từ bình đẳng pháp lý đến đời sống" lead="Quyền bình đẳng được xác lập không có nghĩa khoảng cách phát triển giữa các dân tộc đã được xóa bỏ.">
+  <Frame eyebrow="Chương II · Thời kỳ quá độ" title="Bình đẳng về quyền và cơ hội phát triển" lead="Quyền bình đẳng đã được xác lập, nhưng điều kiện sống và cơ hội phát triển giữa các dân tộc vẫn có chênh lệch.">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
       <TraitCard number="01" title="Khoảng cách thực tế còn tồn tại" text="Điều kiện lịch sử để lại chênh lệch về kinh tế và xã hội; thu hẹp khoảng cách là nhiệm vụ lâu dài." />
-      <TraitCard number="02" title="Giải quyết bằng phát triển" text="Bình đẳng cần đi cùng đầu tư cơ sở vật chất, giảm nghèo và nâng cao chất lượng cuộc sống." />
+      <TraitCard number="02" title="Gắn với giai cấp và phát triển" text="Giải quyết vấn đề dân tộc phải gắn với quan hệ giai cấp, phát triển sản xuất, giảm nghèo và nâng cao đời sống." />
       <TraitCard number="03" title="Khắc phục định kiến dân tộc" text="Tư tưởng kỳ thị, tự ti hoặc đề cao dân tộc mình vẫn có thể tồn tại và gây chia rẽ cộng đồng." />
-      <TraitCard number="04" title="Chịu tác động từ quốc tế" text="Toàn cầu hóa và quan hệ xuyên biên giới ảnh hưởng đến quan hệ dân tộc trong nước." />
+      <TraitCard number="04" title="Tác động từ bên ngoài" text="Giao lưu quốc tế và quan hệ xuyên biên giới đem lại cơ hội hợp tác, đồng thời đặt ra vấn đề mới trong quan hệ dân tộc." />
     </div>
   </Frame>
 );
@@ -713,9 +713,9 @@ const VNFeatures: Page = () => (
         </g>
       </svg>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
-        <FeatureNode number="01" side="left">Kinh ~85,3%, 53 dân tộc thiểu số ~14,7% (2019)</FeatureNode>
-        <FeatureNode number="02" side="left">Cư trú xen kẽ với nhau</FeatureNode>
-        <FeatureNode number="03" side="left">Dân tộc thiểu số chủ yếu ở địa bàn chiến lược</FeatureNode>
+        <FeatureNode number="01" side="left">Người Kinh chiếm khoảng 85,3%; 53 dân tộc thiểu số chiếm 14,7% (2019).</FeatureNode>
+        <FeatureNode number="02" side="left">Các tộc người cư trú xen kẽ trên cùng lãnh thổ.</FeatureNode>
+        <FeatureNode number="03" side="left">Nhiều dân tộc thiểu số sinh sống tại vùng biên giới, miền núi có vị trí chiến lược.</FeatureNode>
       </div>
       <div style={{ position: 'relative', width: 320, height: 320, justifySelf: 'center', borderRadius: '50%', background: ink.panel, border: '8px solid var(--osd-accent)', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
         <div style={{ fontSize: 24, fontWeight: 700, color: 'var(--osd-accent)', letterSpacing: '0.12em' }}>VIỆT NAM · 2019</div>
@@ -723,9 +723,9 @@ const VNFeatures: Page = () => (
         <div style={{ fontSize: 29, fontWeight: 600 }}>dân tộc</div>
       </div>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 24 }}>
-        <FeatureNode number="04" side="right">Trình độ phát triển không đều</FeatureNode>
-        <FeatureNode number="05" side="right">Truyền thống đoàn kết gắn bó lâu đời</FeatureNode>
-        <FeatureNode number="06" side="right">Bản sắc riêng làm phong phú văn hóa chung</FeatureNode>
+        <FeatureNode number="04" side="right">Điều kiện kinh tế và xã hội giữa các dân tộc còn chênh lệch.</FeatureNode>
+        <FeatureNode number="05" side="right">Các dân tộc có truyền thống đoàn kết trong dựng nước và giữ nước.</FeatureNode>
+        <FeatureNode number="06" side="right">Mỗi dân tộc có bản sắc riêng, góp vào nền văn hóa Việt Nam chung.</FeatureNode>
       </div>
     </div>
   </Frame>
@@ -740,11 +740,11 @@ const PartyView: Page = () => (
     <div style={{ display: 'grid', gridTemplateColumns: '540px 1fr', gap: 40, height: '100%' }}>
       <img src={gatheringPhoto} alt="Sinh hoạt cộng đồng" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '56% center' }} />
       <div style={{ display: 'grid', gridTemplateRows: 'repeat(5, 1fr)', gap: 9 }}>
-        <ViewPoint number="01" text="Vấn đề dân tộc và đoàn kết dân tộc có ý nghĩa chiến lược, lâu dài và cấp bách." />
-        <ViewPoint number="02" text="Các dân tộc bình đẳng, đoàn kết, tương trợ, giúp nhau cùng phát triển; chống chia rẽ." />
-        <ViewPoint number="03" text="Phát triển toàn diện chính trị, kinh tế, văn hóa, xã hội và quốc phòng – an ninh." />
-        <ViewPoint number="04" text="Ưu tiên đầu tư vùng dân tộc, miền núi; phát triển hạ tầng và giảm nghèo." />
-        <ViewPoint number="05" text="Công tác dân tộc là nhiệm vụ của toàn Đảng, toàn dân, toàn quân và hệ thống chính trị." />
+        <ViewPoint number="01" text="Đoàn kết dân tộc là nhiệm vụ chiến lược lâu dài, đồng thời phải giải quyết những vấn đề cấp bách." />
+        <ViewPoint number="02" text="Các dân tộc có quyền bình đẳng, cần đoàn kết, tương trợ cùng phát triển và chống mọi hành vi chia rẽ." />
+        <ViewPoint number="03" text="Chính sách phải quan tâm cả kinh tế, chính trị, văn hóa, xã hội và quốc phòng – an ninh." />
+        <ViewPoint number="04" text="Nhà nước ưu tiên đầu tư hạ tầng và giảm nghèo ở vùng dân tộc thiểu số, miền núi." />
+        <ViewPoint number="05" text="Toàn Đảng, toàn dân, toàn quân và cả hệ thống chính trị cùng có trách nhiệm về công tác dân tộc." />
       </div>
     </div>
   </Frame>
@@ -759,7 +759,7 @@ const BasisCard = ({ number, title, text }: { number: string; title: string; tex
 );
 
 const LegalBasis: Page = () => (
-  <Frame eyebrow="Chương III · 3.2" title="Cơ sở cho chính sách dân tộc" lead="Bốn văn kiện được sử dụng trong tiểu luận để làm rõ quyền, định hướng và chương trình hành động.">
+  <Frame eyebrow="Chương III · 3.2" title="Cơ sở pháp lý và chủ trương về dân tộc">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
       <BasisCard number="01" title="Hiến pháp 2013 · Điều 5" text="Cấm kỳ thị, chia rẽ dân tộc; bảo đảm quyền dùng tiếng nói, chữ viết và giữ gìn bản sắc văn hóa." />
       <BasisCard number="02" title="Nghị quyết 24-NQ/TW · 2003" text="Xác định công tác dân tộc là vấn đề chiến lược; gắn phát triển kinh tế – xã hội với quốc phòng, an ninh." />
@@ -801,11 +801,11 @@ const PolicyMatrix: Page = () => (
           <StrokePath d="M1180 106 V150" delay={0.95} duration={0.4} />
         </g>
       </svg>
-        <PolicyCard number="01" title="Chính trị" detail="Bình đẳng, đoàn kết, tôn trọng và giúp nhau phát triển." image={gatheringPhoto} alt="Sinh hoạt cộng đồng" />
-        <PolicyCard number="02" title="Kinh tế" detail="Phát huy tiềm năng, thu hẹp chênh lệch giữa các vùng." image={bridgePhoto} alt="Cầu đường ở miền núi" />
-        <PolicyCard number="03" title="Xã hội" detail="An sinh, giáo dục, y tế và công bằng xã hội." image={schoolPhoto} alt="Trường học miền núi" />
-        <PolicyCard number="04" title="Văn hóa" detail="Giữ bản sắc, nâng trình độ và mở rộng giao lưu." image={craftPhoto} alt="Nghề dệt truyền thống" />
-        <PolicyCard number="05" title="Quốc phòng – an ninh" detail="Ổn định chính trị, trật tự và quan hệ quân dân." image={borderPhoto} alt="Cán bộ và người dân trò chuyện" />
+        <PolicyCard number="01" title="Chính trị" detail="Bảo đảm bình đẳng giữa các dân tộc và tăng cường sự tham gia của người dân." image={gatheringPhoto} alt="Sinh hoạt cộng đồng" />
+        <PolicyCard number="02" title="Kinh tế" detail="Đầu tư hạ tầng, hỗ trợ sinh kế để giảm chênh lệch giữa các vùng." image={bridgePhoto} alt="Cầu đường ở miền núi" />
+        <PolicyCard number="03" title="Xã hội" detail="Mở rộng cơ hội tiếp cận giáo dục, y tế và an sinh xã hội." image={schoolPhoto} alt="Trường học miền núi" />
+        <PolicyCard number="04" title="Văn hóa" detail="Giữ gìn văn hóa từng tộc người và tạo điều kiện giao lưu." image={craftPhoto} alt="Nghề dệt truyền thống" />
+        <PolicyCard number="05" title="Quốc phòng – an ninh" detail="Giữ ổn định địa bàn, bảo vệ biên giới và xây dựng quan hệ quân dân." image={borderPhoto} alt="Cán bộ và người dân trò chuyện" />
     </div>
   </Frame>
 );
@@ -827,9 +827,9 @@ const PolicySocial: Page = () => (
     <div style={{ display: 'grid', gridTemplateColumns: '760px 1fr', gap: 44, height: '100%' }}>
       <img src={schoolPhoto} alt="Trường học miền núi" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '66% center' }} />
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
-        <div style={{ background: ink.panel, padding: 28, borderLeft: '5px solid var(--osd-accent)', fontSize: 29, lineHeight: 1.45 }}>Bảo đảm an sinh xã hội cho đồng bào dân tộc thiểu số.</div>
-        <div style={{ background: ink.panel, padding: 28, borderLeft: '5px solid var(--osd-accent)', fontSize: 29, lineHeight: 1.45 }}>Thực hiện bình đẳng, công bằng xã hội thông qua chính sách phát triển.</div>
-        <div style={{ background: ink.panel, padding: 28, borderLeft: '5px solid var(--osd-accent)', fontSize: 29, lineHeight: 1.45 }}>Quan tâm giảm nghèo, dân số, y tế và giáo dục.</div>
+        <div style={{ background: ink.panel, padding: 28, borderLeft: '5px solid var(--osd-accent)', fontSize: 29, lineHeight: 1.45 }}>Các chính sách an sinh hỗ trợ người dân ở vùng dân tộc thiểu số, nhất là những hộ còn nhiều khó khăn.</div>
+        <div style={{ background: ink.panel, padding: 28, borderLeft: '5px solid var(--osd-accent)', fontSize: 29, lineHeight: 1.45 }}>Cần giảm chênh lệch về khả năng tiếp cận dịch vụ công giữa vùng thuận lợi và vùng khó khăn.</div>
+        <div style={{ background: ink.panel, padding: 28, borderLeft: '5px solid var(--osd-accent)', fontSize: 29, lineHeight: 1.45 }}>Giảm nghèo, chăm sóc sức khỏe, giáo dục và công tác dân số đều ảnh hưởng trực tiếp đến đời sống của đồng bào.</div>
       </div>
     </div>
   </Frame>
@@ -844,12 +844,12 @@ const PolicyCulture: Page = () => (
     <div style={{ display: 'grid', gridTemplateColumns: '650px 1fr', gap: 44, height: '100%' }}>
       <img src={craftPhoto} alt="Nghề dệt truyền thống" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '44% center' }} />
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10 }}>
-        <CulturePoint text="Xây dựng nền văn hóa Việt Nam tiên tiến, đậm đà bản sắc dân tộc." />
-        <CulturePoint text="Giữ gìn và phát huy giá trị văn hóa truyền thống của các tộc người." />
-        <CulturePoint text="Nâng cao trình độ văn hóa cho nhân dân các dân tộc." />
-        <CulturePoint text="Đào tạo cán bộ văn hóa, xây dựng môi trường và thiết chế văn hóa phù hợp." />
-        <CulturePoint text="Mở rộng giao lưu văn hóa với quốc gia, khu vực và thế giới." />
-        <CulturePoint text="Đấu tranh chống tệ nạn xã hội và diễn biến hòa bình trên mặt trận văn hóa – tư tưởng." />
+        <CulturePoint text="Văn hóa Việt Nam được xây dựng trên nền tảng chung và bản sắc của từng dân tộc." />
+        <CulturePoint text="Tiếng nói, lễ hội, nghề truyền thống và di sản của các tộc người cần được giữ gìn." />
+        <CulturePoint text="Người dân cần có điều kiện học tập, tiếp cận và tham gia hoạt động văn hóa." />
+        <CulturePoint text="Đào tạo cán bộ và xây dựng thiết chế văn hóa phù hợp với từng địa bàn." />
+        <CulturePoint text="Giao lưu trong nước và quốc tế giúp các cộng đồng giới thiệu văn hóa của mình." />
+        <CulturePoint text="Phòng chống tệ nạn và những hoạt động lợi dụng văn hóa để gây chia rẽ cộng đồng." />
       </div>
     </div>
   </Frame>
@@ -879,19 +879,19 @@ const FactRow = ({ number, text }: { number: string; text: string }) => (
 );
 
 const Achievements: Page = () => (
-  <Frame eyebrow="Chương III · Thực trạng" title="Những chuyển biến sau Đổi mới" lead="Tiểu luận ghi nhận tiến bộ về đoàn kết, điều kiện sống và khả năng tiếp cận các dịch vụ thiết yếu.">
+  <Frame eyebrow="Chương III · Thực trạng" title="Những chuyển biến sau Đổi mới">
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'center', height: '100%' }}>
-      <FactRow number="01" text="Khối đại đoàn kết được củng cố, tạo nền tảng cho ổn định và phát triển." />
-      <FactRow number="02" text="Hạ tầng được đầu tư, tỷ lệ hộ nghèo giảm và đời sống từng bước cải thiện." />
-      <FactRow number="03" text="Mạng lưới trường học và cơ sở khám chữa bệnh được mở rộng ở vùng xa." />
-      <FactRow number="04" text="Văn hóa các dân tộc được quan tâm bảo tồn; nhiều di sản được phát huy giá trị." />
-      <FactRow number="05" text="Quốc phòng, an ninh được giữ vững; sự gắn bó với nhân dân vùng biên được tăng cường." />
+      <FactRow number="01" text="Các chương trình phát triển và hoạt động cộng đồng góp phần củng cố đoàn kết giữa các dân tộc." />
+      <FactRow number="02" text="Đường sá, điện và công trình thiết yếu được đầu tư; đời sống của nhiều hộ gia đình dần cải thiện." />
+      <FactRow number="03" text="Trường học và cơ sở khám chữa bệnh được mở rộng, giúp người dân vùng xa tiếp cận dịch vụ thuận lợi hơn." />
+      <FactRow number="04" text="Nhiều lễ hội, nghề thủ công và di sản của các dân tộc được gìn giữ và giới thiệu rộng rãi hơn." />
+      <FactRow number="05" text="Công tác quốc phòng, an ninh tiếp tục được chú trọng, nhất là tại các vùng biên giới." />
     </div>
   </Frame>
 );
 
 const Challenges: Page = () => (
-  <Frame eyebrow="Chương III · Thực trạng" title="Khoảng cách phát triển vẫn còn" lead="Những tiến bộ đạt được chưa đồng đều giữa các địa bàn và cộng đồng dân tộc.">
+  <Frame eyebrow="Chương III · Thực trạng" title="Khoảng cách phát triển vẫn còn">
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'center', height: '100%' }}>
       <FactRow number="01" text="Tỷ lệ nghèo còn cao; nhiều hộ có nguy cơ tái nghèo khi sinh kế thiếu ổn định." />
       <FactRow number="02" text="Một số nơi thiếu hạ tầng, nhân lực và điều kiện tiếp cận giáo dục, y tế." />
@@ -910,31 +910,31 @@ const SolutionCard = ({ number, title, text }: { number: string; title: string; 
 );
 
 const CulturalChallenges: Page = () => (
-  <Frame eyebrow="Chương III · Thực trạng" title="Giữ bản sắc, củng cố niềm tin" lead="Bên cạnh kinh tế, tiểu luận nhấn mạnh hai thách thức đối với đời sống văn hóa và quan hệ cộng đồng.">
+  <Frame eyebrow="Chương III · Thực trạng" title="Bản sắc văn hóa và nguy cơ chia rẽ">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36 }}>
       <IssueCard number="05" title="Nguy cơ mai một văn hóa" text="Tác động của thị trường và hội nhập có thể làm suy giảm tiếng nói, nghề truyền thống và những giá trị văn hóa của cộng đồng." />
       <IssueCard number="06" title="Thông tin gây chia rẽ" text="Thông tin sai lệch lợi dụng khác biệt dân tộc, tôn giáo có thể làm gia tăng định kiến và gây tổn hại đến đoàn kết." />
     </div>
-    <div style={{ marginTop: 48, borderLeft: `6px solid ${ink.gold}`, padding: '24px 32px', fontSize: 32, lineHeight: 1.5, background: ink.panel }}>Giải pháp cần vừa cải thiện điều kiện sống, vừa tạo điều kiện để người dân gìn giữ văn hóa và tham gia xây dựng cộng đồng.</div>
+    <div style={{ marginTop: 48, borderLeft: `6px solid ${ink.gold}`, padding: '24px 32px', fontSize: 32, lineHeight: 1.5, background: ink.panel }}>Người dân cần có điều kiện truyền dạy văn hóa cho thế hệ trẻ và tham gia quyết định những hoạt động liên quan đến cộng đồng mình.</div>
   </Frame>
 );
 
 const SolutionsA: Page = () => (
-  <Frame eyebrow="Chương III · Giải pháp 1–3" title="Mở rộng cơ hội phát triển" lead="Đồng bào cần được tham gia quyết định và thực hiện các hoạt động phát triển tại cộng đồng mình.">
+  <Frame eyebrow="Chương III · Giải pháp 1–3" title="Hạ tầng, sinh kế và giáo dục">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
       <SolutionCard number="01" title="Nâng cao năng lực cơ sở" text="Tăng cường sự lãnh đạo của Đảng, phổ biến chính sách dân tộc và xây dựng đội ngũ cán bộ gần dân, hiểu nhu cầu của dân." />
-      <SolutionCard number="02" title="Giảm nghèo bền vững" text="Đầu tư hạ tầng và sinh kế theo lợi thế địa phương; giải quyết nhu cầu thiết yếu về đất sản xuất, nhà ở và nước sinh hoạt." />
+      <SolutionCard number="02" title="Giảm nghèo bền vững" text="Đầu tư hạ tầng, hỗ trợ sinh kế theo lợi thế địa phương để đồng bào tự lực phát triển; giải quyết nhu cầu về đất sản xuất, nhà ở và nước sinh hoạt." />
       <SolutionCard number="03" title="Đầu tư cho giáo dục" text="Củng cố trường nội trú, bán trú; đào tạo nghề phù hợp và thu hút giáo viên, bác sĩ về công tác tại vùng khó khăn." />
     </div>
   </Frame>
 );
 
 const SolutionsB: Page = () => (
-  <Frame eyebrow="Chương III · Giải pháp 4–6" title="Phát triển đi cùng gìn giữ" lead="Bảo tồn văn hóa, bảo đảm an ninh và cải thiện cách thực hiện chính sách cần được triển khai đồng thời.">
+  <Frame eyebrow="Chương III · Giải pháp 4–6" title="Bảo tồn văn hóa và thực hiện chính sách">
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24, height: '100%', alignItems: 'start' }}>
       <SolutionCard number="04" title="Bảo tồn bản sắc văn hóa" text="Gắn bảo tồn di sản với du lịch bền vững và sinh kế cộng đồng; phát huy giá trị tốt đẹp, từng bước loại bỏ hủ tục." />
       <SolutionCard number="05" title="Củng cố quốc phòng, an ninh" text="Kết hợp phát triển với bảo vệ vùng biên; tăng gắn bó quân dân và ngăn việc lợi dụng dân tộc, tôn giáo để chia rẽ." />
-      <SolutionCard number="06" title="Thực hiện chính sách hiệu quả" text="Rà soát chính sách chồng chéo; phân cấp gắn trách nhiệm giải trình và giám sát, với sự tham gia của chính đồng bào." />
+      <SolutionCard number="06" title="Thực hiện chính sách hiệu quả" text="Rà soát chính sách chồng chéo, phân cấp gắn với giám sát và trách nhiệm giải trình. Đồng bào tham gia xây dựng, thực hiện và đánh giá chính sách." />
     </div>
   </Frame>
 );
@@ -946,9 +946,9 @@ const Practice: Page = () => (
         <img src={volunteersPhoto} alt="Sinh viên tình nguyện cùng đồng bào vùng cao" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '53% center' }} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22 }}>
-        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>01 / HỌC ĐÚNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Nắm quan điểm Mác – Lênin và Hồ Chí Minh về dân tộc; hiểu 54 dân tộc, không học vẹt.</div></div>
-        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>02 / TÔN TRỌNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Tìm hiểu ngôn ngữ, lễ hội, trang phục từng tộc người; tránh định kiến vùng miền.</div></div>
-        <div><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>03 / CẢNH GIÁC</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Kiểm chứng trước khi chia sẻ; không tiếp tay cho nội dung kích động chia rẽ.</div></div>
+        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>01 / TÌM HIỂU</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Tìm hiểu quan điểm Mác – Lênin, Hồ Chí Minh và đời sống của các dân tộc Việt Nam từ nguồn đáng tin cậy.</div></div>
+        <div style={{ borderBottom: `1px solid ${ink.rule}`, paddingBottom: 22 }}><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>02 / TÔN TRỌNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Tôn trọng cách nói, trang phục, tập quán của bạn bè khác dân tộc và tránh định kiến vùng miền.</div></div>
+        <div><div style={{ fontSize: 25, color: 'var(--osd-accent)', fontWeight: 700 }}>03 / KIỂM CHỨNG</div><div style={{ fontSize: 29, lineHeight: 1.4, marginTop: 8 }}>Kiểm tra nguồn tin trước khi chia sẻ, nhất là nội dung liên quan đến dân tộc và tôn giáo.</div></div>
       </div>
     </div>
   </Frame>
@@ -1276,21 +1276,21 @@ export const meta: SlideMeta = {
 };
 
 export const notes: (string | undefined)[] = [
-  'Chào giảng viên và các bạn, nhóm 3 trình bày vấn đề dân tộc trong thời kỳ quá độ lên chủ nghĩa xã hội. Bài giữ bố cục ba phần của tài liệu thuyết trình: khái niệm; quan điểm Mác – Lênin; dân tộc và quan hệ dân tộc ở Việt Nam. Các phân tích về Hồ Chí Minh, thực trạng và giải pháp được bổ sung từ tiểu luận.',
-  'Vì sao chọn đề tài? Có bốn lý do: hiểu đúng lý luận, nhìn vào thực tiễn quốc gia 54 dân tộc, thấy mối liên hệ giữa phát triển với an ninh và xác định trách nhiệm sinh viên. Không cần đọc lại từng ô; hãy lấy một tình huống gần gũi như tôn trọng khác biệt của bạn học.',
+  'Chào giảng viên và các bạn. Nhóm 3 trình bày vấn đề dân tộc trong thời kỳ quá độ lên chủ nghĩa xã hội. Bài gồm ba phần: khái niệm dân tộc, quan điểm Mác – Lênin và vấn đề dân tộc ở Việt Nam. Nhóm cũng làm rõ tư tưởng Hồ Chí Minh, chính sách hiện hành và các vấn đề đặt ra trong thực tế.',
+  'Đề tài giúp chúng ta hiểu yêu cầu bình đẳng và quyền tự quyết, nhìn vào thực tế 54 dân tộc ở Việt Nam và xác định trách nhiệm của sinh viên. Vùng dân tộc thiểu số và miền núi có vị trí chiến lược về quốc phòng, an ninh, tài nguyên và môi trường; vì vậy cần nhận diện những thông tin kích động chia rẽ. Có thể liên hệ với cách ứng xử cùng bạn học thuộc dân tộc khác.',
   'Chương I: hai cách hiểu từ dân tộc và vấn đề dân tộc là gì.',
   'Thị tộc, bộ lạc, bộ tộc rồi đến dân tộc. Mỗi ô chỉ nêu nét chính.',
   'Nghĩa rộng là nhân dân một nước: lãnh thổ, kinh tế, ngôn ngữ, văn hóa – tâm lý, nhà nước. Ví dụ Việt Nam, Nhật Bản.',
   'Nghĩa hẹp là tộc người: ngôn ngữ, văn hóa, ý thức tự giác. Ví dụ Kinh, Thái.',
-  'Bảng 1.1 trong tiểu luận: bản chất, phạm vi, đặc trưng, yếu tố gắn kết. Đọc theo hàng để thấy Nation khác Ethnie ở đâu.',
-  'Vấn đề dân tộc là quan hệ giữa các tộc người và giữa các quốc gia: địa vị bình đẳng, quyền lợi thiết thân, chênh lệch phát triển, gắn với giai cấp.',
+  'Bảng so sánh hai nghĩa của dân tộc theo bản chất, phạm vi, đặc trưng và yếu tố gắn kết. Chẳng hạn, Việt Nam là một quốc gia dân tộc theo nghĩa rộng; dân tộc Kinh hay Thái là các cộng đồng tộc người theo nghĩa hẹp.',
+  'Vấn đề dân tộc xuất hiện trong quan hệ giữa các tộc người và giữa các quốc gia. Bốn nội dung cần chú ý là bình đẳng, quyền lợi của cộng đồng, khoảng cách phát triển và tác động của quan hệ giai cấp.',
   'Chương II: hai xu hướng, cương lĩnh Lênin, Hồ Chí Minh và bốn điểm của thời kỳ quá độ.',
   'Xu hướng tách ra lập quốc gia độc lập; xu hướng liên hiệp lại khi sản xuất, công nghệ và giao lưu phá hàng rào ngăn cách.',
   'Trong một nước là quyền phát triển của từng tộc người và hợp tác giữa họ. Ra quốc tế là giải phóng dân tộc và liên minh khu vực, toàn cầu.',
   'Ba nội dung cương lĩnh: bình đẳng, tự quyết, liên hiệp công nhân các dân tộc.',
   'Bình đẳng ghi trong luật và làm ngoài đời. Tự quyết là tự chọn đường đi, tách hay hiệp, trên lập trường công nhân. Liên hiệp tự nguyện, bình đẳng.',
   'Hồ Chí Minh: độc lập dân tộc gắn chủ nghĩa xã hội; các dân tộc là anh em một nhà; chăm lo đời sống, dùng cán bộ người dân tộc, chống dân tộc lớn và hẹp hòi.',
-  'Bình đẳng trong pháp luật là nền tảng, nhưng điều kiện lịch sử khiến cơ hội phát triển thực tế chưa đồng đều. Vì vậy, cần đồng thời đầu tư phát triển, khắc phục định kiến và chú ý tác động quốc tế.',
+  'Bình đẳng trong pháp luật đã được xác lập, nhưng cơ hội phát triển thực tế giữa các dân tộc vẫn chênh lệch. Theo tiểu luận, giải quyết vấn đề dân tộc phải gắn với vấn đề giai cấp và phát triển sản xuất, giảm nghèo, nâng cao đời sống. Đồng thời cần khắc phục định kiến và chú ý tác động quốc tế.',
   'Chương III: 54 dân tộc, bốn căn cứ, năm lĩnh vực chính sách, thực trạng và sáu giải pháp.',
   'Kinh khoảng 85,3%, 53 dân tộc thiểu số khoảng 14,7% theo tổng điều tra 2019. Sáu đặc điểm giữ nguyên, bổ sung số liệu vào ý đầu.',
   'Năm quan điểm của Đảng: đoàn kết là chiến lược lâu dài và cấp bách; bình đẳng cùng phát triển; phát triển toàn diện vùng thiểu số; ưu tiên hạ tầng, giảm nghèo; việc của cả hệ thống chính trị.',
@@ -1303,9 +1303,9 @@ export const notes: (string | undefined)[] = [
   'Theo phần 2.3 của tiểu luận, những thành tựu gồm củng cố đoàn kết, đầu tư hạ tầng, cải thiện đời sống, mở rộng giáo dục và y tế, bảo tồn văn hóa, giữ vững quốc phòng an ninh. Đây là đánh giá định tính, không hàm ý mọi địa bàn đã có mức tiếp cận như nhau.',
   'Bốn nhóm khó khăn về phát triển: nghèo và nguy cơ tái nghèo; thiếu hạ tầng và nhân lực; chính sách chồng chéo và năng lực thực hiện; áp lực đất đai, di cư và khí hậu. Nguyên nhân gồm điều kiện tự nhiên, xuất phát điểm, nguồn lực và tổ chức thực hiện.',
   'Hai thách thức còn lại trong phần 2.4 của tiểu luận là nguy cơ mai một văn hóa và thông tin gây chia rẽ dân tộc, tôn giáo. Phân biệt việc tôn trọng khác biệt với lan truyền định kiến; người dân cần được tham gia bảo tồn và quyết định hướng phát triển của cộng đồng.',
-  'Ba giải pháp đầu: nâng cao nhận thức và năng lực hệ thống chính trị cơ sở; đầu tư hạ tầng, sinh kế để giảm nghèo bền vững; giáo dục, đào tạo nghề và thu hút nhân lực. Nhấn mạnh đồng bào là chủ thể tham gia, không chỉ là người nhận hỗ trợ.',
-  'Ba giải pháp sau: bảo tồn văn hóa gắn sinh kế; kết hợp phát triển với quốc phòng an ninh; rà soát chính sách, phân cấp gắn trách nhiệm giải trình và giám sát. Sự tham gia của đồng bào và người có uy tín giúp chính sách sát nhu cầu hơn.',
-  'Sinh viên làm ba việc theo kết luận tiểu luận: học đúng lý luận, tôn trọng đa dạng văn hóa, cảnh giác tin xuyên tạc.',
+  'Ba giải pháp đầu: nâng cao nhận thức và năng lực hệ thống chính trị cơ sở; đầu tư hạ tầng và hỗ trợ sinh kế để đồng bào phát huy nội lực, tự lực phát triển; ưu tiên giáo dục, đào tạo nghề và thu hút nhân lực. Cần giải quyết những thiếu hụt cụ thể về đất sản xuất, nhà ở và nước sinh hoạt.',
+  'Ba giải pháp sau: bảo tồn văn hóa gắn với sinh kế; kết hợp phát triển và bảo vệ biên giới; rà soát chính sách, phân cấp gắn với giám sát và trách nhiệm giải trình. Đồng bào phải được tham gia từ lúc xây dựng đến khi đánh giá chính sách liên quan tới cộng đồng mình.',
+  'Sinh viên có thể bắt đầu từ ba việc cụ thể: tìm hiểu kiến thức từ nguồn đáng tin cậy, tôn trọng sự khác biệt trong giao tiếp và kiểm chứng thông tin trước khi chia sẻ.',
   'Kết luận bằng ba ý thay vì đọc lại các con số: xác định đúng hai nghĩa dân tộc; hiểu mối liên hệ giữa các nội dung cương lĩnh và đại đoàn kết; chuyển bình đẳng pháp lý thành cơ hội phát triển thực tế, đồng thời tôn trọng bản sắc.',
   'Mời cả lớp chọn một câu và trả lời bằng A, B, C hoặc D. Nếu trả lời sai, đáp án đó bị loại và cả lớp được thử lại. Ferris đi tới đá đáp án sai, nói một câu ngẫu nhiên rồi quay về. Khi trả lời đúng, phần giải thích hiện bên dưới. Bấm Home để chọn câu khác; bảng giữ lại các câu đã hoàn thành. Sau 20 câu có thể chơi lại từ đầu.',
   'Cảm ơn giảng viên và các bạn. Mời câu hỏi hoặc góp ý.',
