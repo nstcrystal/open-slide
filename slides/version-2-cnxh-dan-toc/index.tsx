@@ -519,10 +519,8 @@ const TableCompare: Page = () => (
 // short headline and a single keyword line. Every text list uses this.
 const PointCard = ({ number, title, text }: { number: string; title: string; text: string }) => (
   <motion.div {...useEntry(0.12 + Number(number) * 0.06)} style={{ background: ink.panel, border: `1px solid ${ink.rule}`, borderLeft: '6px solid var(--osd-accent)', padding: '26px 30px', boxSizing: 'border-box', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: 14 }}>
-      <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--osd-accent)', letterSpacing: '0.06em' }}>{number}</span>
-      <h3 style={{ fontFamily: font.display, fontSize: 33, lineHeight: 1.18, margin: 0 }}>{title}</h3>
-    </div>
+    <span style={{ display: 'block', fontSize: 22, fontWeight: 700, color: 'var(--osd-accent)', letterSpacing: '0.06em', lineHeight: 1 }}>{number}</span>
+    <h3 style={{ fontFamily: font.display, fontSize: 33, lineHeight: 1.18, margin: '10px 0 0' }}>{title}</h3>
     <div style={{ fontSize: 27, lineHeight: 1.4, color: ink.soft, marginTop: 10 }}>{text}</div>
   </motion.div>
 );
@@ -739,8 +737,10 @@ const VNFeatures: Page = () => (
 const PartyView: Page = () => (
   <Frame eyebrow="Chương 2 · 2.2" title="Quan điểm về vấn đề dân tộc">
     <div style={{ display: 'grid', gridTemplateColumns: '540px 1fr', gap: 40, height: '100%' }}>
+      {/* @slide-comment id="c-cb581248" ts="2026-10-21T10:40:24.270Z" text="eyJub3RlIjoiUGjhuqduIOG6o25oIG7DoHkgY8WpbmcgYuG7iyB0csOgbiByYSBraOG7j2kga2h1bmcgaMOsbmgiLCJwYWdlIjoxN30" */}
       <img src={gatheringPhoto} alt="Sinh hoạt cộng đồng" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '56% center' }} />
       <div style={{ display: 'grid', gridTemplateRows: 'repeat(5, 1fr)', gap: 9 }}>
+        {/* @slide-comment id="c-50e0cd2a" ts="2026-10-21T10:40:04.990Z" text="eyJub3RlIjoiUGjhuqduIGxp4buHdCBrw6ogbsOgeSDEkWFuZyBi4buLIHRyw6BuIHJhIGto4buPaSBraHVuZyBow6xuaCIsInBhZ2UiOjE3fQ" */}
         <PointCard number="01" title="Chiến lược, lâu dài" text="Cấp bách của cách mạng Việt Nam." />
         <PointCard number="02" title="Bình đẳng, đoàn kết" text="Tương trợ, cùng phát triển; chống chia rẽ." />
         <PointCard number="03" title="Phát triển toàn diện" text="Chính trị, kinh tế, văn hóa, xã hội, QP – AN." />
