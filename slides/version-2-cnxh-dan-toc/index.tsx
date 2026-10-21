@@ -612,8 +612,10 @@ const TrendContexts: Page = () => (
   <Frame eyebrow="Chương 1 · 1.2" title="Biểu hiện trong nước và quốc tế">
     <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr 1fr', gridTemplateRows: '64px 1fr 1fr', gap: 14, height: '100%' }}>
       <div />
-      <div style={{ fontSize: 25, fontWeight: 700, color: 'var(--osd-accent)', alignSelf: 'center' }}>TRONG MỘT QUỐC GIA</div>
-      <div style={{ fontSize: 25, fontWeight: 700, color: 'var(--osd-accent)', alignSelf: 'center' }}>TRÊN PHẠM VI QUỐC TẾ</div>
+      <div style={{ fontSize: 25, fontWeight: 700, color: 'var(--osd-accent)', alignSelf: 'center', textAlign: 'center' }}>
+        TRONG MỘT QUỐC GIA</div>
+      <div style={{ fontSize: 25, fontWeight: 700, color: 'var(--osd-accent)', alignSelf: 'center', textAlign: 'center' }}>
+        TRÊN PHẠM VI QUỐC TẾ</div>
       <div style={{ background: 'var(--osd-accent)', color: '#fff', padding: 28, fontFamily: font.display, fontSize: 35, lineHeight: 1.2 }}>01<br />Tách ra</div>
       <TrendCell label="TỰ DO, BÌNH ĐẲNG" text="Từng tộc người phấn đấu vì cộng đồng mình." />
       <TrendCell label="GIẢI PHÓNG DÂN TỘC" text="Chống thực dân, chính sách đô hộ." />
@@ -650,9 +652,9 @@ const LeninPillars: Page = () => (
           <StrokePath d="M840 104 H1412 V154" delay={0.95} />
         </g>
       </svg>
-      <PillarCard number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Quyền, nghĩa vụ ngang nhau · chống áp bức, phân biệt." />
-      <PillarCard number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn đường phát triển · chia tách hoặc liên hiệp." />
-      <PillarCard number="03" title="Liên hiệp công nhân các dân tộc" detail="Tự nguyện, bình đẳng · tôn trọng quyền tự quyết." />
+      <PillarCard number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Quyền, nghĩa vụ ngang nhau, chống áp bức, phân biệt." />
+      <PillarCard number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn đường phát triển, chia tách hoặc liên hiệp." />
+      <PillarCard number="03" title="Liên hiệp công nhân các dân tộc" detail="Tự nguyện, bình đẳng, tôn trọng quyền tự quyết." />
     </div>
   </Frame>
 );
@@ -661,8 +663,8 @@ const LeninDetail: Page = () => (
   <Frame staticContent eyebrow="Chương 1 · 1.3" title="Nội dung của ba nguyên tắc">
     <div style={{ position: 'relative', height: 684 }}>
       <PillarCard expanded number="01" title="Các dân tộc hoàn toàn bình đẳng" detail="Mọi dân tộc ngang quyền. Bình đẳng trong pháp luật và đời sống." />
-      <PillarCard expanded number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn con đường phát triển, đặt trong lợi ích chung; chống chia rẽ." />
-      <PillarCard expanded number="03" title="Liên hiệp công nhân các dân tộc" detail="Đoàn kết công nhân các dân tộc; kết nối bình đẳng với tự quyết." />
+      <PillarCard expanded number="02" title="Các dân tộc được quyền tự quyết" detail="Tự chọn con đường phát triển, đặt trong lợi ích chung, chống chia rẽ." />
+      <PillarCard expanded number="03" title="Liên hiệp công nhân các dân tộc" detail="Đoàn kết công nhân các dân tộc, kết nối bình đẳng với tự quyết." />
     </div>
   </Frame>
 );
@@ -737,15 +739,15 @@ const VNFeatures: Page = () => (
 const PartyView: Page = () => (
   <Frame eyebrow="Chương 2 · 2.2" title="Quan điểm về vấn đề dân tộc">
     <div style={{ display: 'grid', gridTemplateColumns: '540px 1fr', gap: 40, height: '100%' }}>
-      {/* @slide-comment id="c-cb581248" ts="2026-10-21T10:40:24.270Z" text="eyJub3RlIjoiUGjhuqduIOG6o25oIG7DoHkgY8WpbmcgYuG7iyB0csOgbiByYSBraOG7j2kga2h1bmcgaMOsbmgiLCJwYWdlIjoxN30" */}
       <img src={gatheringPhoto} alt="Sinh hoạt cộng đồng" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '56% center' }} />
-      <div style={{ display: 'grid', gridTemplateRows: 'repeat(5, 1fr)', gap: 9 }}>
-        {/* @slide-comment id="c-50e0cd2a" ts="2026-10-21T10:40:04.990Z" text="eyJub3RlIjoiUGjhuqduIGxp4buHdCBrw6ogbsOgeSDEkWFuZyBi4buLIHRyw6BuIHJhIGto4buPaSBraHVuZyBow6xuaCIsInBhZ2UiOjE3fQ" */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'repeat(3, 1fr)', gap: 12 }}>
         <PointCard number="01" title="Chiến lược, lâu dài" text="Cấp bách của cách mạng Việt Nam." />
         <PointCard number="02" title="Bình đẳng, đoàn kết" text="Tương trợ, cùng phát triển; chống chia rẽ." />
         <PointCard number="03" title="Phát triển toàn diện" text="Chính trị, kinh tế, văn hóa, xã hội, QP – AN." />
         <PointCard number="04" title="Ưu tiên vùng khó" text="Hạ tầng, giảm nghèo, phát huy tiềm năng." />
-        <PointCard number="05" title="Nhiệm vụ toàn hệ thống" text="Toàn Đảng, toàn dân, toàn quân." />
+        <div style={{ gridColumn: '1 / -1', display: 'grid', gridTemplateRows: '1fr' }}>
+          <PointCard number="05" title="Nhiệm vụ toàn hệ thống" text="Toàn Đảng, toàn dân, toàn quân." />
+        </div>
       </div>
     </div>
   </Frame>
@@ -861,7 +863,7 @@ const PolicySecurity: Page = () => (
 
 const Achievements: Page = () => (
   <Frame eyebrow="Chương 2 · 2.3" title="Những chuyển biến sau Đổi mới" lead="Tiến bộ về đoàn kết, đời sống và tiếp cận dịch vụ thiết yếu.">
-    <div style={{ display: 'grid', gridTemplateRows: 'repeat(4, 1fr)', gap: 18, height: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'repeat(2, 1fr)', gap: 18, height: '100%' }}>
       <PointCard number="01" title="Đoàn kết" text="Củng cố · nền tảng ổn định và phát triển." />
       <PointCard number="02" title="Kinh tế – xã hội" text="Hạ tầng đầu tư · hộ nghèo giảm." />
       <PointCard number="03" title="Giáo dục – y tế – văn hóa" text="Dịch vụ mở rộng · di sản được bảo tồn." />
@@ -872,7 +874,7 @@ const Achievements: Page = () => (
 
 const Challenges: Page = () => (
   <Frame eyebrow="Chương 2 · 2.4" title="Khoảng cách phát triển vẫn còn" lead="Tiến bộ chưa đồng đều giữa các địa bàn và cộng đồng.">
-    <div style={{ display: 'grid', gridTemplateRows: 'repeat(4, 1fr)', gap: 18, height: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'repeat(2, 1fr)', gap: 18, height: '100%' }}>
       <PointCard number="01" title="Nghèo, tái nghèo" text="Sinh kế chưa ổn định · tỷ lệ còn cao." />
       <PointCard number="02" title="Hạ tầng, nhân lực" text="Thiếu và yếu · tiếp cận dịch vụ khó khăn." />
       <PointCard number="03" title="Chính sách, thực hiện" text="Chồng chéo, dàn trải · năng lực cơ sở hạn chế." />
