@@ -1,0 +1,15 @@
+
+Số ô thẻ:	8 ô
+Hình thức:	Thi đấu cá nhân
+Thời gian mỗi câu:	15 giây
+Điểm trả lời đúng	10 điểm
+Trả lời sai hoặc quá giờ:	0 điểm, chuyển lượt
+Đoán đúng ảnh bí mật	Thưởng 20 điểm
+Số lần đoán ảnh	Tối đa: 2 lần/người
+
+Kết thúc Khi mở hết 8 ô hoặc có người đoán đúng ảnh bí mật
+
+Phương thức tính điểm: tính tổng điểm qua các vòng chơi 
+Người dẫn chương trình: Giới thiệu trò chơi, đọc câu hỏi, điều hành lượt chơi.
+Người điều khiển slide: Mở ô thẻ, trình chiếu câu hỏi và hình ảnh.
+Người ghi điểm: Theo dõi điểm và xác nhận kết quả.
