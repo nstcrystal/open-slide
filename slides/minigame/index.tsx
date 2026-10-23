@@ -153,7 +153,7 @@ const goPage = (page: number) => {
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Question bank — 22 MC + 7 essay, split by image
+// Question bank - 22 MC + 7 essay, split by image
 // ─────────────────────────────────────────────────────────────────────────────
 
 type MCQuestion = {
@@ -467,7 +467,7 @@ const POOLS: Question[][] = [POOL_ONE, POOL_TWO];
 
 const STAGE_META = [
   {
-    label: 'Ảnh 01',
+    label: 'Ảnh 1',
     zone: 'KHU RỪNG KÝ ỨC',
     answer: '54 DÂN TỘC',
     answer2: 'VIỆT NAM',
@@ -478,7 +478,7 @@ const STAGE_META = [
     variant: 'forest' as const,
   },
   {
-    label: 'Ảnh 02',
+    label: 'Ảnh 2',
     zone: 'ĐỈNH NÚI KÝ ỨC',
     answer: 'BẢN ĐỒ PHÂN BỐ',
     answer2: '54 DÂN TỘC',
@@ -1144,7 +1144,7 @@ const Backdrop = ({
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Navigation lock — the deck is driven by its own in-slide buttons, so the
+// Navigation lock - the deck is driven by its own in-slide buttons, so the
 // player's keyboard / edge-click / wheel / swipe navigation is muted while
 // this slide is being presented. Editing in the dev viewer is untouched.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -2323,7 +2323,7 @@ const Home = ({
             ? 'Đã mở đủ 8 mảnh! Công bố bức tranh.'
             : remaining <= 0
               ? 'Đã hết câu hỏi. Bắt buộc đoán ảnh để đi tiếp.'
-              : `Còn ${remaining} câu trong hồ sơ này. ${8 - count} mảnh chưa mở.`}
+              : `Còn ${remaining} câu trong Ảnh này. ${8 - count} mảnh chưa mở.`}
         </span>
         <PixelButton tone="ghost" fontSize={20} onClick={onOpenPlayers} ariaLabel="Mở bảng điểm người chơi">
           🏆 BẢNG ĐIỂM
@@ -2527,7 +2527,7 @@ const Arena = ({
       <PixelBox x={64} y={146} w={390} h={690} fill={C.navy} edge={C.slate}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '18px 14px' }}>
           <div style={{ fontFamily: F.mono, fontSize: 11, color: C.yellow, textAlign: 'center', lineHeight: 1.6 }}>
-            {revealed ? 'MẢNH ĐÃ MỞ' : question.kind === 'essay' ? 'HỒ SƠ TỰ LUẬN' : 'MẢNH ĐANG GIỮ'}
+            {revealed ? 'MẢNH ĐÃ MỞ' : question.kind === 'essay' ? 'Ảnh TỰ LUẬN' : 'MẢNH ĐANG GIỮ'}
           </div>
           <div style={{ position: 'relative', width: '100%', height: 250, marginTop: 16, border: `3px solid ${revealed ? C.lime : C.dark}`, overflow: 'hidden', background: C.dark }}>
             <div style={{ position: 'absolute', inset: 0, ...fragmentStyle(stage, tile), filter: revealed ? 'none' : 'blur(12px) saturate(.6) brightness(.5)', transform: revealed ? 'none' : 'scale(1.15)' }} />
@@ -2628,7 +2628,7 @@ const Arena = ({
                 {hintOpen ? 'ẨN GỢI Ý' : 'GỢI Ý'}
               </PixelButton>
             )}
-            {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s — MC chấm</span>}
+            {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s - MC chấm</span>}
           </div>
 
           <div style={{ marginTop: 18, minHeight: 240, background: 'rgba(26,28,44,.94)', border: `3px solid ${C.slate}`, padding: '18px 22px', clipPath: notch(8) }}>
@@ -2660,7 +2660,7 @@ const Arena = ({
             <PixelButton tone="coral" fontSize={26} onClick={() => judgeEssay(false)} disabled={Boolean(resolved)}>
               ✕ CHƯA ĐẠT
             </PixelButton>
-            {resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: correct ? C.lime : C.orange, alignSelf: 'center' }}>{correct ? 'Đã mở mảnh!' : 'Câu đã bị dùng — không chọn lại.'}</span>}
+            {resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: correct ? C.lime : C.orange, alignSelf: 'center' }}>{correct ? 'Đã mở mảnh!' : 'Câu đã bị dùng - không chọn lại.'}</span>}
           </div>
         </div>
       )}
@@ -2821,7 +2821,7 @@ const Guess = ({
         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
           <span style={{ fontFamily: F.mono, fontSize: 24, color: C.yellow }}>{meta.label} · LƯỢT ĐOÁN</span>
           <span style={{ fontFamily: F.mono, fontSize: 21, color: C.silver, marginTop: 3 }}>
-            {forced ? 'ĐÃ HẾT CÂU — BẮT BUỘC ĐOÁN' : 'ĐOÁN SỚM — CÓ THỂ QUAY LẠI BẢNG ẢNH'}
+            {forced ? 'ĐÃ HẾT CÂU - BẮT BUỘC ĐOÁN' : 'ĐOÁN SỚM - CÓ THỂ QUAY LẠI BẢNG ẢNH'}
           </span>
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -2850,11 +2850,11 @@ const Guess = ({
             BÍ MẬT LÀ GÌ?
           </h2>
           <p style={{ fontFamily: F.body, fontSize: 24, lineHeight: 1.55, color: C.silver, margin: '22px 0 0' }}>
-            Mời <strong style={{ color: C.white }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. MC theo dõi tối đa <strong style={{ color: C.white }}>2 lượt/người</strong>. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc hồ sơ.
+            Mời <strong style={{ color: C.white }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. MC theo dõi tối đa <strong style={{ color: C.white }}>2 lượt/người</strong>. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc Ảnh.
           </p>
           {!turn && (
             <div style={{ marginTop: 16, fontFamily: F.mono, fontSize: 21, color: C.orange, lineHeight: 1.4 }}>
-              Chưa chọn người — bấm ô LƯỢT ở trên để chọn trước khi cộng điểm.
+              Chưa chọn người - bấm ô LƯỢT ở trên để chọn trước khi cộng điểm.
             </div>
           )}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 34 }}>
@@ -2875,7 +2875,7 @@ const Guess = ({
             )}
           </div>
           <div style={{ marginTop: 'auto', fontFamily: F.mono, fontSize: 21, color: C.slate, lineHeight: 1.4 }}>
-            {forced ? 'Không còn câu hỏi. Chỉ còn lượt đoán — hoặc công bố đáp án để đi tiếp.' : 'Có thể đoán bất cứ lúc nào. Đoán sai vẫn được chơi tiếp.'}
+            {forced ? 'Không còn câu hỏi. Chỉ còn lượt đoán - hoặc công bố đáp án để đi tiếp.' : 'Có thể đoán bất cứ lúc nào. Đoán sai vẫn được chơi tiếp.'}
           </div>
         </div>
       </PixelBox>
@@ -2944,13 +2944,13 @@ const Result = ({
 
       <div style={abs(80, 180, { width: meta.imgW, height: meta.imgH, zIndex: 20, border: `5px solid ${C.dark}`, boxShadow: `0 0 0 4px ${C.yellow}, 0 16px 0 rgba(0,0,0,.45)`, overflow: 'hidden', background: C.dark })}>
         <div className="mg-pop" style={{ position: 'absolute', inset: 0, backgroundImage: `url(${meta.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-        <div style={{ position: 'absolute', left: 18, top: 18, background: C.yellow, color: C.navy, fontFamily: F.mono, fontSize: 22, padding: '4px 10px' }}>
+        {/* <div style={{ position: 'absolute', left: 18, top: 18, background: C.yellow, color: C.navy, fontFamily: F.mono, fontSize: 22, padding: '4px 10px' }}>
           ĐÁP ÁN · {meta.label}
-        </div>
+        </div> */}
       </div>
 
       <div style={abs(stage === 1 ? 1240 : 860, 196, { width: stage === 1 ? 620 : 980, zIndex: 20 })}>
-        {/* <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow, letterSpacing: 1 }}>HỒ SƠ ĐÃ MỞ</div> */}
+        {/* <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow, letterSpacing: 1 }}>Ảnh ĐÃ MỞ</div> */}
         <h2 style={{ fontFamily: F.display, fontSize: stage === 1 ? 86 : 78, fontWeight: 400, lineHeight: 0.88, margin: '16px 0 0', color: C.white, textShadow: `6px 6px 0 ${C.plum}` }}>
           {meta.answer}
           <br />
@@ -2988,7 +2988,7 @@ const Result = ({
           </PixelButton>
         </div>
         <div style={{ marginTop: 18, fontFamily: F.mono, fontSize: 20, color: C.slate, lineHeight: 1.4 }}>
-          {/* {stage === 1 ? 'Công bố đáp án, sau đó chuyển sang hồ sơ tiếp theo.' : 'Tổng kết điểm và chốt kiến thức ở trang cuối.'} */}
+          {/* {stage === 1 ? 'Công bố đáp án, sau đó chuyển sang Ảnh tiếp theo.' : 'Tổng kết điểm và chốt kiến thức ở trang cuối.'} */}
         </div>
       </div>
     </Backdrop>
@@ -3044,8 +3044,8 @@ const Cover: Page = () => (
       </div>
 
       <div style={abs(120, 900, { zIndex: 20, display: 'flex', gap: 12, alignItems: 'center' })}>
-        <Chip text="2 HỒ SƠ" />
-        <Chip text="8 MẢNH / HỒ SƠ" />
+        <Chip text="2 Ảnh" />
+        <Chip text="8 MẢNH / Ảnh" />
         <Chip text="15s TRẮC NGHIỆM" />
         <Chip text="30s TỰ LUẬN" />
         <span style={{ marginLeft: 'auto', fontFamily: F.mono, fontSize: 21, color: 'rgba(244,244,244,.55)' }}>CNXHKH · NHÓM 3</span>
@@ -3142,7 +3142,7 @@ const Rules: Page = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
-            <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / HỒ SƠ" desc={'\n'} />
+            <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / Ảnh" desc={'\n'} />
             <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc={'\n'} accent={C.cyan} />
             <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc={'\n'} accent={C.lime} />
             <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
@@ -3194,7 +3194,7 @@ const Knowledge: Page = () => {
             <div style={{ height: 84, flex: '0 0 auto', background: C.dark, borderBottom: `4px solid ${C.plum}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '0 30px' }}>
               <span style={{ fontFamily: F.pixel, fontSize: 18, color: C.yellow }}>QUEST COMPLETE</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-                <span style={{ fontFamily: F.mono, fontSize: 20, color: C.silver }}>DẪN ĐẦU</span>
+                {/* <span style={{ fontFamily: F.mono, fontSize: 20, color: C.silver }}>DẪN ĐẦU</span>
                 {top && playerTotal(top) > 0 ? (
                   <>
                     <span style={{ maxWidth: 260, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: F.body, fontSize: 23, fontWeight: 600, color: C.white }}>{top.name}</span>
@@ -3202,7 +3202,7 @@ const Knowledge: Page = () => {
                   </>
                 ) : (
                   <span style={{ fontFamily: F.mono, fontSize: 20, color: C.slate }}>CHƯA CÓ ĐIỂM</span>
-                )}
+                )} */}
                 <PixelButton tone="ghost" fontSize={17} onClick={() => setPanelOpen(true)} style={{ padding: '8px 12px' }}>
                   🏆 BẢNG ĐIỂM
                 </PixelButton>
@@ -3212,9 +3212,9 @@ const Knowledge: Page = () => {
             <div style={{ flex: 1, display: 'flex', gap: 30, padding: '24px 30px', minHeight: 0 }}>
               <div style={{ width: 620, flex: '0 0 auto' }}>
                 <div style={{ width: 600, height: 363, border: `4px solid ${C.dark}`, boxShadow: `0 0 0 3px ${C.yellow}, 0 10px 0 rgba(0,0,0,.35)`, backgroundImage: `url(${posterImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-                <div style={{ fontFamily: F.mono, fontSize: 19, color: C.silver, marginTop: 8, textAlign: 'center' }}>HỒ SƠ 01 · POSTER 54 DÂN TỘC</div>
+                <div style={{ fontFamily: F.mono, fontSize: 19, color: C.silver, marginTop: 8, textAlign: 'center' }}>Ảnh 1 · POSTER 54 DÂN TỘC</div>
                 <div style={{ width: 240, height: 254, margin: '12px auto 0', border: `4px solid ${C.dark}`, boxShadow: `0 0 0 3px ${C.cyan}, 0 8px 0 rgba(0,0,0,.35)`, backgroundImage: `url(${mapImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-                <div style={{ fontFamily: F.mono, fontSize: 18, color: C.slate, marginTop: 6, textAlign: 'center' }}>HỒ SƠ 02 · BẢN ĐỒ PHÂN BỐ</div>
+                <div style={{ fontFamily: F.mono, fontSize: 18, color: C.slate, marginTop: 6, textAlign: 'center' }}>Ảnh 2 · BẢN ĐỒ PHÂN BỐ</div>
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -3232,7 +3232,7 @@ const Knowledge: Page = () => {
                 </div>
 
                 <div style={{ marginTop: 20, borderLeft: `5px solid ${C.yellow}`, paddingLeft: 18, fontFamily: F.body, fontSize: 25, lineHeight: 1.55, color: C.white }}>
-                  “Mỗi dân tộc là một mảnh ghép — đoàn kết, tôn trọng và giữ gìn bản sắc làm nên bức tranh Việt Nam thống nhất.”
+                  “Mỗi dân tộc là một mảnh ghép - đoàn kết, tôn trọng và giữ gìn bản sắc làm nên bức tranh Việt Nam thống nhất.”
                 </div>
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 18 }}>
@@ -3469,7 +3469,7 @@ const Game: Page = () => {
   };
 
   const wrongGuess = () => {
-    setToast('Đã ghi nhận lượt đoán sai — MC theo dõi 2 lượt/người.');
+    setToast('Đã ghi nhận lượt đoán sai - MC theo dõi 2 lượt/người.');
   };
 
   const giveUp = () => {
@@ -3562,7 +3562,7 @@ const Game: Page = () => {
 export const transition: SlideTransition = {
   duration: 240,
   // Each page is a full screen with its own scenery, so the old screen must
-  // clear out before the next one arrives — a cross-fade leaves both visible.
+  // clear out before the next one arrives - a cross-fade leaves both visible.
   throughBackground: true,
   exit: {
     duration: 100,
@@ -3581,15 +3581,15 @@ export const transition: SlideTransition = {
 };
 
 export const meta: SlideMeta = {
-  title: 'Pixel Quest — Minigame 2 hồ sơ',
+  title: 'Pixel Quest - Minigame 2 Ảnh',
   createdAt: '2026-10-22T15:22:27.018Z',
 };
 
 export const notes: (string | undefined)[] = [
-  'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 hồ sơ, mỗi hồ sơ 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
-  'Đọc nhanh luật: 8 mảnh mỗi hồ sơ; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang hồ sơ 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO HỒ SƠ 1.',
-  'Trang chơi gồm cả 2 hồ sơ. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. MC đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng hồ sơ, tổng điểm và hoàn tác.',
-  'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần — tên người chơi được giữ lại, điểm reset.',
+  'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 Ảnh, mỗi Ảnh 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
+  'Đọc nhanh luật: 8 mảnh mỗi Ảnh; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang Ảnh 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO Ảnh 1.',
+  'Trang chơi gồm cả 2 Ảnh. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. MC đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng Ảnh, tổng điểm và hoàn tác.',
+  'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần - tên người chơi được giữ lại, điểm reset.',
 ];
 
 export default [Cover, Rules, Game, Knowledge] satisfies Page[];
