@@ -1969,7 +1969,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
               NGƯỜI CHƠI &amp; BẢNG ĐIỂM
             </div>
             <div style={{ fontFamily: F.body, fontSize: 22, color: C.silver, marginTop: 8 }}>
-              MC chọn người trước mỗi câu. Điểm +10 / +20 cộng trực tiếp cho người đó.
+              Chọn người trước mỗi câu. Điểm +10 / +20 cộng trực tiếp cho người đó.
             </div>
           </div>
           <button
@@ -1997,7 +1997,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
             value={bulk}
             onChange={(event) => setBulk(event.target.value)}
             rows={2}
-            placeholder="Dán danh sách: mỗi dòng một tên hoặc cách nhau dấu phẩy…"
+            placeholder="Mỗi dòng một tên hoặc cách nhau dấu phẩy…"
             style={{
               flex: 1,
               minWidth: 0,
@@ -2037,8 +2037,8 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
         >
           <span>HẠNG</span>
           <span>TÊN</span>
-          <span style={{ textAlign: 'right' }}>HỒ SƠ 1</span>
-          <span style={{ textAlign: 'right' }}>HỒ SƠ 2</span>
+          <span style={{ textAlign: 'right' }}>Ảnh 1</span>
+          <span style={{ textAlign: 'right' }}>Ảnh 2</span>
           <span style={{ textAlign: 'right' }}>TỔNG</span>
           <span />
         </div>
@@ -2055,7 +2055,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
                 color: C.silver,
               }}
             >
-              Chưa có người chơi. Dán hoặc nhập tên ở phía trên.
+              Chưa có người chơi. Nhập tên ở phía trên.
             </div>
           ) : (
             ranked.map((player) => {
@@ -2156,7 +2156,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
             {lastAward && lastPlayer ? ` +${lastAward.amount} · ${lastPlayer.name}` : ''}
           </PixelButton>
           <PixelButton tone="coral" fontSize={20} onClick={clearPlayers}>
-            {confirmClear ? 'CHẮC CHẮN XOÁ HẾT?' : 'XOÁ TẤT CẢ NGƯỜI'}
+            {confirmClear ? 'CHẮC CHẮN XOÁ HẾT?' : 'XOÁ HẾT NGƯỜI CHƠI'}
           </PixelButton>
           <span style={{ marginLeft: 'auto', fontFamily: F.mono, fontSize: 20, color: C.slate }}>
             {store.players.length} NGƯỜI · {store.awards.length} LẦN CỘNG ĐIỂM
