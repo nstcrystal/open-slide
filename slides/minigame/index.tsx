@@ -2917,6 +2917,10 @@ const Result = ({
   const count = opened.filter(Boolean).length;
   const guessed = store.guessed[stageIdx];
   const top = rankPlayers(store.players, stage)[0];
+  const guessAward = store.awards.find((award) => award.stage === stage && award.source === 'guess');
+  const guessPlayer = guessAward
+    ? store.players.find((player) => player.id === guessAward.playerId)
+    : null;
   return (
     <Backdrop variant={meta.variant} dim={0.5} moon={false}>
       <div style={abs(60, 24, { width: 1800, height: 84, zIndex: 30, display: 'flex', alignItems: 'center', gap: 18, padding: '0 22px', background: 'rgba(14,15,26,.94)', border: `4px solid ${C.dark}`, boxShadow: `0 0 0 3px ${C.slate}` })}>
@@ -2952,7 +2956,12 @@ const Result = ({
         <p style={{ fontFamily: F.body, fontSize: 26, lineHeight: 1.5, color: C.silver, margin: '18px 0 0' }}>{meta.subtitle}</p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 24 }}>
           <Badge label={`${count}/8 MẢNH`} tone={count === 8 ? 'lime' : 'dark'} />
-          {guessed && <Badge label="+20Đ ĐOÁN ĐÚNG" tone="gold" />}
+          {guessed && (
+            <Badge
+              label={guessPlayer ? `+20Đ · ${guessPlayer.name}` : 'ĐOÁN ĐÚNG · KHÔNG GHI ĐIỂM'}
+              tone={guessPlayer ? 'gold' : 'dark'}
+            />
+          )}
         </div>
 
         <div style={{ marginTop: 24, padding: '14px 18px', background: 'rgba(14,15,26,.9)', border: `3px solid ${C.slate}`, clipPath: notch(6) }}>
@@ -3361,20 +3370,23 @@ const Game: Page = () => {
       return;
     }
     if (usedCount >= pool.length) {
+      update((prev) => ({ turnId: null }));
       setForced(true);
       setScreen('guess');
     }
-  }, [screen, store.finished, stageIdx, openedCount, usedCount, pool.length, finishStage]);
+  }, [screen, store.finished, stageIdx, openedCount, usedCount, pool.length, finishStage, update]);
 
   const chooseTile = (tile: number) => {
     if (screen !== 'home' || store.opened[stageIdx][tile] || openedCount === 8) return;
     if (usedCount >= pool.length) {
+      update((prev) => ({ turnId: null }));
       setForced(true);
       setScreen('guess');
       return;
     }
     const available = pool.map((_, index) => index).filter((index) => !store.used[stageIdx].includes(index));
     if (available.length === 0) {
+      update((prev) => ({ turnId: null }));
       setForced(true);
       setScreen('guess');
       return;
@@ -3419,6 +3431,7 @@ const Game: Page = () => {
       return;
     }
     if (usedCount >= pool.length) {
+      update((prev) => ({ turnId: null }));
       setForced(true);
       setScreen('guess');
       return;
@@ -3474,13 +3487,26 @@ const Game: Page = () => {
 
   const nextStage = () => {
     if (stage === 1) {
-      update((prev) => ({ stage: 2 }));
+      update((prev) => ({ stage: 2, turnId: null }));
       setCurrent(null);
       setForced(false);
       setScreen('home');
       return;
     }
     goPage(PAGE.knowledge);
+  };
+
+  const pickTurn = (id: string | null) => {
+    update((prev) => ({ turnId: id && prev.players.some((player) => player.id === id) ? id : null }));
+  };
+
+  const addPlayer = (raw: string) => {
+    const name = sanitizeName(raw);
+    if (!name) return;
+    update((prev) => {
+      const { players, firstId } = appendPlayers(prev, [name]);
+      return { players, turnId: firstId };
+    });
   };
 
   const question = current ? pool[current.qIndex] : null;
@@ -3492,10 +3518,14 @@ const Game: Page = () => {
           stage={stage}
           question={question}
           tile={current.tile}
-          score={totalScore(store)}
+          players={store.players}
+          turnId={store.turnId}
           openedCount={openedCount}
           remaining={remaining}
           onResolve={resolveCurrent}
+          onPickTurn={pickTurn}
+          onAddPlayer={addPlayer}
+          onOpenPlayers={() => setPlayersPanelOpen(true)}
           onBack={returnToImage}
         />
       ) : screen === 'guess' ? (
@@ -3503,20 +3533,34 @@ const Game: Page = () => {
           stage={stage}
           store={store}
           forced={forced}
+          players={store.players}
+          turnId={store.turnId}
           onCorrect={correctGuess}
           onWrong={wrongGuess}
           onBack={() => {
             setForced(false);
+            update((prev) => ({ turnId: null }));
             setScreen('home');
           }}
           onGiveUp={giveUp}
+          onPickTurn={pickTurn}
+          onAddPlayer={addPlayer}
+          onOpenPlayers={() => setPlayersPanelOpen(true)}
         />
       ) : screen === 'result' ? (
-        <Result stage={stage} store={store} onNext={nextStage} />
+        <Result stage={stage} store={store} onNext={nextStage} onOpenPlayers={() => setPlayersPanelOpen(true)} />
       ) : (
-        <Home stage={stage} store={store} flashTile={flashTile} onSelect={chooseTile} onGuess={openGuess} />
+        <Home
+          stage={stage}
+          store={store}
+          flashTile={flashTile}
+          onSelect={chooseTile}
+          onGuess={openGuess}
+          onOpenPlayers={() => setPlayersPanelOpen(true)}
+        />
       )}
       {toast && <Toast>{toast}</Toast>}
+      <PlayersPanel open={playersPanelOpen} onClose={() => setPlayersPanelOpen(false)} />
     </Screen>
   );
 };
@@ -3540,10 +3584,10 @@ export const meta: SlideMeta = {
 };
 
 export const notes: (string | undefined)[] = [
-  'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 hồ sơ, mỗi hồ sơ 8 mảnh ghép. Trả lời đúng để mở mảnh; đoán đúng bức tranh để nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
-  'Đọc nhanh luật: 8 mảnh mỗi hồ sơ; trắc nghiệm 15 giây, tự luận 30 giây; đúng +10, sai 0 và quay về ảnh, không chọn lại; hết câu bắt buộc đoán; đoán đúng +20 và sang hồ sơ 2. Bấm VÀO HỒ SƠ 1.',
-  'Trang chơi gồm cả 2 hồ sơ. Chọn một mảnh để rút câu hỏi ngẫu nhiên từ pool của hồ sơ đó. MC đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Sai hoặc CHƯA ĐẠT: câu bị dùng, bấm QUAY LẠI ẢNH. Đúng: mở mảnh, +10. Hết câu: bắt buộc đoán. Đoán đúng: +20 và sang hồ sơ 2. Mở đủ 8 mảnh cũng kết thúc hồ sơ.',
-  'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần.',
+  'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 hồ sơ, mỗi hồ sơ 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
+  'Đọc nhanh luật: 8 mảnh mỗi hồ sơ; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang hồ sơ 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO HỒ SƠ 1.',
+  'Trang chơi gồm cả 2 hồ sơ. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. MC đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng hồ sơ, tổng điểm và hoàn tác.',
+  'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần — tên người chơi được giữ lại, điểm reset.',
 ];
 
 export default [Cover, Rules, Game, Knowledge] satisfies Page[];
