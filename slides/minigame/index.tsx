@@ -3148,14 +3148,13 @@ const Rules: Page = () => {
             <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
           </div>
 
-          <div style={{ display: 'flex', gap: 14, marginTop: 20 }}>
-            {/* @slide-comment id="c-2d23f55e" ts="2026-10-23T09:43:58.969Z" text="eyJub3RlIjoiTMOgbSBjaG8gY8OhYyBwaOG6p24gdHJvbmcgbsOgeSBjw7MgdGjhu4MgcuG7mW5nIHh14buRbmcgY2hvIMSR4buTbmcgxJHhu4F1IGLhu5EgY-G7pWMiLCJwYWdlIjoxfQ" */}
+          <div style={{ display: 'flex', gap: 14, marginTop: 20, flex: 1 }}>
             <FlowStep n="01" title="CHỌN MẢNH" desc="Mỗi mảnh rút một câu ngẫu nhiên từ pool của hồ sơ." />
             <FlowStep n="02" title="CHỌN NGƯỜI" desc="MC chọn tên trong danh sách hoặc thêm tên mới, rồi tính giờ." accent={C.cyan} />
             <FlowStep n="03" title="MỞ HOẶC ĐOÁN" desc={'Đúng mở mảnh; sai quay lại ảnh.\nHết câu thì đoán.'} accent={C.lime} />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 24 }}>
             <span style={{ fontFamily: F.mono, fontSize: 23, color: C.silver, letterSpacing: 1 }}>HỒ SƠ 01 → HỒ SƠ 02 → KIẾN THỨC</span>
             <div style={{ display: 'flex', gap: 12 }}>
               <PixelButton tone="ghost" fontSize={23} onClick={() => setPanelOpen(true)}>
