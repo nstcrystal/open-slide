@@ -1587,6 +1587,7 @@ const TurnChip = ({
 const PlayerPicker = ({
   open,
   players,
+  title = 'AI TRẢ LỜI CÂU NÀY?',
   subtitle,
   onPick,
   onAdd,
@@ -1594,6 +1595,7 @@ const PlayerPicker = ({
 }: {
   open: boolean;
   players: Player[];
+  title?: string;
   subtitle: string;
   onPick: (id: string) => void;
   onAdd: (name: string) => void;
@@ -1624,7 +1626,7 @@ const PlayerPicker = ({
         alignItems: 'center',
         justifyContent: 'center',
         padding: '60px 110px',
-        background: 'rgba(5,4,12,.8)',
+        background: 'rgba(5,4,12,.95)',
       }}
     >
       <div
@@ -1643,7 +1645,7 @@ const PlayerPicker = ({
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: F.pixel, fontSize: 22, lineHeight: 1.4, color: C.yellow }}>
-              AI TRẢ LỜI CÂU NÀY?
+              {title}
             </div>
             <div style={{ fontFamily: F.body, fontSize: 22, color: C.silver, marginTop: 8 }}>
               {subtitle} · Chọn tên có sẵn hoặc nhập tên mới.
@@ -2881,6 +2883,7 @@ const Guess = ({
       <PlayerPicker
         open={pickerOpen}
         players={players}
+        title="AI ĐOÁN BỨC ẢNH?"
         subtitle={`${meta.label} · Lượt đoán ảnh`}
         onPick={(id) => {
           onPickTurn(id);
