@@ -227,7 +227,8 @@ const loadState = (): GameState => {
         Array.from({ length: 8 }, (_, i) => Boolean(raw.opened?.[r]?.[i])),
       ),
       used: [0, 1].map((r) => {
-        const arr = Array.isArray(raw.used?.[r]) ? raw.used[r] : [];
+        const row = raw.used?.[r];
+        const arr = Array.isArray(row) ? row : [];
         return Array.from(
           new Set(
             arr.filter(
@@ -867,8 +868,8 @@ const World = ({
       style={{
         ...fill,
         background: forest
-          ? 'linear-gradient(180deg, #10102a 0%, #262347 38%, #4a3a63 66%, #8a5568 88%, #c07a5a 100%)'
-          : 'linear-gradient(180deg, #080b1e 0%, #151d3e 42%, #2d3d6b 72%, #5a6b9a 100%)',
+          ? `linear-gradient(180deg, ${C.night} 0%, #262347 38%, #4a3a63 66%, #8a5568 88%, #c07a5a 100%)`
+          : `linear-gradient(180deg, ${C.night} 0%, #151d3e 42%, #2d3d6b 72%, #5a6b9a 100%)`,
         color: 'var(--osd-text)',
         fontFamily: F.body,
       }}
@@ -1498,7 +1499,7 @@ const RescueModal = ({
         CÒN {remaining} RƯƠNG CHƯA MỞ
       </div>
       <p style={{ fontFamily: F.body, fontSize: 24, lineHeight: 1.6, margin: '18px 0 0', color: '#4a3a28' }}>
-        Ngân hàng 12 câu đã dùng hết. MC có thể mở nốt các rương còn lại để công bố bức tranh và giữ nhịp chương trình.
+        Ngân hàng 12 câu đã dùng hết. MC có thể mở nốt các rương còn lại để công bố bức tranh và giữ nhịp chương trình. Các rương mở nốt không tính điểm.
       </p>
       <div style={{ display: 'flex', gap: 16, marginTop: 30 }}>
         <PixelButton tone="gold" onClick={onOpenAll} fontSize={28}>
@@ -1844,6 +1845,13 @@ const QuestionScreen = ({ round, index }: { round: Round; index: number }) => {
       if (next >= 0) update({ activeTile: next });
     }
   }, [active, state.activeTile, state.opened, round, update]);
+
+  useEffect(() => {
+    if (!active) return;
+    if (state.guessed[ri(round)] || openedHere.every(Boolean)) {
+      goPage(revealPage(round));
+    }
+  }, [active, openedHere, round, state.guessed]);
 
   useEffect(() => {
     if (!active || !started || locked) return;
