@@ -3016,7 +3016,8 @@ const Cover: Page = () => (
           <span style={{ fontFamily: F.pixel, fontSize: 44, color: C.white }}>54</span>
         </div>
         <p style={{ fontFamily: F.body, fontSize: 27, lineHeight: 1.65, color: '#D7E0F5', maxWidth: 820, margin: '18px 0 0' }}>
-          Hai hồ sơ. Tám mảnh ký ức mỗi hồ sơ. Một bức tranh bí mật. Trả lời đúng, mở mảnh, ghép tranh — và đoán xem chúng ta đang nói về điều gì.
+          {/* @slide-comment id="c-1425d23a" ts="2026-10-23T09:16:14.744Z" text="eyJub3RlIjoiTsOqbiBjaOG7iW5oIGzhuqFpIHRpw6p1IMSR4buBIOG7nyDEkcOieSB2w6AgxJHhu5NuZyBi4buZIGPDoWMgc2xpZGUga2jDoWMgbMOgOiBIYWkgYuG7qWMg4bqjbmggYsOtIG3huq10LCBt4buXaSBi4bupYyDhuqNuaCBsw6AgVMOhbSBt4bqjbmgga8O9IOG7qWMgY-G6p24gbOG6rXQgcmEiLCJwYWdlIjowfQ" */}
+          Hai ảnh. Tám mảnh ký ức. Một bức tranh bí mật.<br />Trả lời đúng, mở mảnh, và đoán xem chúng ta đang nói về điều gì.{''}{''}<br />{''}<br />{''}<br />{''}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 34 }}>
           <PixelButton tone="gold" fontSize={30} onClick={() => goPage(PAGE.rules)} style={{ padding: '18px 30px' }}>
