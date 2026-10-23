@@ -2931,11 +2931,11 @@ const Result = ({
         <span style={{ fontFamily: F.mono, fontSize: 25, color: C.yellow }}>{meta.label} · CÔNG BỐ</span>
         <span style={{ fontFamily: F.mono, fontSize: 22, color: C.silver }}>{count}/8 mảnh</span>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
-          {top && playerTotal(top) > 0 && (
+          {/* {top && playerTotal(top) > 0 && (
             <span style={{ fontFamily: F.mono, fontSize: 21, color: C.silver }}>
               DẪN ĐẦU <span style={{ color: C.white }}>{top.name}</span> · <span style={{ color: C.yellow }}>{playerValue(top, stage)}Đ</span>
             </span>
-          )}
+          )} */}
           <PixelButton tone="ghost" fontSize={18} onClick={onOpenPlayers} style={{ padding: '8px 12px' }}>
             🏆 BẢNG ĐIỂM
           </PixelButton>
