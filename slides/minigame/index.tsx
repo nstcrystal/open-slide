@@ -3441,10 +3441,21 @@ const Game: Page = () => {
   const correctGuess = () => {
     update((prev) => {
       const already = prev.guessed[stageIdx];
+      if (!prev.turnId) {
+        return {
+          guessed: prev.guessed.map((value, i) => (i === stageIdx ? true : value)),
+          finished: prev.finished.map((value, i) => (i === stageIdx ? true : value)),
+        };
+      }
       return {
         guessed: prev.guessed.map((value, i) => (i === stageIdx ? true : value)),
-        score: prev.score.map((value, i) => (i === stageIdx && !already ? value + 20 : value)),
         finished: prev.finished.map((value, i) => (i === stageIdx ? true : value)),
+        players: already
+          ? prev.players
+          : prev.players.map((player) => (player.id === prev.turnId ? bumpPlayer(player, stage, 20) : player)),
+        awards: already
+          ? prev.awards
+          : [...prev.awards, { playerId: prev.turnId, stage, amount: 20, source: 'guess' as const }],
       };
     });
     setScreen('result');
