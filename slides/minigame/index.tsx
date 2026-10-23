@@ -3218,7 +3218,7 @@ const Knowledge: Page = () => {
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow }}>ĐIỀU CÒN LẠI</div>
+                {/* <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow }}>ĐIỀU CÒN LẠI</div> */}
                 <h2 style={{ fontFamily: F.display, fontSize: 76, fontWeight: 400, lineHeight: 0.88, margin: '10px 0 0', color: C.white, textShadow: `5px 5px 0 ${C.plum}` }}>
                   54 DÂN TỘC
                   <br />
