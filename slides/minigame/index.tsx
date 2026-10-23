@@ -3078,13 +3078,10 @@ const FlowStep = ({
       boxShadow: `inset 0 0 0 2px rgba(255,255,255,.03)`,
     }}
   >
-    {/* @slide-comment id="c-b652aa58" ts="2026-10-23T09:39:17.750Z" text="eyJub3RlIjoiQ2jhu4luaCBz4butYSBs4bqhaSBi4buRIGPhu6VjIMSR4buDIHRyw6FuIGtob-G6o25nIHRy4buRbmcgcGjDrSB0csOqbiBj4bunYSBwaOG6p24gbsOgeSIsInBhZ2UiOjF9" */}
     <span style={{ fontFamily: F.pixel, fontSize: 17, color: accent }}>{n}</span>
     <div style={{ minWidth: 0 }}>
       <div style={{ fontFamily: F.mono, fontSize: 23, color: C.white, letterSpacing: 1 }}>{title}</div>
-      <div style={{ fontFamily: F.body, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2 }}>
-        {/* @slide-comment id="c-25841227" ts="2026-10-23T09:37:01.458Z" text="eyJub3RlIjoiQ8OzIHRo4buDIHh14buRbmcgZMOybmcgY8OidTogXCJI4bq_dCBjw6J1IHRow6wgxJFvw6FuXCIgxJHGsOG7o2Mga2jDtG5nIiwicGFnZSI6MX0" */}
-        {desc}</div>
+      <div style={{ fontFamily: F.body, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2, whiteSpace: 'pre-line' }}>{desc}</div>
     </div>
   </div>
 );
@@ -3151,21 +3148,20 @@ const Rules: Page = () => {
             <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
           </div>
 
-          <div style={{ display: 'flex', gap: 14, marginTop: 'auto' }}>
+          <div style={{ display: 'flex', gap: 14, marginTop: 20 }}>
+            {/* @slide-comment id="c-2d23f55e" ts="2026-10-23T09:43:58.969Z" text="eyJub3RlIjoiTMOgbSBjaG8gY8OhYyBwaOG6p24gdHJvbmcgbsOgeSBjw7MgdGjhu4MgcuG7mW5nIHh14buRbmcgY2hvIMSR4buTbmcgxJHhu4F1IGLhu5EgY-G7pWMiLCJwYWdlIjoxfQ" */}
             <FlowStep n="01" title="CHỌN MẢNH" desc="Mỗi mảnh rút một câu ngẫu nhiên từ pool của hồ sơ." />
             <FlowStep n="02" title="CHỌN NGƯỜI" desc="MC chọn tên trong danh sách hoặc thêm tên mới, rồi tính giờ." accent={C.cyan} />
             <FlowStep n="03" title="MỞ HOẶC ĐOÁN" desc={'Đúng mở mảnh; sai quay lại ảnh.\nHết câu thì đoán.'} accent={C.lime} />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 'auto' }}>
             <span style={{ fontFamily: F.mono, fontSize: 23, color: C.silver, letterSpacing: 1 }}>HỒ SƠ 01 → HỒ SƠ 02 → KIẾN THỨC</span>
             <div style={{ display: 'flex', gap: 12 }}>
               <PixelButton tone="ghost" fontSize={23} onClick={() => setPanelOpen(true)}>
                 👥 NGƯỜI CHƠI
               </PixelButton>
-              <PixelButton tone="gold" fontSize={28} onClick={startGame}>
-                ▶ VÀO HỒ SƠ 1
-              </PixelButton>
+              <PixelButton tone="gold" fontSize={28} onClick={startGame}>{'▶ Bắt đầu '}</PixelButton>
             </div>
           </div>
         </div>
