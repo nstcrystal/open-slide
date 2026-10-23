@@ -471,7 +471,7 @@ const STAGE_META = [
     zone: 'KHU RỪNG KÝ ỨC',
     answer: '54 DÂN TỘC',
     answer2: 'VIỆT NAM',
-    subtitle: 'Mỗi dân tộc một bản sắc – cùng chung một bức tranh.',
+    subtitle: 'Mỗi dân tộc một bản sắc, chung một bức tranh.',
     image: posterImg,
     imgW: 1080,
     imgH: 654,
@@ -482,7 +482,7 @@ const STAGE_META = [
     zone: 'ĐỈNH NÚI KÝ ỨC',
     answer: 'BẢN ĐỒ PHÂN BỐ',
     answer2: '54 DÂN TỘC',
-    subtitle: '54 dân tộc – 8 vùng miền – một Việt Nam thống nhất.',
+    subtitle: '54 dân tộc, 8 vùng miền, một Việt Nam thống nhất.',
     image: mapImg,
     imgW: 680,
     imgH: 718,
@@ -1787,7 +1787,7 @@ const PlayerPicker = ({
           }}
         >
           <span style={{ fontFamily: F.mono, fontSize: 19, color: C.slate, lineHeight: 1.4 }}>
-            Không chọn ai = câu trả lời này không được cộng điểm.
+            Không chọn ai thì câu này không được cộng điểm.
           </span>
           <span style={{ fontFamily: F.mono, fontSize: 19, color: C.slate }}>
             TỔNG {players.length} NGƯỜI
@@ -2628,7 +2628,7 @@ const Arena = ({
                 {hintOpen ? 'ẨN GỢI Ý' : 'GỢI Ý'}
               </PixelButton>
             )}
-            {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s — MC chấm</span>}
+            {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s, MC chấm điểm</span>}
           </div>
 
           <div style={{ marginTop: 18, minHeight: 240, background: 'rgba(26,28,44,.94)', border: `3px solid ${C.slate}`, padding: '18px 22px', clipPath: notch(8) }}>
@@ -2660,7 +2660,7 @@ const Arena = ({
             <PixelButton tone="coral" fontSize={26} onClick={() => judgeEssay(false)} disabled={Boolean(resolved)}>
               ✕ CHƯA ĐẠT
             </PixelButton>
-            {resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: correct ? C.lime : C.orange, alignSelf: 'center' }}>{correct ? 'Đã mở mảnh!' : 'Câu đã bị dùng — không chọn lại.'}</span>}
+            {resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: correct ? C.lime : C.orange, alignSelf: 'center' }}>{correct ? 'Đã mở mảnh!' : 'Câu đã bị dùng, không chọn lại được.'}</span>}
           </div>
         </div>
       )}
@@ -2821,7 +2821,7 @@ const Guess = ({
         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
           <span style={{ fontFamily: F.mono, fontSize: 24, color: C.yellow }}>{meta.label} · LƯỢT ĐOÁN</span>
           <span style={{ fontFamily: F.mono, fontSize: 21, color: C.silver, marginTop: 3 }}>
-            {forced ? 'ĐÃ HẾT CÂU — BẮT BUỘC ĐOÁN' : 'ĐOÁN SỚM — CÓ THỂ QUAY LẠI BẢNG ẢNH'}
+            {forced ? 'ĐÃ HẾT CÂU · BẮT BUỘC ĐOÁN' : 'ĐOÁN SỚM · CÓ THỂ QUAY LẠI BẢNG ẢNH'}
           </span>
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -2850,11 +2850,11 @@ const Guess = ({
             BÍ MẬT LÀ GÌ?
           </h2>
           <p style={{ fontFamily: F.body, fontSize: 24, lineHeight: 1.55, color: C.silver, margin: '22px 0 0' }}>
-            Mời <strong style={{ color: C.white }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. MC theo dõi tối đa <strong style={{ color: C.white }}>2 lượt/người</strong>. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc hồ sơ.
+            Mời <strong style={{ color: C.white }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. MC theo dõi tối đa 2 lượt/người. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc hồ sơ.
           </p>
           {!turn && (
             <div style={{ marginTop: 16, fontFamily: F.mono, fontSize: 21, color: C.orange, lineHeight: 1.4 }}>
-              Chưa chọn người — bấm ô LƯỢT ở trên để chọn trước khi cộng điểm.
+              Chưa chọn người. Bấm ô LƯỢT ở trên để chọn trước khi cộng điểm.
             </div>
           )}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 34 }}>
@@ -2875,7 +2875,7 @@ const Guess = ({
             )}
           </div>
           <div style={{ marginTop: 'auto', fontFamily: F.mono, fontSize: 21, color: C.slate, lineHeight: 1.4 }}>
-            {forced ? 'Không còn câu hỏi. Chỉ còn lượt đoán — hoặc công bố đáp án để đi tiếp.' : 'Có thể đoán bất cứ lúc nào. Đoán sai vẫn được chơi tiếp.'}
+            {forced ? 'Không còn câu hỏi. Chỉ còn lượt đoán hoặc công bố đáp án để đi tiếp.' : 'Có thể đoán bất cứ lúc nào. Đoán sai vẫn được chơi tiếp.'}
           </div>
         </div>
       </PixelBox>
@@ -3011,15 +3011,16 @@ const Cover: Page = () => (
           <br />
           QUEST
         </h1>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginTop: 30 }}>
-          <span style={{ fontFamily: F.display, fontSize: 70, color: C.cyan, textShadow: `4px 4px 0 ${C.deep}`, lineHeight: 1 }}>{''}<br />ĐẤU TRƯỜNG</span>
-          <span style={{ fontFamily: F.pixel, fontSize: 44, color: C.white }}>{''}</span>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginTop: 100 }}>
+          <span style={{ fontFamily: F.display, fontSize: 70, color: C.cyan, textShadow: `4px 4px 0 ${C.deep}`, lineHeight: 1 }}>ĐẤU TRƯỜNG</span>
         </div>
         <p style={{ fontFamily: F.body, fontSize: 27, lineHeight: 1.65, color: '#D7E0F5', maxWidth: 820, margin: '18px 0 0' }}>
-          Hai bức ảnh bí mật, mỗi bức ảnh là tám mảnh ký ức cần lật ra.<br />{''}<br />{''}
+          Hai bức ảnh bí mật, mỗi bức giấu sau tám mảnh ký ức.
+          <br />
+          Trả lời đúng để lật từng mảnh; đoán ra bức ảnh nhận +20 điểm.
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 34 }}>
-          <PixelButton tone="gold" fontSize={30} onClick={() => goPage(PAGE.rules)} style={{ padding: '18px 30px' }}>
+          <PixelButton tone="gold" fontSize={30} onClick={startGame} style={{ padding: '18px 30px' }}>
             ▶ BẮT ĐẦU
           </PixelButton>
           <PixelButton tone="ghost" fontSize={24} onClick={() => goPage(PAGE.rules)}>
@@ -3112,10 +3113,7 @@ const RuleCard = ({
       clipPath: notch(8),
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      {icon}
-      <span style={{ fontFamily: F.mono, fontSize: 18, color: C.slate }}>{''}<br />{''}</span>
-    </div>
+    <div style={{ display: 'flex', alignItems: 'center' }}>{icon}</div>
     <div style={{ fontFamily: F.pixel, fontSize: 42, lineHeight: 1.1, color: accent, marginTop: 16 }}>{value}</div>
     <div style={{ fontFamily: F.mono, fontSize: 24, color: C.white, marginTop: 6 }}>{label}</div>
     <div style={{ fontFamily: F.body, fontSize: 20, lineHeight: 1.45, color: C.silver, marginTop: 10 }}>{desc}</div>
@@ -3135,17 +3133,15 @@ const Rules: Page = () => {
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
             <PageTitle>LUẬT CHƠI</PageTitle>
             <div style={{ textAlign: 'right', fontFamily: F.mono, fontSize: 22, color: C.silver, lineHeight: 1.35 }}>
-              2 Ảnh · 8 MẢNH / Ảnh
-              <br />
-              <span style={{ color: C.slate }}>{''}</span>
+              2 ẢNH · 8 MẢNH / ẢNH
             </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
-            <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / HỒ SƠ" desc={'\n'} />
-            <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc={'\n'} accent={C.cyan} />
-            <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc={'\n'} accent={C.lime} />
-            <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
+            <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / HỒ SƠ" desc="Mở hết 8 mảnh là công bố bức ảnh." />
+            <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc="Quá giờ tính như trả lời sai: 0 điểm." accent={C.cyan} />
+            <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc="Cộng cho người giữ lượt trả lời." accent={C.lime} />
+            <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc="Tối đa 2 lượt đoán mỗi người." accent={C.orange} />
           </div>
 
           <div style={{ display: 'flex', gap: 14, marginTop: 20, flex: 1 }}>
@@ -3160,7 +3156,7 @@ const Rules: Page = () => {
               <PixelButton tone="ghost" fontSize={23} onClick={() => setPanelOpen(true)}>
                 👥 NGƯỜI CHƠI
               </PixelButton>
-              <PixelButton tone="gold" fontSize={28} onClick={startGame}>{'▶ Bắt đầu '}</PixelButton>
+              <PixelButton tone="gold" fontSize={28} onClick={startGame}>▶ BẮT ĐẦU</PixelButton>
             </div>
           </div>
         </div>
@@ -3218,7 +3214,7 @@ const Knowledge: Page = () => {
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow }}>ĐIỀU CÒN LẠI</div>
+                <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow }}>GHI NHỚ</div>
                 <h2 style={{ fontFamily: F.display, fontSize: 76, fontWeight: 400, lineHeight: 0.88, margin: '10px 0 0', color: C.white, textShadow: `5px 5px 0 ${C.plum}` }}>
                   54 DÂN TỘC
                   <br />
@@ -3231,8 +3227,8 @@ const Knowledge: Page = () => {
                   <Stat value="05" label="LĨNH VỰC CHÍNH SÁCH" accent={C.cyan} />
                 </div>
 
-                <div style={{ marginTop: 20, borderLeft: `5px solid ${C.yellow}`, paddingLeft: 18, fontFamily: F.body, fontSize: 25, lineHeight: 1.55, color: C.white }}>
-                  “Mỗi dân tộc là một mảnh ghép — đoàn kết, tôn trọng và giữ gìn bản sắc làm nên bức tranh Việt Nam thống nhất.”
+                <div style={{ marginTop: 20, borderLeft: `5px solid ${C.yellow}`, paddingLeft: 18, fontFamily: F.body, fontSize: 24, lineHeight: 1.55, color: C.white }}>
+                  Cương lĩnh dân tộc của Lênin có ba nội dung: các dân tộc hoàn toàn bình đẳng, các dân tộc được quyền tự quyết, liên hiệp công nhân tất cả các dân tộc.
                 </div>
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 18 }}>
@@ -3469,7 +3465,7 @@ const Game: Page = () => {
   };
 
   const wrongGuess = () => {
-    setToast('Đã ghi nhận lượt đoán sai — MC theo dõi 2 lượt/người.');
+    setToast('Đã ghi nhận lượt đoán sai. MC theo dõi 2 lượt/người.');
   };
 
   const giveUp = () => {
@@ -3586,10 +3582,10 @@ export const meta: SlideMeta = {
 };
 
 export const notes: (string | undefined)[] = [
-  'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 hồ sơ, mỗi hồ sơ 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
-  'Đọc nhanh luật: 8 mảnh mỗi hồ sơ; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang hồ sơ 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO HỒ SƠ 1.',
+  'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 hồ sơ, mỗi hồ sơ 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm LUẬT CHƠI nếu lớp chưa nắm cách chơi, hoặc BẮT ĐẦU để vào thẳng hồ sơ 1.',
+  'Đọc nhanh luật: 8 mảnh mỗi hồ sơ; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang hồ sơ 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm BẮT ĐẦU.',
   'Trang chơi gồm cả 2 hồ sơ. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. MC đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng hồ sơ, tổng điểm và hoàn tác.',
-  'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần — tên người chơi được giữ lại, điểm reset.',
+  'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách, và ba nội dung Cương lĩnh của Lênin: bình đẳng, tự quyết, liên hiệp công nhân các dân tộc. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Bấm CHƠI LẠI nếu cần: tên người chơi được giữ lại, điểm reset.',
 ];
 
 export default [Cover, Rules, Game, Knowledge] satisfies Page[];
