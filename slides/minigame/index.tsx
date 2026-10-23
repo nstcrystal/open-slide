@@ -3012,11 +3012,11 @@ const Cover: Page = () => (
           QUEST
         </h1>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginTop: 30 }}>
-          <span style={{ fontFamily: F.display, fontSize: 70, color: C.cyan, textShadow: `4px 4px 0 ${C.deep}`, lineHeight: 1 }}>ĐẤU TRƯỜNG</span>
-          <span style={{ fontFamily: F.pixel, fontSize: 44, color: C.white }}>54</span>
+          <span style={{ fontFamily: F.display, fontSize: 70, color: C.cyan, textShadow: `4px 4px 0 ${C.deep}`, lineHeight: 1 }}>{''}<br />ĐẤU TRƯỜNG</span>
+          <span style={{ fontFamily: F.pixel, fontSize: 44, color: C.white }}>{''}</span>
         </div>
         <p style={{ fontFamily: F.body, fontSize: 27, lineHeight: 1.65, color: '#D7E0F5', maxWidth: 820, margin: '18px 0 0' }}>
-          Hai bức ảnh bí mật, mỗi bức ảnh là tám mảnh ký ức cần lật ra.
+          Hai bức ảnh bí mật, mỗi bức ảnh là tám mảnh ký ức cần lật ra.<br />{''}<br />{''}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 34 }}>
           <PixelButton tone="gold" fontSize={30} onClick={() => goPage(PAGE.rules)} style={{ padding: '18px 30px' }}>
