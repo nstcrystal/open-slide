@@ -996,6 +996,131 @@ const Backdrop = ({
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Navigation lock — the deck is driven by its own in-slide buttons, so the
+// player's keyboard / edge-click / wheel / swipe navigation is muted while
+// this slide is being presented. Editing in the dev viewer is untouched.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const NAV_KEYS = new Set([
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+  ' ',
+  'Spacebar',
+  'PageUp',
+  'PageDown',
+  'Home',
+  'End',
+]);
+
+const NAV_PASSTHROUGH =
+  'a, button, input, textarea, select, label, summary, iframe, video, audio, embed, object, [role="button"], [role="link"], [contenteditable="true"], [data-osd-interactive], [data-osd-chrome]';
+
+const EDGE_NAV_RATIO = 0.3;
+
+// Mirrors @open-slide/core: interaction passthroughs, and the swipe thresholds.
+const WHEEL_IGNORE = 'input, textarea, select, [contenteditable="true"], [data-wheel-nav-ignore]';
+const SWIPE_MIN_PX = 50;
+const SWIPE_MAX_MS = 600;
+const SWIPE_FLICK_VELOCITY = 0.4;
+const SWIPE_MIN_FLICK_PX = 24;
+
+const isPresenting = () =>
+  typeof document !== 'undefined' &&
+  !document.querySelector('[data-inspector-root]') &&
+  !!document.querySelector('[data-osd-canvas]');
+
+const isTypingTarget = (target: EventTarget | null) =>
+  target instanceof HTMLElement && (target.isContentEditable || target.matches('input, textarea'));
+
+const isChromeTarget = (target: EventTarget | null) =>
+  target instanceof Element && !!target.closest('[data-osd-chrome]');
+
+const useLockExternalNavigation = () => {
+  const active = useIsActivePage();
+
+  useEffect(() => {
+    if (!active || typeof window === 'undefined') return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!isPresenting() || event.isComposing || event.keyCode === 229) return;
+      if (isTypingTarget(event.target) || isChromeTarget(event.target)) return;
+      if (!NAV_KEYS.has(event.key)) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    };
+
+    const onClick = (event: MouseEvent) => {
+      if (!isPresenting() || event.button !== 0 || event.defaultPrevented) return;
+      if (event.target instanceof Element && event.target.closest(NAV_PASSTHROUGH)) return;
+      if (window.getSelection()?.toString()) return;
+      const ratio = window.innerWidth === 0 ? 0 : event.clientX / window.innerWidth;
+      if (ratio < EDGE_NAV_RATIO || ratio > 1 - EDGE_NAV_RATIO) {
+        event.stopImmediatePropagation();
+      }
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      if (!isPresenting() || event.defaultPrevented || event.ctrlKey) return;
+      if (!(event.target instanceof Element) || event.target.closest(WHEEL_IGNORE)) return;
+      if (isChromeTarget(event.target)) return;
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    };
+
+    let touchStart: { x: number; y: number; t: number } | null = null;
+
+    const onTouchStart = (event: TouchEvent) => {
+      if (!isPresenting() || isChromeTarget(event.target) || event.touches.length !== 1) {
+        touchStart = null;
+        return;
+      }
+      const touch = event.touches[0];
+      touchStart = { x: touch.clientX, y: touch.clientY, t: performance.now() };
+    };
+
+    const onTouchEnd = (event: TouchEvent) => {
+      const start = touchStart;
+      touchStart = null;
+      if (!start || !isPresenting() || isChromeTarget(event.target)) return;
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      const dx = touch.clientX - start.x;
+      const dy = touch.clientY - start.y;
+      if (Math.abs(dx) <= Math.abs(dy)) return;
+      const dt = performance.now() - start.t;
+      const velocity = Math.abs(dx) / Math.max(dt, 1);
+      const committed =
+        (Math.abs(dx) >= SWIPE_MIN_PX && dt <= SWIPE_MAX_MS) ||
+        (velocity >= SWIPE_FLICK_VELOCITY && Math.abs(dx) >= SWIPE_MIN_FLICK_PX);
+      if (committed) event.stopImmediatePropagation();
+    };
+
+    const onTouchCancel = () => {
+      touchStart = null;
+    };
+
+    window.addEventListener('keydown', onKeyDown, true);
+    window.addEventListener('click', onClick, true);
+    window.addEventListener('wheel', onWheel, { capture: true, passive: false });
+    window.addEventListener('touchstart', onTouchStart, { capture: true, passive: true });
+    window.addEventListener('touchend', onTouchEnd, true);
+    window.addEventListener('touchcancel', onTouchCancel, true);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown, true);
+      window.removeEventListener('click', onClick, true);
+      window.removeEventListener('wheel', onWheel, true);
+      window.removeEventListener('touchstart', onTouchStart, true);
+      window.removeEventListener('touchend', onTouchEnd, true);
+      window.removeEventListener('touchcancel', onTouchCancel, true);
+    };
+  }, [active]);
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // UI primitives
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1007,22 +1132,26 @@ const Screen = ({
   children: ReactNode;
   hud?: boolean;
   interactive?: boolean;
-}) => (
-  <div
-    data-osd-interactive={interactive ? 'true' : undefined}
-    onClick={interactive ? (event) => event.stopPropagation() : undefined}
-    style={{
-      ...fill,
-      background: 'var(--osd-bg)',
-      color: 'var(--osd-text)',
-      fontFamily: F.body,
-    }}
-  >
-    {children}
-    {hud && <Hud />}
-    <div className="mg-scan" />
-  </div>
-);
+}) => {
+  useLockExternalNavigation();
+
+  return (
+    <div
+      data-osd-interactive={interactive ? 'true' : undefined}
+      onClick={interactive ? (event) => event.stopPropagation() : undefined}
+      style={{
+        ...fill,
+        background: 'var(--osd-bg)',
+        color: 'var(--osd-text)',
+        fontFamily: F.body,
+      }}
+    >
+      {children}
+      {hud && <Hud />}
+      <div className="mg-scan" />
+    </div>
+  );
+};
 
 const Hud = () => {
   const { current, total } = useSlidePageNumber();
