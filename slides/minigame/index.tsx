@@ -194,12 +194,12 @@ const essay = (topic: string, text: string, hint: string, sample: string): Quest
 const POOL_ONE: Question[] = [
   mc(
     'CHƯƠNG I',
-    'Theo quan điểm của chủ nghĩa Mác – Lênin, các hình thức cộng đồng người từ thấp đến cao là:',
+    'Theo quan điểm của chủ nghĩa Mác - Lênin, các hình thức cộng đồng người từ thấp đến cao là:',
     [
-      'Bộ lạc – thị tộc – bộ tộc – dân tộc',
-      'Thị tộc – bộ lạc – bộ tộc – dân tộc',
-      'Thị tộc – bộ tộc – bộ lạc – dân tộc',
-      'Bộ tộc – bộ lạc – thị tộc – dân tộc',
+      'Bộ lạc - thị tộc - bộ tộc - dân tộc',
+      'Thị tộc - bộ lạc - bộ tộc - dân tộc',
+      'Thị tộc - bộ tộc - bộ lạc - dân tộc',
+      'Bộ tộc - bộ lạc - thị tộc - dân tộc',
     ],
     1,
     'Thứ tự đúng: thị tộc → bộ lạc → bộ tộc → dân tộc.',
@@ -216,7 +216,7 @@ const POOL_ONE: Question[] = [
     'Dân tộc Kinh, dân tộc Thái là ví dụ của dân tộc theo:',
     ['Nghĩa rộng (Nation)', 'Nghĩa hẹp (Ethnie)', 'Quốc gia đa dân tộc', 'Bộ tộc'],
     1,
-    'Kinh, Thái là các tộc người – dân tộc theo nghĩa hẹp (Ethnie).',
+    'Kinh, Thái là các tộc người - dân tộc theo nghĩa hẹp (Ethnie).',
   ),
   mc(
     'CHƯƠNG I',
@@ -319,19 +319,19 @@ const POOL_ONE: Question[] = [
   essay(
     'TỰ LUẬN · C1',
     'Phân biệt dân tộc theo nghĩa rộng và nghĩa hẹp.',
-    'Nghĩa rộng gắn với quốc gia – 5 đặc trưng; nghĩa hẹp gắn với tộc người – 3 đặc trưng.',
-    'Nghĩa rộng (Nation): cộng đồng người ổn định làm thành nhân dân một nước; có lãnh thổ riêng, nền kinh tế thống nhất, ngôn ngữ chung, ý thức thống nhất; gắn bó bởi lợi ích chính trị, kinh tế, truyền thống văn hóa và đấu tranh chung. 5 đặc trưng: lãnh thổ ổn định; phương thức sinh hoạt kinh tế; ngôn ngữ giao tiếp; văn hóa – tâm lý; một nhà nước. Ví dụ: Việt Nam, Nhật Bản.\nNghĩa hẹp (Ethnie): cộng đồng tộc người hình thành trong lịch sử, liên hệ chặt chẽ, có ý thức tự giác tộc người, ngôn ngữ và văn hóa. 3 đặc trưng: ngôn ngữ; văn hóa; ý thức tự giác tộc người. Ví dụ: Kinh, Thái.',
+    'Nghĩa rộng gắn với quốc gia - 5 đặc trưng; nghĩa hẹp gắn với tộc người - 3 đặc trưng.',
+    'Nghĩa rộng (Nation): cộng đồng người ổn định làm thành nhân dân một nước; có lãnh thổ riêng, nền kinh tế thống nhất, ngôn ngữ chung, ý thức thống nhất; gắn bó bởi lợi ích chính trị, kinh tế, truyền thống văn hóa và đấu tranh chung. 5 đặc trưng: lãnh thổ ổn định; phương thức sinh hoạt kinh tế; ngôn ngữ giao tiếp; văn hóa - tâm lý; một nhà nước. Ví dụ: Việt Nam, Nhật Bản.\nNghĩa hẹp (Ethnie): cộng đồng tộc người hình thành trong lịch sử, liên hệ chặt chẽ, có ý thức tự giác tộc người, ngôn ngữ và văn hóa. 3 đặc trưng: ngôn ngữ; văn hóa; ý thức tự giác tộc người. Ví dụ: Kinh, Thái.',
   ),
   essay(
     'TỰ LUẬN · C2',
     'Trình bày hai xu hướng khách quan của sự phát triển quan hệ dân tộc và biểu hiện ngày nay.',
-    'Hai xu hướng: tách ra – liên hiệp; biểu hiện trong quốc gia và quốc tế.',
-    'Xu hướng 1 – tách ra: hình thành cộng đồng dân tộc độc lập; nguyên nhân là sự thức tỉnh ý thức dân tộc; biểu hiện: đấu tranh giải phóng dân tộc, thoát áp bức thực dân, đế quốc.\nXu hướng 2 – liên hiệp: do phát triển lực lượng sản xuất, khoa học – công nghệ, hội nhập, nhu cầu xóa bỏ hàng rào ngăn cách; biểu hiện: hợp tác, liên minh khu vực/toàn cầu.\nTrong quốc gia: mỗi tộc người nỗ lực tự do, bình đẳng, phồn vinh; đồng thời xích lại gần nhau.\nQuốc tế: giải phóng dân tộc, chống đô hộ; đồng thời hợp tác, liên minh.',
+    'Hai xu hướng: tách ra - liên hiệp; biểu hiện trong quốc gia và quốc tế.',
+    'Xu hướng 1 - tách ra: hình thành cộng đồng dân tộc độc lập; nguyên nhân là sự thức tỉnh ý thức dân tộc; biểu hiện: đấu tranh giải phóng dân tộc, thoát áp bức thực dân, đế quốc.\nXu hướng 2 - liên hiệp: do phát triển lực lượng sản xuất, khoa học - công nghệ, hội nhập, nhu cầu xóa bỏ hàng rào ngăn cách; biểu hiện: hợp tác, liên minh khu vực/toàn cầu.\nTrong quốc gia: mỗi tộc người nỗ lực tự do, bình đẳng, phồn vinh; đồng thời xích lại gần nhau.\nQuốc tế: giải phóng dân tộc, chống đô hộ; đồng thời hợp tác, liên minh.',
   ),
   essay(
     'TỰ LUẬN · C3',
-    'Nêu ba nội dung của Cương lĩnh dân tộc của chủ nghĩa Mác – Lênin.',
-    'Bình đẳng – tự quyết – liên hiệp công nhân tất cả các dân tộc.',
+    'Nêu ba nội dung của Cương lĩnh dân tộc của chủ nghĩa Mác - Lênin.',
+    'Bình đẳng - tự quyết - liên hiệp công nhân tất cả các dân tộc.',
     'Các dân tộc hoàn toàn bình đẳng: quyền và nghĩa vụ ngang nhau; bình đẳng pháp lý trong quốc gia; không dân tộc nào áp bức dân tộc khác; chống phân biệt chủng tộc, dân tộc cực đoan.\nCác dân tộc được quyền tự quyết: tự quyết định con đường phát triển; chia tách hoặc liên hiệp; chống can thiệp vào công việc nội bộ.\nLiên hiệp công nhân tất cả các dân tộc: mục đích đấu tranh của giai cấp công nhân thế giới; tự nguyện, bình đẳng, tôn trọng quyền tự quyết và lợi ích các dân tộc.',
   ),
 ];
@@ -381,7 +381,7 @@ const POOL_TWO: Question[] = [
     [
       'Chỉ giữ bản sắc riêng, ít giao lưu',
       'Tự phát triển độc lập từng vùng',
-      'Đoàn kết, gắn bó lâu đời trong cộng đồng dân tộc – quốc gia thống nhất',
+      'Đoàn kết, gắn bó lâu đời trong cộng đồng dân tộc - quốc gia thống nhất',
       'Mỗi dân tộc một hệ thống chính trị riêng',
     ],
     2,
@@ -401,7 +401,7 @@ const POOL_TWO: Question[] = [
   ),
   mc(
     'CHÍNH SÁCH',
-    'Khi ưu tiên đầu tư phát triển kinh tế – xã hội vùng dân tộc và miền núi, trước hết cần tập trung vào:',
+    'Khi ưu tiên đầu tư phát triển kinh tế - xã hội vùng dân tộc và miền núi, trước hết cần tập trung vào:',
     [
       'Giao thông và cơ sở hạ tầng, xóa đói giảm nghèo',
       'Phát triển công nghiệp nặng',
@@ -414,13 +414,13 @@ const POOL_TWO: Question[] = [
   mc(
     'CHÍNH SÁCH',
     '“Thông qua các chương trình, dự án phát triển kinh tế vùng dân tộc thiểu số, thúc đẩy kinh tế thị trường định hướng xã hội chủ nghĩa” thuộc chính sách về:',
-    ['Chính trị', 'Kinh tế', 'Văn hóa', 'An ninh – quốc phòng'],
+    ['Chính trị', 'Kinh tế', 'Văn hóa', 'An ninh - quốc phòng'],
     1,
     'Đây là nội dung thuộc chính sách kinh tế.',
   ),
   mc(
     'CHÍNH SÁCH',
-    'Nội dung nào thuộc chính sách về an ninh – quốc phòng?',
+    'Nội dung nào thuộc chính sách về an ninh - quốc phòng?',
     [
       'Nâng cao nhận thức của đồng bào về tầm quan trọng của đoàn kết dân tộc',
       'Mở rộng giao lưu văn hóa với quốc gia, khu vực, thế giới',
@@ -432,7 +432,7 @@ const POOL_TWO: Question[] = [
   ),
   mc(
     'CHÍNH SÁCH',
-    'Chính sách xã hội thực hiện bình đẳng, công bằng thông qua phát triển kinh tế – xã hội, xóa đói giảm nghèo và các lĩnh vực nào?',
+    'Chính sách xã hội thực hiện bình đẳng, công bằng thông qua phát triển kinh tế - xã hội, xóa đói giảm nghèo và các lĩnh vực nào?',
     ['Dân số, y tế, giáo dục', 'Thương mại, tài chính, ngân hàng', 'Công nghiệp, nông nghiệp, dịch vụ', 'Giao thông, bưu chính, viễn thông'],
     0,
     'Dân số, y tế, giáo dục là các lĩnh vực của chính sách xã hội.',
@@ -441,25 +441,25 @@ const POOL_TWO: Question[] = [
     'TỰ LUẬN · C4',
     'Nêu các đặc điểm dân tộc ở Việt Nam. Đặc điểm nào liên quan trực tiếp đến quốc phòng, an ninh?',
     'Sáu đặc điểm; đặc điểm thứ ba gắn với vị trí chiến lược.',
-    'Sáu đặc điểm: chênh lệch số dân; cư trú xen kẽ; dân tộc thiểu số phân bố ở địa bàn chiến lược; trình độ phát triển không đều; truyền thống đoàn kết gắn bó; mỗi dân tộc có bản sắc văn hóa riêng.\nLiên quan trực tiếp đến quốc phòng – an ninh: đặc điểm thứ ba. Vùng dân tộc thiểu số và miền núi giữ vị trí chiến lược về quốc phòng, an ninh, tài nguyên, môi trường; các thế lực thù địch thường lợi dụng vấn đề dân tộc để chống phá, chia rẽ.',
+    'Sáu đặc điểm: chênh lệch số dân; cư trú xen kẽ; dân tộc thiểu số phân bố ở địa bàn chiến lược; trình độ phát triển không đều; truyền thống đoàn kết gắn bó; mỗi dân tộc có bản sắc văn hóa riêng.\nLiên quan trực tiếp đến quốc phòng - an ninh: đặc điểm thứ ba. Vùng dân tộc thiểu số và miền núi giữ vị trí chiến lược về quốc phòng, an ninh, tài nguyên, môi trường; các thế lực thù địch thường lợi dụng vấn đề dân tộc để chống phá, chia rẽ.',
   ),
   essay(
     'TỰ LUẬN · C5',
     'Trình bày chính sách dân tộc của Đảng và Nhà nước Việt Nam trên các lĩnh vực.',
-    'Chính trị – kinh tế – xã hội – văn hóa – an ninh quốc phòng.',
-    'Chính trị: bình đẳng, đoàn kết, tôn trọng, giúp nhau cùng phát triển; nâng cao nhận thức về đoàn kết dân tộc.\nKinh tế: phát triển kinh tế – xã hội miền núi, vùng đồng bào dân tộc; phát huy tiềm năng, thu hẹp khoảng cách; thúc đẩy kinh tế thị trường định hướng XHCN.\nXã hội: an sinh xã hội; bình đẳng, công bằng; xóa đói giảm nghèo; dân số, y tế, giáo dục.\nVăn hóa: giữ gìn, phát huy giá trị văn hóa truyền thống; xây dựng đời sống văn hóa; giao lưu văn hóa; chống diễn biến hòa bình trên mặt trận văn hóa – tư tưởng.\nAn ninh – quốc phòng: ổn định chính trị, an ninh, trật tự; tăng cường quan hệ quân dân, thế trận quốc phòng toàn dân.',
+    'Chính trị - kinh tế - xã hội - văn hóa - an ninh quốc phòng.',
+    'Chính trị: bình đẳng, đoàn kết, tôn trọng, giúp nhau cùng phát triển; nâng cao nhận thức về đoàn kết dân tộc.\nKinh tế: phát triển kinh tế - xã hội miền núi, vùng đồng bào dân tộc; phát huy tiềm năng, thu hẹp khoảng cách; thúc đẩy kinh tế thị trường định hướng XHCN.\nXã hội: an sinh xã hội; bình đẳng, công bằng; xóa đói giảm nghèo; dân số, y tế, giáo dục.\nVăn hóa: giữ gìn, phát huy giá trị văn hóa truyền thống; xây dựng đời sống văn hóa; giao lưu văn hóa; chống diễn biến hòa bình trên mặt trận văn hóa - tư tưởng.\nAn ninh - quốc phòng: ổn định chính trị, an ninh, trật tự; tăng cường quan hệ quân dân, thế trận quốc phòng toàn dân.',
   ),
   essay(
     'TỰ LUẬN · C6',
     'Quan điểm của Đảng về vấn đề dân tộc có những nội dung nào? Vì sao phải ưu tiên đầu tư cho vùng dân tộc và miền núi?',
     'Năm quan điểm; ưu tiên vì địa bàn chiến lược và chênh lệch phát triển.',
-    'Năm quan điểm: (1) vấn đề dân tộc và đoàn kết dân tộc là chiến lược cơ bản, lâu dài, cấp bách; (2) bình đẳng, đoàn kết, tương trợ, cùng CNH – HĐH, xây dựng và bảo vệ Tổ quốc; (3) phát triển toàn diện chính trị, kinh tế, văn hóa, xã hội, an ninh – quốc phòng; (4) ưu tiên đầu tư kinh tế – xã hội, trước hết giao thông, hạ tầng, xóa đói giảm nghèo; (5) công tác dân tộc là nhiệm vụ của toàn Đảng, toàn dân, toàn quân, các cấp, các ngành.\nVì sao ưu tiên: vùng dân tộc thiểu số có vị trí chiến lược, trình độ phát triển không đều; cần thu hẹp khoảng cách, ổn định chính trị – xã hội.',
+    'Năm quan điểm: (1) vấn đề dân tộc và đoàn kết dân tộc là chiến lược cơ bản, lâu dài, cấp bách; (2) bình đẳng, đoàn kết, tương trợ, cùng CNH - HĐH, xây dựng và bảo vệ Tổ quốc; (3) phát triển toàn diện chính trị, kinh tế, văn hóa, xã hội, an ninh - quốc phòng; (4) ưu tiên đầu tư kinh tế - xã hội, trước hết giao thông, hạ tầng, xóa đói giảm nghèo; (5) công tác dân tộc là nhiệm vụ của toàn Đảng, toàn dân, toàn quân, các cấp, các ngành.\nVì sao ưu tiên: vùng dân tộc thiểu số có vị trí chiến lược, trình độ phát triển không đều; cần thu hẹp khoảng cách, ổn định chính trị - xã hội.',
   ),
   essay(
     'LIÊN HỆ',
     'Là sinh viên, bạn có thể làm gì để giữ gìn khối đại đoàn kết dân tộc, bảo tồn bản sắc văn hóa và chống thông tin xuyên tạc trên không gian mạng?',
     'Nhận thức đúng, không chia sẻ thông tin xuyên tạc, tôn trọng bản sắc.',
-    'Nhận thức đúng quan điểm Mác – Lênin và chính sách dân tộc của Đảng, Nhà nước.\nKhông chia sẻ, không tin thông tin kích động chia rẽ, xuyên tạc.\nTôn trọng, giữ gìn và giới thiệu bản sắc văn hóa các dân tộc; tham gia hoạt động đoàn kết, giao lưu văn hóa.',
+    'Nhận thức đúng quan điểm Mác - Lênin và chính sách dân tộc của Đảng, Nhà nước.\nKhông chia sẻ, không tin thông tin kích động chia rẽ, xuyên tạc.\nTôn trọng, giữ gìn và giới thiệu bản sắc văn hóa các dân tộc; tham gia hoạt động đoàn kết, giao lưu văn hóa.',
   ),
 ];
 
@@ -467,22 +467,22 @@ const POOLS: Question[][] = [POOL_ONE, POOL_TWO];
 
 const STAGE_META = [
   {
-    label: 'HỒ SƠ 01',
+    label: 'Ảnh 01',
     zone: 'KHU RỪNG KÝ ỨC',
     answer: '54 DÂN TỘC',
     answer2: 'VIỆT NAM',
-    subtitle: 'Mỗi dân tộc một bản sắc – cùng chung một bức tranh.',
+    subtitle: 'Mỗi dân tộc một bản sắc cùng chung bức tranh.',
     image: posterImg,
     imgW: 1080,
     imgH: 654,
     variant: 'forest' as const,
   },
   {
-    label: 'HỒ SƠ 02',
+    label: 'Ảnh 02',
     zone: 'ĐỈNH NÚI KÝ ỨC',
     answer: 'BẢN ĐỒ PHÂN BỐ',
     answer2: '54 DÂN TỘC',
-    subtitle: '54 dân tộc – 8 vùng miền – một Việt Nam thống nhất.',
+    subtitle: '54 dân tộc - 8 vùng miền - một Việt Nam thống nhất.',
     image: mapImg,
     imgW: 680,
     imgH: 718,
@@ -2549,7 +2549,7 @@ const Arena = ({
             <div style={{ marginTop: 'auto', fontFamily: F.mono, fontSize: 19, color: C.slate, textAlign: 'center', lineHeight: 1.2 }}>
               MC ĐIỀU HÀNH
               <br />
-              ĐỌC – THẢO LUẬN – CHẤM
+              ĐỌC - THẢO LUẬN - CHẤM
             </div>
           )}
         </div>
@@ -2950,7 +2950,7 @@ const Result = ({
       </div>
 
       <div style={abs(stage === 1 ? 1240 : 860, 196, { width: stage === 1 ? 620 : 980, zIndex: 20 })}>
-        <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow, letterSpacing: 1 }}>HỒ SƠ ĐÃ MỞ</div>
+        {/* <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow, letterSpacing: 1 }}>HỒ SƠ ĐÃ MỞ</div> */}
         <h2 style={{ fontFamily: F.display, fontSize: stage === 1 ? 86 : 78, fontWeight: 400, lineHeight: 0.88, margin: '16px 0 0', color: C.white, textShadow: `6px 6px 0 ${C.plum}` }}>
           {meta.answer}
           <br />
@@ -2969,7 +2969,7 @@ const Result = ({
 
         <div style={{ marginTop: 24, padding: '14px 18px', background: 'rgba(14,15,26,.9)', border: `3px solid ${C.slate}`, clipPath: notch(6) }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-            <span style={{ fontFamily: F.mono, fontSize: 13, color: C.yellow }}>BẢNG ĐIỂM HỒ SƠ {stage}</span>
+            <span style={{ fontFamily: F.mono, fontSize: 13, color: C.yellow }}>BẢNG ĐIỂM ẢNH {stage}</span>
             <span style={{ height: 2, flex: 1, background: 'rgba(255,205,117,.25)' }} />
             <button
               type="button"
@@ -2984,11 +2984,11 @@ const Result = ({
 
         <div style={{ display: 'flex', gap: 14, marginTop: 26 }}>
           <PixelButton tone="gold" fontSize={28} onClick={onNext}>
-            {stage === 1 ? 'SANG HỒ SƠ 2 →' : 'XEM KIẾN THỨC →'}
+            {stage === 1 ? 'Bắt đầu ảnh 2 →' : 'XEM KIẾN THỨC →'}
           </PixelButton>
         </div>
         <div style={{ marginTop: 18, fontFamily: F.mono, fontSize: 20, color: C.slate, lineHeight: 1.4 }}>
-          {stage === 1 ? 'Mời MC công bố đáp án, sau đó chuyển sang hồ sơ tiếp theo.' : 'Tổng kết điểm và chốt kiến thức ở trang cuối.'}
+          {/* {stage === 1 ? 'Công bố đáp án, sau đó chuyển sang hồ sơ tiếp theo.' : 'Tổng kết điểm và chốt kiến thức ở trang cuối.'} */}
         </div>
       </div>
     </Backdrop>
@@ -3240,7 +3240,7 @@ const Knowledge: Page = () => {
                   <Badge label="KINH TẾ" />
                   <Badge label="XÃ HỘI" />
                   <Badge label="VĂN HÓA" />
-                  <Badge label="AN NINH – QUỐC PHÒNG" />
+                  <Badge label="AN NINH - QUỐC PHÒNG" />
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 24 }}>
