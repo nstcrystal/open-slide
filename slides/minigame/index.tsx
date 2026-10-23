@@ -1787,7 +1787,7 @@ const PlayerPicker = ({
           }}
         >
           <span style={{ fontFamily: F.mono, fontSize: 19, color: C.slate, lineHeight: 1.4 }}>
-            Không chọn ai = câu trả lời này không được cộng điểm.
+            {/* Không chọn ai = câu trả lời này không được cộng điểm. */}
           </span>
           <span style={{ fontFamily: F.mono, fontSize: 19, color: C.slate }}>
             TỔNG {players.length} NGƯỜI
