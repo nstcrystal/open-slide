@@ -3149,13 +3149,13 @@ const Rules: Page = () => {
           </div>
 
           <div style={{ display: 'flex', gap: 14, marginTop: 20, flex: 1 }}>
-            <FlowStep n="01" title="CHỌN MẢNH" desc="Mỗi mảnh rút một câu ngẫu nhiên từ pool của hồ sơ." />
-            <FlowStep n="02" title="CHỌN NGƯỜI" desc="MC chọn tên trong danh sách hoặc thêm tên mới, rồi tính giờ." accent={C.cyan} />
+            <FlowStep n="01" title="CHỌN MẢNH" desc="Mỗi mảnh rút một câu ngẫu nhiên trong số các câu hỏi." />
+            <FlowStep n="02" title="CHỌN NGƯỜI" desc="Chọn tên người chơi trong danh sách hoặc thêm tên mới." accent={C.cyan} />
             <FlowStep n="03" title="MỞ HOẶC ĐOÁN" desc={'Đúng mở mảnh; sai quay lại ảnh.\nHết câu thì đoán.'} accent={C.lime} />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 24 }}>
-            <span style={{ fontFamily: F.mono, fontSize: 23, color: C.silver, letterSpacing: 1 }}>HỒ SƠ 01 → HỒ SƠ 02 → KIẾN THỨC</span>
+            <span style={{ fontFamily: F.mono, fontSize: 23, color: C.silver, letterSpacing: 1 }}>Ảnh 1 → Ảnh 2 → TỔNG KẾT</span>
             <div style={{ display: 'flex', gap: 12 }}>
               <PixelButton tone="ghost" fontSize={23} onClick={() => setPanelOpen(true)}>
                 👥 NGƯỜI CHƠI
