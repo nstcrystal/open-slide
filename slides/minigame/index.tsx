@@ -3078,10 +3078,13 @@ const FlowStep = ({
       boxShadow: `inset 0 0 0 2px rgba(255,255,255,.03)`,
     }}
   >
+    {/* @slide-comment id="c-b652aa58" ts="2026-10-23T09:39:17.750Z" text="eyJub3RlIjoiQ2jhu4luaCBz4butYSBs4bqhaSBi4buRIGPhu6VjIMSR4buDIHRyw6FuIGtob-G6o25nIHRy4buRbmcgcGjDrSB0csOqbiBj4bunYSBwaOG6p24gbsOgeSIsInBhZ2UiOjF9" */}
     <span style={{ fontFamily: F.pixel, fontSize: 17, color: accent }}>{n}</span>
     <div style={{ minWidth: 0 }}>
       <div style={{ fontFamily: F.mono, fontSize: 23, color: C.white, letterSpacing: 1 }}>{title}</div>
-      <div style={{ fontFamily: F.body, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2 }}>{desc}</div>
+      <div style={{ fontFamily: F.body, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2 }}>
+        {/* @slide-comment id="c-25841227" ts="2026-10-23T09:37:01.458Z" text="eyJub3RlIjoiQ8OzIHRo4buDIHh14buRbmcgZMOybmcgY8OidTogXCJI4bq_dCBjw6J1IHRow6wgxJFvw6FuXCIgxJHGsOG7o2Mga2jDtG5nIiwicGFnZSI6MX0" */}
+        {desc}</div>
     </div>
   </div>
 );
@@ -3114,7 +3117,7 @@ const RuleCard = ({
   >
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       {icon}
-      <span style={{ fontFamily: F.mono, fontSize: 18, color: C.slate }}>RULE</span>
+      <span style={{ fontFamily: F.mono, fontSize: 18, color: C.slate }}>{''}<br />{''}</span>
     </div>
     <div style={{ fontFamily: F.pixel, fontSize: 42, lineHeight: 1.1, color: accent, marginTop: 16 }}>{value}</div>
     <div style={{ fontFamily: F.mono, fontSize: 24, color: C.white, marginTop: 6 }}>{label}</div>
@@ -3135,33 +3138,26 @@ const Rules: Page = () => {
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
             <PageTitle>LUẬT CHƠI</PageTitle>
             <div style={{ textAlign: 'right', fontFamily: F.mono, fontSize: 22, color: C.silver, lineHeight: 1.35 }}>
-              2 HỒ SƠ · 8 MẢNH / HỒ SƠ
+              2 Ảnh · 8 MẢNH / Ảnh
               <br />
-              <span style={{ color: C.slate }}>MC chọn người · điểm theo từng người</span>
+              <span style={{ color: C.slate }}>{''}</span>
             </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
-            <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / HỒ SƠ" desc="Trả lời đúng mới mở được một mảnh ghép." />
-            <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc="Trắc nghiệm 15 giây; tự luận 30 giây thảo luận, có nút gợi ý." accent={C.cyan} />
-            <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc="Cộng cho người được MC chọn trước câu hỏi. Sai hoặc hết giờ: 0 điểm." accent={C.lime} />
-            <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc="Cộng cho người đang giữ lượt đoán. Đoán đúng sang hồ sơ 2." accent={C.orange} />
+            <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / HỒ SƠ" desc={'\n'} />
+            <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc={'\n'} accent={C.cyan} />
+            <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc={'\n'} accent={C.lime} />
+            <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 20, padding: '14px 18px', background: 'rgba(255,205,117,.08)', border: `3px solid rgba(255,205,117,.28)`, fontFamily: F.body, fontSize: 22, lineHeight: 1.45, color: C.white }}>
-            <span style={{ fontFamily: F.mono, fontSize: 30, color: C.yellow }}>!</span>
-            <span>
-              Trước mỗi câu, MC chọn tên người trả lời. Sai hoặc hết giờ: <strong>không cộng điểm</strong> và không chọn lại câu đó. Hết câu hỏi: <strong>bắt buộc đoán ảnh</strong>. Mở đủ 8 mảnh cũng kết thúc hồ sơ.
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', gap: 14, marginTop: 20 }}>
+          <div style={{ display: 'flex', gap: 14, marginTop: 'auto' }}>
             <FlowStep n="01" title="CHỌN MẢNH" desc="Mỗi mảnh rút một câu ngẫu nhiên từ pool của hồ sơ." />
             <FlowStep n="02" title="CHỌN NGƯỜI" desc="MC chọn tên trong danh sách hoặc thêm tên mới, rồi tính giờ." accent={C.cyan} />
-            <FlowStep n="03" title="MỞ HOẶC ĐOÁN" desc="Đúng mở mảnh; sai quay lại ảnh. Hết câu thì đoán." accent={C.lime} />
+            <FlowStep n="03" title="MỞ HOẶC ĐOÁN" desc={'Đúng mở mảnh; sai quay lại ảnh.\nHết câu thì đoán.'} accent={C.lime} />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 24 }}>
             <span style={{ fontFamily: F.mono, fontSize: 23, color: C.silver, letterSpacing: 1 }}>HỒ SƠ 01 → HỒ SƠ 02 → KIẾN THỨC</span>
             <div style={{ display: 'flex', gap: 12 }}>
               <PixelButton tone="ghost" fontSize={23} onClick={() => setPanelOpen(true)}>
@@ -3569,10 +3565,18 @@ const Game: Page = () => {
 };
 
 export const transition: SlideTransition = {
-  duration: 230,
-  exit: { duration: 230, easing: 'cubic-bezier(0.4, 0, 1, 1)', keyframes: [{ opacity: 1 }, { opacity: 1 }] },
+  duration: 240,
+  // Each page is a full screen with its own scenery, so the old screen must
+  // clear out before the next one arrives — a cross-fade leaves both visible.
+  throughBackground: true,
+  exit: {
+    duration: 100,
+    easing: 'cubic-bezier(0.4, 0, 1, 1)',
+    keyframes: [{ opacity: 1 }, { opacity: 0 }],
+  },
   enter: {
-    duration: 230,
+    duration: 140,
+    delay: 100,
     easing: 'cubic-bezier(0, 0, 0.2, 1)',
     keyframes: [
       { opacity: 0, transform: 'translateY(6px)' },
