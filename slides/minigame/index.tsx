@@ -3423,6 +3423,7 @@ const Game: Page = () => {
       setScreen('guess');
       return;
     }
+    update((prev) => ({ turnId: null }));
     setCurrent(null);
     setScreen('home');
   };
@@ -3433,6 +3434,7 @@ const Game: Page = () => {
       return;
     }
     setForced(false);
+    update((prev) => ({ turnId: null }));
     setScreen('guess');
   };
 
