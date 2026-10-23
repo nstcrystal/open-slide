@@ -613,6 +613,13 @@ const resetGame = () => {
   goPage(PAGE.cover);
 };
 
+const startGame = () => {
+  const current = loadStore();
+  saveStore({ ...defaultStore(), runId: current.runId + 1 });
+  broadcast();
+  goPage(PAGE.game);
+};
+
 const withOpened = (opened: boolean[][], stageIdx: number, tile: number) =>
   opened.map((row, r) => (r === stageIdx ? row.map((value, i) => (i === tile ? true : value)) : row));
 
@@ -1543,10 +1550,14 @@ const Arena = ({
         ? 'MC đọc đề, bấm BẮT ĐẦU 30s cho phần thảo luận.'
         : 'MC đọc câu hỏi, bấm BẮT ĐẦU 15s.'
     : correct
-      ? 'CHÍNH XÁC! +10 ĐIỂM'
+      ? question.kind === 'essay'
+        ? 'ĐẠT! +10 ĐIỂM'
+        : 'CHÍNH XÁC! +10 ĐIỂM'
       : resolved.timedOut
         ? 'HẾT GIỜ! 0 ĐIỂM'
-        : 'CHƯA ĐÚNG! 0 ĐIỂM';
+        : question.kind === 'essay'
+          ? 'CHƯA ĐẠT! 0 ĐIỂM'
+          : 'CHƯA ĐÚNG! 0 ĐIỂM';
 
   const cta = resolved ? (correct && openedCount === 8 ? 'XEM KẾT QUẢ →' : '← QUAY LẠI ẢNH') : null;
 
@@ -1577,10 +1588,14 @@ const Arena = ({
           </div>
           <div style={{ position: 'relative', width: '100%', height: 250, marginTop: 16, border: `3px solid ${revealed ? C.lime : C.dark}`, overflow: 'hidden', background: C.dark }}>
             <div style={{ position: 'absolute', inset: 0, ...fragmentStyle(stage, tile), filter: revealed ? 'none' : 'blur(12px) saturate(.6) brightness(.5)', transform: revealed ? 'none' : 'scale(1.15)' }} />
-            {!revealed && <div style={{ position: 'absolute', inset: 0, background: 'rgba(14,15,26,.4)' }} />}
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontFamily: F.display, fontSize: revealed ? 92 : 128, color: revealed ? C.lime : 'rgba(255,205,117,.78)', lineHeight: 1 }}>{revealed ? '✓' : '?'}</span>
-            </div>
+            {!revealed && (
+              <>
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(14,15,26,.4)' }} />
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: F.display, fontSize: 128, color: 'rgba(255,205,117,.78)', lineHeight: 1 }}>?</span>
+                </div>
+              </>
+            )}
             <div style={{ position: 'absolute', left: 8, bottom: 8, fontFamily: F.mono, fontSize: 20, color: C.white }}>MẢNH {pad2(tile + 1)} · {revealed ? 'ĐÃ MỞ' : 'CHƯA MỞ'}</div>
           </div>
           <PixelSprite sprite={revealed ? CHEST_OPEN : question.kind === 'essay' ? HOURGLASS : MIMIC} scale={question.kind === 'essay' ? 9 : 12} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
@@ -1663,11 +1678,13 @@ const Arena = ({
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 20 }}>
             <PixelButton tone="gold" fontSize={24} onClick={() => setStarted(true)} disabled={started || Boolean(resolved)}>
-              {started ? '⏳ ĐANG TÍNH GIỜ' : '▶ BẮT ĐẦU 30s'}
+              {started ? (timeUp ? '⏰ HẾT 30s' : '⏳ ĐANG TÍNH GIỜ') : '▶ BẮT ĐẦU 30s'}
             </PixelButton>
-            <PixelButton tone="ghost" fontSize={24} onClick={() => setHintOpen((value) => !value)}>
-              {hintOpen ? 'ẨN GỢI Ý' : 'GỢI Ý'}
-            </PixelButton>
+            {!resolved && (
+              <PixelButton tone="ghost" fontSize={24} onClick={() => setHintOpen((value) => !value)}>
+                {hintOpen ? 'ẨN GỢI Ý' : 'GỢI Ý'}
+              </PixelButton>
+            )}
             {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s — MC chấm</span>}
           </div>
 
@@ -2001,6 +2018,39 @@ const Cover: Page = () => (
   </Screen>
 );
 
+const FlowStep = ({
+  n,
+  title,
+  desc,
+  accent = C.yellow,
+}: {
+  n: string;
+  title: string;
+  desc: string;
+  accent?: string;
+}) => (
+  <div
+    style={{
+      flex: 1,
+      minHeight: 94,
+      padding: '12px 16px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 14,
+      background: 'rgba(26,28,44,.9)',
+      border: `3px solid ${C.ink}`,
+      boxShadow: `inset 0 0 0 2px rgba(255,255,255,.03)`,
+    }}
+  >
+    <span style={{ fontFamily: F.pixel, fontSize: 17, color: accent }}>{n}</span>
+    <div style={{ minWidth: 0 }}>
+      <div style={{ fontFamily: F.mono, fontSize: 23, color: C.white, letterSpacing: 1 }}>{title}</div>
+      <div style={{ fontFamily: F.body, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2 }}>{desc}</div>
+    </div>
+  </div>
+);
+
+
 const RuleCard = ({
   icon,
   value,
@@ -2055,7 +2105,7 @@ const Rules: Page = () => (
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
             <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / HỒ SƠ" desc="Trả lời đúng mới mở được một mảnh ghép." />
-            <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc="Tự luận có 30 giây thảo luận và nút gợi ý." accent={C.cyan} />
+            <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc="Trắc nghiệm 15 giây; tự luận 30 giây thảo luận, có nút gợi ý." accent={C.cyan} />
             <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc="Sai hoặc hết giờ: 0 điểm, câu bị dùng." accent={C.lime} />
             <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc="Tối đa 2 lượt/người. Đoán đúng sang hồ sơ 2." accent={C.orange} />
           </div>
@@ -2075,7 +2125,7 @@ const Rules: Page = () => (
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
             <span style={{ fontFamily: F.mono, fontSize: 23, color: C.silver, letterSpacing: 1 }}>HỒ SƠ 01 → HỒ SƠ 02 → KIẾN THỨC</span>
-            <PixelButton tone="gold" fontSize={28} onClick={() => goPage(PAGE.game)}>
+            <PixelButton tone="gold" fontSize={28} onClick={startGame}>
               ▶ VÀO HỒ SƠ 1
             </PixelButton>
           </div>
@@ -2083,38 +2133,6 @@ const Rules: Page = () => (
       </PixelBox>
     </Backdrop>
   </Screen>
-);
-
-const FlowStep = ({
-  n,
-  title,
-  desc,
-  accent = C.yellow,
-}: {
-  n: string;
-  title: string;
-  desc: string;
-  accent?: string;
-}) => (
-  <div
-    style={{
-      flex: 1,
-      minHeight: 94,
-      padding: '12px 16px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 14,
-      background: 'rgba(26,28,44,.9)',
-      border: `3px solid ${C.ink}`,
-      boxShadow: `inset 0 0 0 2px rgba(255,255,255,.03)`,
-    }}
-  >
-    <span style={{ fontFamily: F.pixel, fontSize: 17, color: accent }}>{n}</span>
-    <div style={{ minWidth: 0 }}>
-      <div style={{ fontFamily: F.mono, fontSize: 23, color: C.white, letterSpacing: 1 }}>{title}</div>
-      <div style={{ fontFamily: F.body, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2 }}>{desc}</div>
-    </div>
-  </div>
 );
 
 const Stat = ({ value, label, accent = C.yellow }: { value: string; label: string; accent?: string }) => (
