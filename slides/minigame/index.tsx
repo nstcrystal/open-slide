@@ -1644,7 +1644,7 @@ const PlayerPicker = ({
       >
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: F.pixel, fontSize: 22, lineHeight: 1.4, color: C.yellow }}>
+            <div style={{ fontFamily: F.mono, fontSize: 30, lineHeight: 1.2, letterSpacing: 1, color: C.yellow }}>
               {title}
             </div>
             <div style={{ fontFamily: F.body, fontSize: 22, color: C.silver, marginTop: 8 }}>
@@ -1698,7 +1698,7 @@ const PlayerPicker = ({
               Nhập tên mới ở bên dưới để bắt đầu tính điểm.
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 12 }}>
               {players.map((player) => (
                 <button
                   key={player.id}
@@ -1711,6 +1711,7 @@ const PlayerPicker = ({
                     alignItems: 'flex-start',
                     justifyContent: 'center',
                     gap: 6,
+                    minWidth: 0,
                     minHeight: 78,
                     padding: '10px 14px',
                     background: 'rgba(26,28,44,.94)',
@@ -1965,7 +1966,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
       >
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: F.pixel, fontSize: 22, lineHeight: 1.4, color: C.yellow }}>
+            <div style={{ fontFamily: F.mono, fontSize: 30, lineHeight: 1.2, letterSpacing: 1, color: C.yellow }}>
               NGƯỜI CHƠI &amp; BẢNG ĐIỂM
             </div>
             <div style={{ fontFamily: F.body, fontSize: 22, color: C.silver, marginTop: 8 }}>
