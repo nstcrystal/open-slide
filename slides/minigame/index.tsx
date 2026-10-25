@@ -51,18 +51,39 @@ const CSS = `
 .mg-tile:hover { transform: translateY(-5px); filter: brightness(1.08); }
 .mg-chest { position: relative; display: block; }
 .mg-chest-glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,205,117,.34) 0%, rgba(255,205,117,0) 70%); opacity: 0; transition: opacity 160ms linear; pointer-events: none; z-index: 0; }
-.mg-chest-closed { position: relative; z-index: 1; transition: opacity 80ms steps(1, end); }
-.mg-chest-open { position: absolute; left: 0; top: 0; opacity: 0; z-index: 2; pointer-events: none; transition: opacity 80ms steps(1, end); }
+.mg-chest-body { position: absolute; left: 0; z-index: 2; }
+.mg-chest-body-closed,
+.mg-chest-body-open { position: absolute; left: 0; top: 0; transition: opacity 80ms steps(1, end); }
+.mg-chest-body-open { opacity: 0; }
+.mg-chest-lid { position: absolute; left: 0; top: 0; z-index: 1; transform-origin: 50% 100%; transition: transform 160ms steps(3, end); }
+.mg-chest-lid-closed,
+.mg-chest-lid-open { position: absolute; left: 0; top: 0; transition: opacity 80ms steps(1, end); }
+.mg-chest-lid-open { opacity: 0; }
 .mg-chest-coin { position: absolute; opacity: 0; transform: translate(-50%, 0); z-index: 3; pointer-events: none; }
 .mg-chest:hover .mg-chest-glow,
 .mg-tile:hover .mg-chest-glow,
-.mg-tile:focus-visible .mg-chest-glow { opacity: 1; }
-.mg-chest:hover .mg-chest-closed,
-.mg-tile:hover .mg-chest-closed,
-.mg-tile:focus-visible .mg-chest-closed { opacity: 0; }
-.mg-chest:hover .mg-chest-open,
-.mg-tile:hover .mg-chest-open,
-.mg-tile:focus-visible .mg-chest-open { opacity: 1; animation: mg-chest-pop .26s steps(2, end) both; }
+.mg-tile:focus-visible .mg-chest-glow,
+.mg-chest-force-open .mg-chest-glow { opacity: 1; }
+.mg-chest:hover .mg-chest-body-closed,
+.mg-tile:hover .mg-chest-body-closed,
+.mg-tile:focus-visible .mg-chest-body-closed,
+.mg-chest-force-open .mg-chest-body-closed { opacity: 0; }
+.mg-chest:hover .mg-chest-body-open,
+.mg-tile:hover .mg-chest-body-open,
+.mg-tile:focus-visible .mg-chest-body-open,
+.mg-chest-force-open .mg-chest-body-open { opacity: 1; }
+.mg-chest:hover .mg-chest-lid,
+.mg-tile:hover .mg-chest-lid,
+.mg-tile:focus-visible .mg-chest-lid,
+.mg-chest-force-open .mg-chest-lid { transform: translateY(calc(-1 * var(--mg-chest-lift, 2px))) rotate(-6deg); }
+.mg-chest:hover .mg-chest-lid-closed,
+.mg-tile:hover .mg-chest-lid-closed,
+.mg-tile:focus-visible .mg-chest-lid-closed,
+.mg-chest-force-open .mg-chest-lid-closed { opacity: 0; }
+.mg-chest:hover .mg-chest-lid-open,
+.mg-tile:hover .mg-chest-lid-open,
+.mg-tile:focus-visible .mg-chest-lid-open,
+.mg-chest-force-open .mg-chest-lid-open { opacity: 1; }
 .mg-chest:hover .mg-chest-coin,
 .mg-tile:hover .mg-chest-coin,
 .mg-tile:focus-visible .mg-chest-coin { animation: mg-chest-coin .8s steps(5, end) both; }
@@ -89,10 +110,9 @@ const CSS = `
 @keyframes mg-tile-open { 0% { transform: scale(.86); filter: brightness(2.2); } 60% { transform: scale(1.03); } 100% { transform: scale(1); filter: none; } }
 @keyframes mg-pop { 0% { transform: scale(.92); opacity: .4; } 60% { transform: scale(1.04); } 100% { transform: scale(1); opacity: 1; } }
 @keyframes mg-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes mg-chest-pop { 0% { transform: translateY(4px); } 60% { transform: translateY(-2px); } 100% { transform: translateY(0); } }
 @keyframes mg-chest-coin { 0% { opacity: 0; transform: translate(-50%, 4px) scale(.8); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -26px) scale(1); } }
 @media (prefers-reduced-motion: reduce) {
-  .mg-bob,.mg-bob-slow,.mg-blink,.mg-float,.mg-twinkle,.mg-shake,.mg-tile-open,.mg-in,.mg-pop,.mg-chest-open,.mg-chest-coin { animation: none !important; }
+  .mg-bob,.mg-bob-slow,.mg-blink,.mg-float,.mg-twinkle,.mg-shake,.mg-tile-open,.mg-in,.mg-pop,.mg-chest-lid,.mg-chest-body-closed,.mg-chest-body-open,.mg-chest-lid-closed,.mg-chest-lid-open,.mg-chest-coin,.mg-chest-glow { animation: none !important; transition: none !important; }
 }
 `;
 
@@ -832,11 +852,8 @@ const PAL: Record<string, string> = {
   y: C.yellow,
 };
 
-const CHEST: Sprite = {
+const CHEST_BODY_CLOSED: Sprite = {
   rows: [
-    '....kkkkkkkk....',
-    '..kkggggggggkk..',
-    '.kGGgGGGGGGgGGk.',
     '.kkkkkkkkkkkkkk.',
     '.kWWwwwwwwwwWWk.',
     '.kWWwwwwwwwwWWk.',
@@ -850,46 +867,59 @@ const CHEST: Sprite = {
   ],
 };
 
-const CHEST_OPEN: Sprite = {
+const CHEST_BODY_OPEN: Sprite = {
   rows: [
-    '....kkkkkkkk....',
-    '..kkggggggggkk..',
-    '.kGGgGGGGGGgGGk.',
-    '.kkkkkkkkkkkkkk.',
-    '....g......g....',
-    '..kkkkkkkkkkkk..',
     '.kWWWWWWWWWWWWk.',
-    '.kWkkkkkkkkkkWk.',
-    '.kWkgg4ggg4gkWk.',
-    '.kWkkkkkkkkkkWk.',
+    '.kWggG4ggG4ggWk.',
+    '.kWG4ggG4ggGgWk.',
+    '.kWwwkkkkkkwwWk.',
+    '.kWwwkggggkwwWk.',
+    '.kWwwkkkkkkwwWk.',
+    '.kWWwwwwwwwwWWk.',
     '.kWWwwwwwwwwWWk.',
     '.kkkkkkkkkkkkkk.',
     '..kk........kk..',
   ],
 };
 
+const CHEST_LID: Sprite = {
+  rows: [
+    '....kkkkkkkk....',
+    '..kkggggggggkk..',
+    '.kGGgGGGGGGgGGk.',
+  ],
+};
+
+const CHEST_LID_OPEN: Sprite = {
+  rows: [
+    '..kkkkkkkkkkkk..',
+    '.kggggggggggggk.',
+    '.kwwwwwwwwwwwwk.',
+  ],
+};
+
 const HERO: Sprite = {
   rows: [
-    '....22.....1111.....',
-    '...2222...111111....',
-    '..222222..11111111..',
-    '.2221111..111111111.',
-    '.22.1.11..118811111.',
-    '.22.1.11..118811111.',
-    '.2111111..111111111.',
-    '..1.111...11111111..',
-    '....2222..2222222...',
-    '..22222222222222222.',
-    '.221122222222221122.',
-    '.221122222222221122.',
-    '.228822222244428822.',
-    '.228822222444442882.',
-    '.228822222444442882.',
-    '..2222222244444222..',
-    '...22222222222222...',
-    '...2222....22222....',
-    '...1111....11111....',
-    '...1111....11111....',
+    '......00.............',
+    '.....0220............',
+    '....022220...........',
+    '...02222220..........',
+    '...02888880..........',
+    '...02848840..........',
+    '...02888880..........',
+    '...02222220..........',
+    '..0222222220.........',
+    '..0222222222ddeeee...',
+    '..0221112220.....e...',
+    '.02221112220....eeeee',
+    '.02211111220....e444e',
+    '.022111112220...e434e',
+    '0222111112220...e3c3e',
+    '0221111111220...e434e',
+    '02222222222220..e444e',
+    '.000ee00ee000...eeeee',
+    '...0ee0.0ee0.....eee.',
+    '...000..000..........',
   ],
 };
 
@@ -1174,25 +1204,65 @@ const Chest = ({
   scale = 13,
   className,
   style,
+  open = false,
 }: {
   scale?: number;
   className?: string;
   style?: CSSProperties;
+  open?: boolean;
 }) => {
-  const w = Math.max(...CHEST.rows.map((row) => row.length)) * scale;
-  const h = Math.max(CHEST.rows.length, CHEST_OPEN.rows.length) * scale;
+  const w =
+    Math.max(
+      ...CHEST_LID.rows.map((row) => row.length),
+      ...CHEST_BODY_CLOSED.rows.map((row) => row.length),
+      ...CHEST_BODY_OPEN.rows.map((row) => row.length),
+    ) * scale;
+  const bodyTop = CHEST_LID.rows.length * scale;
+  const bodyRows = Math.max(CHEST_BODY_CLOSED.rows.length, CHEST_BODY_OPEN.rows.length);
+  const h = bodyTop + bodyRows * scale;
+  const chestStyle = {
+    width: w,
+    height: h,
+    flex: '0 0 auto',
+    '--mg-chest-lift': `${Math.max(2, Math.round(scale * 0.15))}px`,
+    ...style,
+  } as CSSProperties;
   return (
     <div
-      className={`mg-chest${className ? ` ${className}` : ''}`}
-      style={{ width: w, height: h, flex: '0 0 auto', ...style }}
+      className={`mg-chest${open ? ' mg-chest-force-open' : ''}${className ? ` ${className}` : ''}`}
+      style={chestStyle}
     >
       <div className="mg-chest-glow" style={{ inset: -scale * 2 }} />
-      <PixelSprite sprite={CHEST} scale={scale} className="mg-chest-closed" />
-      <div className="mg-chest-open" style={{ width: w, height: h }}>
-        <PixelSprite sprite={CHEST_OPEN} scale={scale} />
-        <div className="mg-chest-coin" style={{ left: w / 2, top: scale * 0.5 }}>
-          <PixelSprite sprite={COIN} scale={Math.max(2, Math.round(scale / 5))} />
-        </div>
+      <div className="mg-chest-body" style={{ top: bodyTop, width: w, height: bodyRows * scale }}>
+        <PixelSprite
+          sprite={CHEST_BODY_CLOSED}
+          scale={scale}
+          className="mg-chest-body-closed"
+          style={{ position: 'absolute', left: 0, top: 0 }}
+        />
+        <PixelSprite
+          sprite={CHEST_BODY_OPEN}
+          scale={scale}
+          className="mg-chest-body-open"
+          style={{ position: 'absolute', left: 0, top: 0 }}
+        />
+      </div>
+      <div className="mg-chest-lid" style={{ width: w, height: CHEST_LID.rows.length * scale }}>
+        <PixelSprite
+          sprite={CHEST_LID}
+          scale={scale}
+          className="mg-chest-lid-closed"
+          style={{ position: 'absolute', left: 0, top: 0 }}
+        />
+        <PixelSprite
+          sprite={CHEST_LID_OPEN}
+          scale={scale}
+          className="mg-chest-lid-open"
+          style={{ position: 'absolute', left: 0, top: 0 }}
+        />
+      </div>
+      <div className="mg-chest-coin" style={{ left: w / 2, top: bodyTop + scale * 0.5 }}>
+        <PixelSprite sprite={COIN} scale={Math.max(2, Math.round(scale / 5))} />
       </div>
     </div>
   );
@@ -2721,7 +2791,7 @@ const Arena = ({
           : 'CHƯA ĐÚNG! KHÔNG CỘNG ĐIỂM';
 
   const cta = resolved ? (correct && openedCount === 8 ? 'XEM KẾT QUẢ →' : '← QUAY LẠI ẢNH') : null;
-  const panelBadge = resolved?.timedOut ? SKULL : wrong ? BROKEN_HEART : revealed ? CHEST_OPEN : question.kind === 'essay' ? HOURGLASS : stage === 1 ? SLIME : MIMIC;
+  const panelBadge = resolved?.timedOut ? SKULL : wrong ? BROKEN_HEART : question.kind === 'essay' ? HOURGLASS : stage === 1 ? SLIME : MIMIC;
   const panelScale = resolved?.timedOut || wrong ? 8 : revealed ? 10 : question.kind === 'essay' ? 8 : stage === 1 ? 8 : 10;
 
   return (
@@ -2766,7 +2836,11 @@ const Arena = ({
               <span>MẢNH {pad2(tile + 1)} · {revealed ? 'ĐÃ MỞ' : 'CHƯA MỞ'}</span>
             </div>
           </div>
-          <PixelSprite sprite={panelBadge} scale={panelScale} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
+          {revealed ? (
+            <Chest scale={panelScale} open className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
+          ) : (
+            <PixelSprite sprite={panelBadge} scale={panelScale} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
+          )}
           <div style={{ marginTop: 20, fontFamily: F.mono, fontSize: 21, color: C.silver, textAlign: 'center', lineHeight: 1.25 }}>
             {question.kind === 'essay' ? '30 giây thảo luận\nMC chấm ĐẠT / CHƯA ĐẠT' : 'ĐÚNG +10Đ CHO NGƯỜI CHỌN\nSAI 0Đ · 15 giây mỗi câu'}
           </div>
