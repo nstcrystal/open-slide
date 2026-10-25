@@ -49,6 +49,23 @@ const CSS = `
 .mg-btn:active { transform: translateY(3px); }
 .mg-tile { transition: transform 120ms steps(2, end), filter 120ms linear; }
 .mg-tile:hover { transform: translateY(-5px); filter: brightness(1.08); }
+.mg-chest { position: relative; display: block; }
+.mg-chest-glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,205,117,.34) 0%, rgba(255,205,117,0) 70%); opacity: 0; transition: opacity 160ms linear; pointer-events: none; z-index: 0; }
+.mg-chest-closed { position: relative; z-index: 1; transition: opacity 80ms steps(1, end); }
+.mg-chest-open { position: absolute; left: 0; top: 0; opacity: 0; z-index: 2; pointer-events: none; transition: opacity 80ms steps(1, end); }
+.mg-chest-coin { position: absolute; opacity: 0; transform: translate(-50%, 0); z-index: 3; pointer-events: none; }
+.mg-chest:hover .mg-chest-glow,
+.mg-tile:hover .mg-chest-glow,
+.mg-tile:focus-visible .mg-chest-glow { opacity: 1; }
+.mg-chest:hover .mg-chest-closed,
+.mg-tile:hover .mg-chest-closed,
+.mg-tile:focus-visible .mg-chest-closed { opacity: 0; }
+.mg-chest:hover .mg-chest-open,
+.mg-tile:hover .mg-chest-open,
+.mg-tile:focus-visible .mg-chest-open { opacity: 1; animation: mg-chest-pop .26s steps(2, end) both; }
+.mg-chest:hover .mg-chest-coin,
+.mg-tile:hover .mg-chest-coin,
+.mg-tile:focus-visible .mg-chest-coin { animation: mg-chest-coin .8s steps(5, end) both; }
 .mg-opt { transition: background 120ms linear, border-color 120ms linear, transform 120ms steps(2, end); }
 .mg-opt:hover { transform: translateX(4px); }
 .mg-in { animation: mg-in .36s steps(4, end) both; }
@@ -72,8 +89,10 @@ const CSS = `
 @keyframes mg-tile-open { 0% { transform: scale(.86); filter: brightness(2.2); } 60% { transform: scale(1.03); } 100% { transform: scale(1); filter: none; } }
 @keyframes mg-pop { 0% { transform: scale(.92); opacity: .4; } 60% { transform: scale(1.04); } 100% { transform: scale(1); opacity: 1; } }
 @keyframes mg-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes mg-chest-pop { 0% { transform: translateY(4px); } 60% { transform: translateY(-2px); } 100% { transform: translateY(0); } }
+@keyframes mg-chest-coin { 0% { opacity: 0; transform: translate(-50%, 4px) scale(.8); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -26px) scale(1); } }
 @media (prefers-reduced-motion: reduce) {
-  .mg-bob,.mg-bob-slow,.mg-blink,.mg-float,.mg-twinkle,.mg-shake,.mg-tile-open,.mg-in,.mg-pop { animation: none !important; }
+  .mg-bob,.mg-bob-slow,.mg-blink,.mg-float,.mg-twinkle,.mg-shake,.mg-tile-open,.mg-in,.mg-pop,.mg-chest-open,.mg-chest-coin { animation: none !important; }
 }
 `;
 
@@ -815,68 +834,62 @@ const PAL: Record<string, string> = {
 
 const CHEST: Sprite = {
   rows: [
-    '....kkkk....',
-    '...kggggk...',
-    '..kWWWWWWk..',
-    '.kWWWWWWWWk.',
-    '.kkkkkkkkkk.',
-    '.kWwwwwwwWk.',
-    '.kWwwggwwWk.',
-    '.kWwwwwwwWk.',
-    '.kkkkkkkkkk.',
-    '..kkkkkkkk..',
+    '....kkkkkkkk....',
+    '..kkggggggggkk..',
+    '.kGGgGGGGGGgGGk.',
+    '.kkkkkkkkkkkkkk.',
+    '.kWWwwwwwwwwWWk.',
+    '.kWWwwwwwwwwWWk.',
+    '.kWwwkkkkkkwwWk.',
+    '.kWwwkggggkwwWk.',
+    '.kWwwkkkkkkwwWk.',
+    '.kWWwwwwwwwwWWk.',
+    '.kWWwwwwwwwwWWk.',
+    '.kkkkkkkkkkkkkk.',
+    '..kk........kk..',
   ],
 };
 
 const CHEST_OPEN: Sprite = {
   rows: [
-    '..kkkkkkkk..',
-    '.kggggggggk.',
-    'kggllllllggk',
-    '.kggggggggk.',
-    '.kkkkkkkkkk.',
-    '.kWwwwwwwWk.',
-    '.kWwwggwwWk.',
-    '.kWwwwwwwWk.',
-    '.kkkkkkkkkk.',
-    '..kkkkkkkk..',
-  ],
-};
-
-const LOCK: Sprite = {
-  rows: [
-    '...kkkk...',
-    '..kggggk..',
-    '.kg....gk.',
-    '.kg....gk.',
-    'kkkkkkkkkk',
-    'kggggggggk',
-    'kggkkkkggk',
-    'kggkggkggk',
-    'kggkkkkggk',
-    'kggggggggk',
-    'kkkkkkkkkk',
+    '....kkkkkkkk....',
+    '..kkggggggggkk..',
+    '.kGGgGGGGGGgGGk.',
+    '.kkkkkkkkkkkkkk.',
+    '....g......g....',
+    '..kkkkkkkkkkkk..',
+    '.kWWWWWWWWWWWWk.',
+    '.kWkkkkkkkkkkWk.',
+    '.kWkgg4ggg4gkWk.',
+    '.kWkkkkkkkkkkWk.',
+    '.kWWwwwwwwwwWWk.',
+    '.kkkkkkkkkkkkkk.',
+    '..kk........kk..',
   ],
 };
 
 const HERO: Sprite = {
   rows: [
-    '....kkkk....',
-    '...k2222k...',
-    '..k222222k..',
-    '..kkkkkkkk..',
-    '...kssssk...',
-    '...kskksk...',
-    '...kssssk...',
-    '....kssk....',
-    '...k4444k...',
-    '..k666666k..',
-    '.k66666666k.',
-    '.k66666666k.',
-    '.k66666666k.',
-    '..k666666k..',
-    '...kk..kk...',
-    '...33..33...',
+    '....22.....1111.....',
+    '...2222...111111....',
+    '..222222..11111111..',
+    '.2221111..111111111.',
+    '.22.1.11..118811111.',
+    '.22.1.11..118811111.',
+    '.2111111..111111111.',
+    '..1.111...11111111..',
+    '....2222..2222222...',
+    '..22222222222222222.',
+    '.221122222222221122.',
+    '.221122222222221122.',
+    '.228822222244428822.',
+    '.228822222444442882.',
+    '.228822222444442882.',
+    '..2222222244444222..',
+    '...22222222222222...',
+    '...2222....22222....',
+    '...1111....11111....',
+    '...1111....11111....',
   ],
 };
 
@@ -884,15 +897,169 @@ const MIMIC: Sprite = {
   rows: [
     '..kkkkkkkkkkkk..',
     '.kWWWWWWWWWWWWk.',
-    '.kWWkkWWWWkkWWk.',
-    '.kWWkkWWWWkkWWk.',
+    '.kWkkWWWWkkWWWk.',
+    '.kWkkWWWWkkWWWk.',
     '.kWWWWWWWWWWWWk.',
     '.kkkkkkkkkkkkkk.',
-    '.kWWWWWWWWWWWWk.',
-    '.kWWWW2222WWWWk.',
-    '.kWWWW2222WWWWk.',
+    '.kWggggggggggWk.',
+    '.kWgkckckckcgWk.',
+    '.kWggggggggggWk.',
     '.kkkkkkkkkkkkkk.',
-    '..kkkkkkkkkkkk..',
+    '..kk........kk..',
+  ],
+};
+
+const SLIME: Sprite = {
+  rows: [
+    '....0000....',
+    '..00566600..',
+    '.0656666660.',
+    '.0566666660.',
+    '0666k666k660',
+    '066666666660',
+    '067666666760',
+    '.0777777770.',
+    '..00000000..',
+  ],
+};
+
+const SKULL: Sprite = {
+  rows: [
+    '..cccc..',
+    '.cccccc.',
+    'c00cc00c',
+    'c00cc00c',
+    'ccc00ccc',
+    '.cccccc.',
+    '.c0c0c0.',
+    '..dddd..',
+  ],
+};
+
+const TROPHY: Sprite = {
+  rows: [
+    '.44444444.',
+    '4.c44443.4',
+    '4.c44443.4',
+    '.4c444434.',
+    '..444443..',
+    '...4443...',
+    '....43....',
+    '....43....',
+    '..444443..',
+    '..333333..',
+  ],
+};
+
+const HEART: Sprite = {
+  rows: [
+    '.22222.',
+    '2222222',
+    '2c222c2',
+    '.22222.',
+    '..222..',
+    '...2...',
+  ],
+};
+
+const BROKEN_HEART: Sprite = {
+  rows: [
+    '.222.222.',
+    '222222222',
+    '2c22222c2',
+    '.222.222.',
+    '..22.22..',
+    '...2.2...',
+    '....2....',
+  ],
+};
+
+const LANTERN: Sprite = {
+  rows: [
+    '...e...',
+    '..e.e..',
+    '.eeeee.',
+    '.e444e.',
+    '.e434e.',
+    '.e3c3e.',
+    '.e434e.',
+    '.e444e.',
+    '.eeeee.',
+    '..eee..',
+  ],
+};
+
+const GAMEPAD: Sprite = {
+  rows: [
+    '...eeeeee...',
+    '..e444444e..',
+    '.eeeeeeeeee.',
+    'eccce22eccee',
+    'eecce22eccee',
+    '.eeeeeeeeee.',
+    '..ee....ee..',
+  ],
+};
+
+const PADLOCK: Sprite = {
+  rows: [
+    '..eeee..',
+    '.e....e.',
+    '.e....e.',
+    'eeeeeeee',
+    'e444444e',
+    'e44cc44e',
+    'e444444e',
+    'eeeeeeee',
+  ],
+};
+
+const FLAME: Sprite = {
+  rows: [
+    '...kk...',
+    '..k44k..',
+    '.k4444k.',
+    '.k4444k.',
+    'k444443k',
+    'k4444443',
+    'k44ccc43',
+    'k444c443',
+    '.k44443.',
+    '..k333k.',
+  ],
+};
+
+const CHECK: Sprite = {
+  rows: [
+    '......5',
+    '.....55',
+    '5...55.',
+    '55.55..',
+    '.555...',
+    '..5....',
+  ],
+};
+
+const CROSS: Sprite = {
+  rows: [
+    'cc...cc',
+    '.cc.cc.',
+    '..ccc..',
+    '..ccc..',
+    '.cc.cc.',
+    'cc...cc',
+  ],
+};
+
+const ARROW_RIGHT: Sprite = {
+  rows: [
+    '......c',
+    '.....cc',
+    '....ccc',
+    'ccccccc',
+    '....ccc',
+    '.....cc',
+    '......c',
   ],
 };
 
@@ -960,16 +1127,18 @@ const PixelSprite = ({
   scale = 4,
   className,
   style,
+  swap,
 }: {
   sprite: Sprite;
   scale?: number;
   className?: string;
   style?: CSSProperties;
+  swap?: Record<string, string>;
 }) => {
   const shadows: string[] = [];
   sprite.rows.forEach((row, y) => {
     row.split('').forEach((ch, x) => {
-      const color = PAL[ch];
+      const color = swap?.[ch] ?? PAL[ch];
       if (!color) return;
       shadows.push(`${x * scale}px ${y * scale}px 0 0 ${color}`);
     });
@@ -1000,6 +1169,51 @@ const PixelSprite = ({
     </div>
   );
 };
+
+const Chest = ({
+  scale = 13,
+  className,
+  style,
+}: {
+  scale?: number;
+  className?: string;
+  style?: CSSProperties;
+}) => {
+  const w = Math.max(...CHEST.rows.map((row) => row.length)) * scale;
+  const h = Math.max(CHEST.rows.length, CHEST_OPEN.rows.length) * scale;
+  return (
+    <div
+      className={`mg-chest${className ? ` ${className}` : ''}`}
+      style={{ width: w, height: h, flex: '0 0 auto', ...style }}
+    >
+      <div className="mg-chest-glow" style={{ inset: -scale * 2 }} />
+      <PixelSprite sprite={CHEST} scale={scale} className="mg-chest-closed" />
+      <div className="mg-chest-open" style={{ width: w, height: h }}>
+        <PixelSprite sprite={CHEST_OPEN} scale={scale} />
+        <div className="mg-chest-coin" style={{ left: w / 2, top: scale * 0.5 }}>
+          <PixelSprite sprite={COIN} scale={Math.max(2, Math.round(scale / 5))} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const IconText = ({ icon, children, gap = 8 }: { icon: ReactNode; children: ReactNode; gap?: number }) => (
+  <span style={{ display: 'inline-flex', alignItems: 'center', gap, lineHeight: 1, verticalAlign: 'middle' }}>
+    {icon}
+    <span>{children}</span>
+  </span>
+);
+
+const medalSwap = (rank: number): Record<string, string> | undefined => {
+  if (rank === 0) return undefined;
+  if (rank === 1) return { 4: C.silver, 3: C.slate, c: C.white };
+  return { 4: C.orange, 3: '#8A5A20', c: C.white };
+};
+
+const Medal = ({ rank, scale = 2 }: { rank: number; scale?: number }) => (
+  <PixelSprite sprite={TROPHY} scale={scale} swap={medalSwap(rank)} />
+);
 
 const Hero = ({ style, className }: { style?: CSSProperties; className?: string }) => (
   <PixelSprite sprite={HERO} scale={7} className={className} style={style} />
@@ -1306,7 +1520,11 @@ const Hud = () => {
   return (
     <>
       <div style={abs(120, 1014, { zIndex: 90, display: 'flex', gap: 16, fontFamily: F.mono, fontSize: 22, color: C.slate, letterSpacing: 1 })}>
-        <span style={{ color: C.red }}>♥♥♥</span>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <PixelSprite sprite={HEART} scale={2} />
+          <PixelSprite sprite={HEART} scale={2} />
+          <PixelSprite sprite={HEART} scale={2} />
+        </span>
         <span>CNXHKH / NHÓM 3 · PIXEL QUEST</span>
       </div>
       <div style={{ position: 'absolute', right: 120, top: 1014, zIndex: 90, fontFamily: F.mono, fontSize: 22, color: C.slate }}>
@@ -1667,7 +1885,7 @@ const PlayerPicker = ({
               cursor: 'pointer',
             }}
           >
-            ✕
+            <PixelSprite sprite={CROSS} scale={4} />
           </button>
         </div>
 
@@ -1818,7 +2036,6 @@ const StageLeaderboard = ({
       </div>
     );
   }
-  const medals = ['🥇', '🥈', '🥉'];
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {ranked.map((player, index) => {
@@ -1835,8 +2052,8 @@ const StageLeaderboard = ({
               border: `2px solid ${index === 0 ? C.yellow : C.ink}`,
             }}
           >
-            <span style={{ width: 34, fontSize: 23, lineHeight: 1, textAlign: 'center' }}>
-              {medals[index] ?? `${index + 1}.`}
+            <span style={{ width: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}>
+              {index < 3 ? <Medal rank={index} /> : `${index + 1}.`}
             </span>
             <span
               style={{
@@ -1989,7 +2206,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
               cursor: 'pointer',
             }}
           >
-            ✕
+            <PixelSprite sprite={CROSS} scale={4} />
           </button>
         </div>
 
@@ -2077,12 +2294,14 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
                 >
                   <span
                     style={{
+                      display: 'flex',
+                      alignItems: 'center',
                       fontFamily: F.pixel,
                       fontSize: 15,
                       color: top ? C.yellow : C.slate,
                     }}
                   >
-                    {rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : pad2(rank)}
+                    {rank <= 3 ? <Medal rank={rank - 1} /> : pad2(rank)}
                   </span>
                   <span
                     style={{
@@ -2130,7 +2349,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
                       cursor: 'pointer',
                     }}
                   >
-                    ✕
+                    <PixelSprite sprite={CROSS} scale={2} swap={{ c: C.orange }} />
                   </button>
                 </div>
               );
@@ -2232,7 +2451,7 @@ const Tile = ({
           <div style={{ fontFamily: F.mono, fontSize: wide ? 14 : 12, color: C.yellow, opacity: 0.9 }}>MẢNH {num}</div>
           <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: wide ? 0 : 10 }}>
             <div style={{ position: 'absolute', width: wide ? 120 : 150, height: wide ? 120 : 150, background: 'radial-gradient(circle, rgba(255,205,117,.13), transparent 70%)' }} />
-            <PixelSprite sprite={CHEST} scale={wide ? 7 : 14} className="mg-bob" />
+            <Chest scale={wide ? 7 : 13} className="mg-bob" />
           </div>
           <div style={{ fontFamily: F.mono, fontSize: wide ? 20 : 24, color: C.silver, letterSpacing: 1, marginTop: wide ? 0 : 8 }}>
             CHỌN ĐỂ MỞ
@@ -2318,7 +2537,7 @@ const Home = ({
           clipPath: notch(8),
         })}
       >
-        <span className="mg-blink" style={{ fontFamily: F.mono, fontSize: 30, color: C.yellow, lineHeight: 1 }}>▶</span>
+        <span className="mg-blink" style={{ display: 'inline-flex', lineHeight: 1 }}><PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.yellow }} /></span>
         <span style={{ fontFamily: F.mono, fontSize: 27, color: C.white, lineHeight: 1.15, flex: 1 }}>
           {count === 8
             ? 'Đã mở đủ 8 mảnh! Công bố bức tranh.'
@@ -2327,7 +2546,7 @@ const Home = ({
               : `Còn ${remaining} câu trong Ảnh này. ${8 - count} mảnh chưa mở.`}
         </span>
         <PixelButton tone="ghost" fontSize={20} onClick={onOpenPlayers} ariaLabel="Mở bảng điểm người chơi">
-          🏆 BẢNG ĐIỂM
+          <IconText icon={<PixelSprite sprite={TROPHY} scale={2} />}>BẢNG ĐIỂM</IconText>
         </PixelButton>
         <PixelButton tone="ghost" fontSize={22} onClick={onGuess} ariaLabel="Đoán ảnh bí mật">
           ? ĐOÁN ẢNH
@@ -2387,7 +2606,7 @@ const BackdropHud = ({
         <span style={{ fontFamily: F.mono, fontSize: 19, color: C.slate }}>CHƯA CÓ ĐIỂM</span>
       )}
       <PixelButton tone="ghost" fontSize={18} onClick={onOpenPlayers} style={{ padding: '8px 12px' }}>
-        🏆 BẢNG ĐIỂM
+        <IconText icon={<PixelSprite sprite={TROPHY} scale={2} />}>BẢNG ĐIỂM</IconText>
       </PixelButton>
     </div>
     <div style={{ width: 2, height: 42, background: C.slate }} />
@@ -2489,8 +2708,8 @@ const Arena = ({
     ? started
       ? 'Đang tính giờ...'
       : question.kind === 'essay'
-        ? 'MC đọc đề, bấm BẮT ĐẦU 30s cho phần thảo luận.'
-        : 'MC đọc câu hỏi, bấm BẮT ĐẦU 15s.'
+        ? 'Đọc đề, bấm BẮT ĐẦU 30s cho phần thảo luận.'
+        : 'Đọc câu hỏi, bấm BẮT ĐẦU 15s.'
     : correct
       ? turn
         ? `${question.kind === 'essay' ? 'ĐẠT' : 'CHÍNH XÁC'}! +10 · ${turn.name}`
@@ -2502,6 +2721,8 @@ const Arena = ({
           : 'CHƯA ĐÚNG! KHÔNG CỘNG ĐIỂM';
 
   const cta = resolved ? (correct && openedCount === 8 ? 'XEM KẾT QUẢ →' : '← QUAY LẠI ẢNH') : null;
+  const panelBadge = resolved?.timedOut ? SKULL : wrong ? BROKEN_HEART : revealed ? CHEST_OPEN : question.kind === 'essay' ? HOURGLASS : stage === 1 ? SLIME : MIMIC;
+  const panelScale = resolved?.timedOut || wrong ? 8 : revealed ? 10 : question.kind === 'essay' ? 8 : stage === 1 ? 8 : 10;
 
   return (
     <Backdrop variant={STAGE_META[stage - 1].variant} dim={0.46} moon={false}>
@@ -2517,7 +2738,7 @@ const Arena = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <TurnChip player={turn} onOpen={() => setPickerOpen(true)} />
           <PixelButton tone="ghost" fontSize={18} onClick={onOpenPlayers} style={{ padding: '8px 12px' }} ariaLabel="Mở bảng điểm">
-            🏆
+            <PixelSprite sprite={TROPHY} scale={2} />
           </PixelButton>
         </div>
         <div style={{ marginLeft: 'auto' }}>
@@ -2540,15 +2761,18 @@ const Arena = ({
                 </div>
               </>
             )}
-            <div style={{ position: 'absolute', left: 8, bottom: 8, fontFamily: F.mono, fontSize: 20, color: C.white }}>MẢNH {pad2(tile + 1)} · {revealed ? 'ĐÃ MỞ' : 'CHƯA MỞ'}</div>
+            <div style={{ position: 'absolute', left: 8, bottom: 8, display: 'flex', alignItems: 'center', gap: 6, fontFamily: F.mono, fontSize: 20, color: C.white }}>
+              {!revealed && <PixelSprite sprite={PADLOCK} scale={2} />}
+              <span>MẢNH {pad2(tile + 1)} · {revealed ? 'ĐÃ MỞ' : 'CHƯA MỞ'}</span>
+            </div>
           </div>
-          <PixelSprite sprite={revealed ? CHEST_OPEN : question.kind === 'essay' ? HOURGLASS : MIMIC} scale={question.kind === 'essay' ? 9 : 12} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
+          <PixelSprite sprite={panelBadge} scale={panelScale} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
           <div style={{ marginTop: 20, fontFamily: F.mono, fontSize: 21, color: C.silver, textAlign: 'center', lineHeight: 1.25 }}>
             {question.kind === 'essay' ? '30 giây thảo luận\nMC chấm ĐẠT / CHƯA ĐẠT' : 'ĐÚNG +10Đ CHO NGƯỜI CHỌN\nSAI 0Đ · 15 giây mỗi câu'}
           </div>
           {question.kind === 'essay' && (
             <div style={{ marginTop: 'auto', fontFamily: F.mono, fontSize: 19, color: C.slate, textAlign: 'center', lineHeight: 1.2 }}>
-              MC ĐIỀU HÀNH
+              ĐIỀU HÀNH
               <br />
               ĐỌC - THẢO LUẬN - CHẤM
             </div>
@@ -2603,8 +2827,8 @@ const Arena = ({
                     {String.fromCharCode(65 + i)}
                   </span>
                   <span style={{ fontFamily: F.body, fontSize: 27, fontWeight: 500, lineHeight: 1.35, flex: 1 }}>{option}</span>
-                  {isAnswer && <span style={{ fontFamily: F.mono, fontSize: 30, color: C.lime }}>✓</span>}
-                  {isWrongPick && <span style={{ fontFamily: F.mono, fontSize: 30, color: C.red }}>✕</span>}
+                  {isAnswer && <PixelSprite sprite={CHECK} scale={3} />}
+                  {isWrongPick && <PixelSprite sprite={CROSS} scale={3} swap={{ c: C.red }} />}
                 </button>
               );
             })}
@@ -2622,20 +2846,26 @@ const Arena = ({
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 20 }}>
             <PixelButton tone="gold" fontSize={24} onClick={() => setStarted(true)} disabled={started || Boolean(resolved)}>
-              {started ? (timeUp ? '⏰ HẾT 30s' : '⏳ ĐANG TÍNH GIỜ') : '▶ BẮT ĐẦU 30s'}
+              {started ? (
+                <IconText icon={<PixelSprite sprite={timeUp ? SKULL : HOURGLASS} scale={2} swap={timeUp ? { c: C.navy, 0: C.white } : undefined} />}>
+                  {timeUp ? 'HẾT 30s' : 'ĐANG TÍNH GIỜ'}
+                </IconText>
+              ) : (
+                <IconText icon={<PixelSprite sprite={ARROW_RIGHT} scale={2} swap={{ c: C.navy }} />}>BẮT ĐẦU 30s</IconText>
+              )}
             </PixelButton>
             {!resolved && (
               <PixelButton tone="ghost" fontSize={24} onClick={() => setHintOpen((value) => !value)}>
                 {hintOpen ? 'ẨN GỢI Ý' : 'GỢI Ý'}
               </PixelButton>
             )}
-            {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s - MC chấm</span>}
+            {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s - Chấm bài</span>}
           </div>
 
           <div style={{ marginTop: 18, minHeight: 240, background: 'rgba(26,28,44,.94)', border: `3px solid ${C.slate}`, padding: '18px 22px', clipPath: notch(8) }}>
             {!hintOpen && !resolved && (
               <div style={{ fontFamily: F.mono, fontSize: 25, color: C.silver, lineHeight: 1.4 }}>
-                Bấm <span style={{ color: C.yellow }}>GỢI Ý</span> để mở các ý chính. Đáp án gợi ý sẽ hiện sau khi MC chấm.
+                Bấm <span style={{ color: C.yellow }}>GỢI Ý</span> để mở các ý chính. Đáp án gợi ý sẽ hiện sau khi chấm.
               </div>
             )}
             {hintOpen && !resolved && (
@@ -2656,10 +2886,10 @@ const Arena = ({
 
           <div style={{ display: 'flex', gap: 16, marginTop: 18 }}>
             <PixelButton tone="mint" fontSize={26} onClick={() => judgeEssay(true)} disabled={Boolean(resolved)}>
-              ✓ ĐẠT +10
+              <IconText icon={<PixelSprite sprite={CHECK} scale={3} swap={{ 5: C.navy }} />}>ĐẠT +10</IconText>
             </PixelButton>
             <PixelButton tone="coral" fontSize={26} onClick={() => judgeEssay(false)} disabled={Boolean(resolved)}>
-              ✕ CHƯA ĐẠT
+              <IconText icon={<PixelSprite sprite={CROSS} scale={3} />}>CHƯA ĐẠT</IconText>
             </PixelButton>
             {resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: correct ? C.lime : C.orange, alignSelf: 'center' }}>{correct ? 'Đã mở mảnh!' : 'Câu đã bị dùng - không chọn lại.'}</span>}
           </div>
@@ -2705,11 +2935,15 @@ const Arena = ({
           </PixelButton>
         ) : question.kind === 'essay' ? (
           <div style={{ fontFamily: F.mono, fontSize: 21, color: C.silver, border: `2px solid ${C.slate}`, padding: '10px 14px', whiteSpace: 'nowrap' }}>
-            MC CHẤM: ĐẠT / CHƯA ĐẠT
+            CHẤM: ĐẠT / CHƯA ĐẠT
           </div>
         ) : (
           <PixelButton tone="gold" fontSize={24} onClick={() => setStarted(true)} disabled={started}>
-            {started ? '⏳ ĐANG TÍNH GIỜ' : '▶ BẮT ĐẦU 15s'}
+            {started ? (
+              <IconText icon={<PixelSprite sprite={HOURGLASS} scale={2} />}>ĐANG TÍNH GIỜ</IconText>
+            ) : (
+              <IconText icon={<PixelSprite sprite={ARROW_RIGHT} scale={2} swap={{ c: C.navy }} />}>BẮT ĐẦU 15s</IconText>
+            )}
           </PixelButton>
         )}
       </div>
@@ -2828,7 +3062,7 @@ const Guess = ({
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
           <TurnChip player={turn} onOpen={() => setPickerOpen(true)} />
           <PixelButton tone="ghost" fontSize={18} onClick={onOpenPlayers} style={{ padding: '8px 12px' }} ariaLabel="Mở bảng điểm">
-            🏆
+            <PixelSprite sprite={TROPHY} scale={2} />
           </PixelButton>
         </div>
       </div>
@@ -2860,10 +3094,10 @@ const Guess = ({
           )}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 34 }}>
             <PixelButton tone="mint" fontSize={27} onClick={onCorrect}>
-              ✓ ĐOÁN ĐÚNG · +20
+              <IconText icon={<PixelSprite sprite={CHECK} scale={3} swap={{ 5: C.navy }} />}>ĐOÁN ĐÚNG · +20</IconText>
             </PixelButton>
             <PixelButton tone="coral" fontSize={27} onClick={onWrong}>
-              ✕ ĐOÁN SAI
+              <IconText icon={<PixelSprite sprite={CROSS} scale={3} />}>ĐOÁN SAI</IconText>
             </PixelButton>
             {forced ? (
               <PixelButton tone="ghost" fontSize={24} onClick={onGiveUp}>
@@ -2938,7 +3172,7 @@ const Result = ({
             </span>
           )} */}
           <PixelButton tone="ghost" fontSize={18} onClick={onOpenPlayers} style={{ padding: '8px 12px' }}>
-            🏆 BẢNG ĐIỂM
+            <IconText icon={<PixelSprite sprite={TROPHY} scale={2} />}>BẢNG ĐIỂM</IconText>
           </PixelButton>
         </div>
       </div>
@@ -3021,7 +3255,7 @@ const Cover: Page = () => (
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 34 }}>
           <PixelButton tone="gold" fontSize={30} onClick={() => goPage(PAGE.rules)} style={{ padding: '18px 30px' }}>
-            ▶ BẮT ĐẦU
+            <IconText icon={<PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.navy }} />}>BẮT ĐẦU</IconText>
           </PixelButton>
           <PixelButton tone="ghost" fontSize={24} onClick={() => goPage(PAGE.rules)}>
             LUẬT CHƠI
@@ -3033,13 +3267,19 @@ const Cover: Page = () => (
       </div>
 
       <div style={abs(1260, 210, { width: 560, height: 560, zIndex: 12 })}>
-        <PixelSprite sprite={CHEST} scale={17} className="mg-bob" style={{ position: 'absolute', left: 180, top: 250 }} />
-        <Hero style={{ position: 'absolute', left: 48, top: 330 }} />
+        <Chest scale={15} className="mg-bob" style={{ position: 'absolute', left: 200, top: 250 }} />
+        <Hero style={{ position: 'absolute', left: 30, top: 330 }} />
         <div className="mg-float" style={{ position: 'absolute', left: 340, top: 80 }}>
           <PixelSprite sprite={STAR} scale={9} />
         </div>
         <PixelSprite sprite={COIN} scale={7} className="mg-float" style={{ position: 'absolute', left: 70, top: 180 }} />
-        <div style={{ position: 'absolute', left: 400, top: 220, fontFamily: F.display, fontSize: 150, color: 'rgba(255,205,117,.48)', lineHeight: 1 }}>
+        <div className="mg-bob-slow" style={{ position: 'absolute', left: 300, top: 460 }}>
+          <PixelSprite sprite={SLIME} scale={6} />
+        </div>
+        <div className="mg-float" style={{ position: 'absolute', left: 480, top: 340 }}>
+          <PixelSprite sprite={LANTERN} scale={5} />
+        </div>
+        <div style={{ position: 'absolute', left: 440, top: 110, fontFamily: F.display, fontSize: 150, color: 'rgba(255,205,117,.48)', lineHeight: 1 }}>
           ?
         </div>
       </div>
@@ -3143,10 +3383,10 @@ const Rules: Page = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
-            <RuleCard icon={<PixelSprite sprite={CHEST} scale={6} />} value="8" label="MẢNH / Ảnh" desc={'\n'} />
-            <RuleCard icon={<PixelSprite sprite={HOURGLASS} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc={'\n'} accent={C.cyan} />
+            <RuleCard icon={<Chest scale={6} />} value="8" label="MẢNH / Ảnh" desc={'\n'} />
+            <RuleCard icon={<PixelSprite sprite={FLAME} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc={'\n'} accent={C.cyan} />
             <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc={'\n'} accent={C.lime} />
-            <RuleCard icon={<PixelSprite sprite={STAR} scale={7} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
+            <RuleCard icon={<PixelSprite sprite={TROPHY} scale={5} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
           </div>
 
           <div style={{ display: 'flex', gap: 14, marginTop: 20, flex: 1 }}>
@@ -3159,9 +3399,11 @@ const Rules: Page = () => {
             <span style={{ fontFamily: F.mono, fontSize: 23, color: C.silver, letterSpacing: 1 }}>Ảnh 1 → Ảnh 2 → TỔNG KẾT</span>
             <div style={{ display: 'flex', gap: 12 }}>
               <PixelButton tone="ghost" fontSize={23} onClick={() => setPanelOpen(true)}>
-                👥 NGƯỜI CHƠI
+                <IconText icon={<PixelSprite sprite={GAMEPAD} scale={3} />}>NGƯỜI CHƠI</IconText>
               </PixelButton>
-              <PixelButton tone="gold" fontSize={28} onClick={startGame}>{'▶ Bắt đầu '}</PixelButton>
+              <PixelButton tone="gold" fontSize={28} onClick={startGame}>
+                <IconText icon={<PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.navy }} />}>Bắt đầu</IconText>
+              </PixelButton>
             </div>
           </div>
         </div>
@@ -3205,7 +3447,7 @@ const Knowledge: Page = () => {
                   <span style={{ fontFamily: F.mono, fontSize: 20, color: C.slate }}>CHƯA CÓ ĐIỂM</span>
                 )} */}
                 <PixelButton tone="ghost" fontSize={17} onClick={() => setPanelOpen(true)} style={{ padding: '8px 12px' }}>
-                  🏆 BẢNG ĐIỂM
+                  <IconText icon={<PixelSprite sprite={TROPHY} scale={2} />}>BẢNG ĐIỂM</IconText>
                 </PixelButton>
               </div>
             </div>
@@ -3283,7 +3525,7 @@ const Knowledge: Page = () => {
                           }}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <span style={{ fontSize: 19, lineHeight: 1 }}>{['🥇', '🥈', '🥉'][index]}</span>
+                            <span style={{ display: 'flex', alignItems: 'center', lineHeight: 1 }}><Medal rank={index} /></span>
                             <span style={{ marginLeft: 'auto', fontFamily: F.pixel, fontSize: 15, color: playerTotal(player) > 0 ? C.yellow : C.slate }}>
                               {playerTotal(player)}Đ
                             </span>
@@ -3589,7 +3831,7 @@ export const meta: SlideMeta = {
 export const notes: (string | undefined)[] = [
   'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 Ảnh, mỗi Ảnh 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
   'Đọc nhanh luật: 8 mảnh mỗi Ảnh; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang Ảnh 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO Ảnh 1.',
-  'Trang chơi gồm cả 2 Ảnh. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. MC đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng Ảnh, tổng điểm và hoàn tác.',
+  'Trang chơi gồm cả 2 Ảnh. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. Đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng Ảnh, tổng điểm và hoàn tác.',
   'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần - tên người chơi được giữ lại, điểm reset.',
 ];
 
