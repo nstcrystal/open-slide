@@ -2757,7 +2757,7 @@ const Arena = ({
           ? 'CHƯA ĐẠT! KHÔNG CỘNG ĐIỂM'
           : 'CHƯA ĐÚNG! KHÔNG CỘNG ĐIỂM';
 
-  const cta = resolved ? (correct && openedCount === 8 ? 'XEM KẾT QUẢ →' : '← QUAY LẠI ẢNH') : null;
+  const cta = resolved ? (correct && openedCount === 8 ? 'ĐOÁN ẢNH →' : '← QUAY LẠI ẢNH') : null;
   const panelBadge = resolved?.timedOut ? SKULL : wrong ? BROKEN_HEART : question.kind === 'essay' ? HOURGLASS : stage === 1 ? SLIME : MIMIC;
   const panelScale = resolved?.timedOut || wrong ? 8 : revealed ? 10 : question.kind === 'essay' ? 8 : stage === 1 ? 8 : 10;
 
@@ -3568,7 +3568,9 @@ const Game: Page = () => {
       return;
     }
     if (openedCount === 8) {
-      finishStage();
+      update((prev) => ({ turnId: null }));
+      setForced(true);
+      setScreen('guess');
       return;
     }
     if (usedCount >= pool.length) {
@@ -3629,7 +3631,9 @@ const Game: Page = () => {
 
   const returnToImage = () => {
     if (openedCount === 8) {
-      finishStage();
+      update((prev) => ({ turnId: null }));
+      setForced(true);
+      setScreen('guess');
       return;
     }
     if (usedCount >= pool.length) {
@@ -3644,10 +3648,6 @@ const Game: Page = () => {
   };
 
   const openGuess = () => {
-    if (openedCount === 8) {
-      finishStage();
-      return;
-    }
     setForced(false);
     update((prev) => ({ turnId: null }));
     setScreen('guess');
