@@ -553,11 +553,15 @@ const fragmentStyle = (stage: 1 | 2, index: number): CSSProperties => {
 // Game store
 // ─────────────────────────────────────────────────────────────────────────────
 
+const MAX_GUESSES_PER_STAGE = 2;
+
 type Player = {
   id: string;
   name: string;
   /** Points earned in each profile (index 0 = profile 1, index 1 = profile 2). */
   score: [number, number];
+  /** Guesses used in each profile (index 0 = profile 1, index 1 = profile 2). */
+  guesses: [number, number];
 };
 
 type Award = {
@@ -624,6 +628,9 @@ const saveRoster = (players: Player[]) => {
 
 const playerTotal = (player: Player) => player.score[0] + player.score[1];
 
+const playerGuesses = (player: Player, stage: 1 | 2) =>
+  player.guesses ? (player.guesses[stage - 1] ?? 0) : 0;
+
 const playerValue = (player: Player, stage?: 1 | 2) =>
   stage ? player.score[stage - 1] : playerTotal(player);
 
@@ -651,7 +658,7 @@ const appendPlayers = (
       firstId ??= existing.id;
       continue;
     }
-    const player: Player = { id: createPlayerId(), name, score: [0, 0] };
+    const player: Player = { id: createPlayerId(), name, score: [0, 0], guesses: [0, 0] };
     players.push(player);
     firstId ??= player.id;
   }
@@ -660,7 +667,7 @@ const appendPlayers = (
 };
 
 const resetPlayerScores = (players: Player[]) =>
-  players.map((player) => ({ ...player, score: [0, 0] as [number, number] }));
+  players.map((player) => ({ ...player, score: [0, 0] as [number, number], guesses: [0, 0] as [number, number] }));
 
 const defaultStore = (players: Player[] = []): GameStore => ({
   opened: [emptyRow(), emptyRow()],
@@ -687,12 +694,12 @@ const readPlayers = (value: unknown): Player[] | null => {
   const seen = new Set<string>();
   return value.flatMap((entry) => {
     if (!entry || typeof entry !== 'object') return [];
-    const { id, name, score } = entry as { id?: unknown; name?: unknown; score?: unknown };
+    const { id, name, score, guesses } = entry as { id?: unknown; name?: unknown; score?: unknown; guesses?: unknown };
     if (typeof id !== 'string' || typeof name !== 'string') return [];
     const clean = sanitizeName(name);
     if (!clean || seen.has(id)) return [];
     seen.add(id);
-    return [{ id, name: clean, score: readScorePair(score) }];
+    return [{ id, name: clean, score: readScorePair(score), guesses: readScorePair(guesses) }];
   });
 };
 
@@ -703,13 +710,13 @@ const loadStore = (): GameStore => {
     const raw = JSON.parse(window.sessionStorage.getItem(STORAGE_KEY) ?? 'null') as Partial<GameStore> | null;
     if (!raw) {
       return defaultStore(
-        loadRoster().map((entry) => ({ ...entry, score: [0, 0] as [number, number] })),
+        loadRoster().map((entry) => ({ ...entry, score: [0, 0] as [number, number], guesses: [0, 0] as [number, number] })),
       );
     }
     const parsedPlayers = readPlayers((raw as { players?: unknown }).players);
     const players =
       parsedPlayers ??
-      loadRoster().map((entry) => ({ ...entry, score: [0, 0] as [number, number] }));
+      loadRoster().map((entry) => ({ ...entry, score: [0, 0] as [number, number], guesses: [0, 0] as [number, number] }));
     const playerIds = new Set(players.map((player) => player.id));
     const awards = Array.isArray(raw.awards)
       ? raw.awards.filter((award): award is Award => {
@@ -812,6 +819,17 @@ const bumpPlayer = (player: Player, stage: 1 | 2, amount: number): Player => ({
     stage === 2 ? Math.max(0, player.score[1] + amount) : player.score[1],
   ],
 });
+
+const bumpPlayerGuesses = (player: Player, stage: 1 | 2, delta = 1): Player => {
+  const current = player.guesses ?? [0, 0];
+  return {
+    ...player,
+    guesses: [
+      stage === 1 ? Math.max(0, current[0] + delta) : current[0],
+      stage === 2 ? Math.max(0, current[1] + delta) : current[1],
+    ],
+  };
+};
 
 const answerLabel = (q: MCQuestion) => `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}`;
 
@@ -1863,6 +1881,8 @@ const PlayerPicker = ({
   players,
   title = 'AI TRẢ LỜI CÂU NÀY?',
   subtitle,
+  isGuessMode = false,
+  stage = 1,
   onPick,
   onAdd,
   onClose,
@@ -1871,6 +1891,8 @@ const PlayerPicker = ({
   players: Player[];
   title?: string;
   subtitle: string;
+  isGuessMode?: boolean;
+  stage?: 1 | 2;
   onPick: (id: string) => void;
   onAdd: (name: string) => void;
   onClose: () => void;
@@ -1976,50 +1998,75 @@ const PlayerPicker = ({
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 12 }}>
-              {players.map((player) => (
-                <button
-                  key={player.id}
-                  type="button"
-                  className="mg-opt"
-                  onClick={() => onPick(player.id)}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: 'center',
-                    gap: 6,
-                    minWidth: 0,
-                    minHeight: 88,
-                    padding: '10px 14px',
-                    background: 'rgba(26,28,44,.94)',
-                    border: `3px solid ${C.ink}`,
-                    color: C.white,
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                  }}
-                >
-                  <span
-                    style={{
-                      maxWidth: '100%',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      lineHeight: 1.25,
-                      fontFamily: F.pixelify,
-                      fontSize: 22,
-                      fontWeight: 600,
+              {players.map((player) => {
+                const usedGuesses = isGuessMode ? playerGuesses(player, stage) : 0;
+                const isOutOfGuesses = isGuessMode && usedGuesses >= MAX_GUESSES_PER_STAGE;
+                return (
+                  <button
+                    key={player.id}
+                    type="button"
+                    className="mg-opt"
+                    onClick={() => {
+                      if (!isOutOfGuesses) onPick(player.id);
                     }}
-                    title={player.name}
+                    disabled={isOutOfGuesses}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      justifyContent: 'center',
+                      gap: 6,
+                      minWidth: 0,
+                      minHeight: 88,
+                      padding: '10px 14px',
+                      background: isOutOfGuesses ? 'rgba(30,15,20,.85)' : 'rgba(26,28,44,.94)',
+                      border: `3px solid ${isOutOfGuesses ? C.red : C.ink}`,
+                      color: C.white,
+                      cursor: isOutOfGuesses ? 'not-allowed' : 'pointer',
+                      opacity: isOutOfGuesses ? 0.55 : 1,
+                      textAlign: 'left',
+                    }}
                   >
-                    {player.name}
-                  </span>
-                  <span style={{ fontFamily: F.mono, fontSize: 19, color: C.yellow }}>
-                    {playerTotal(player)}Đ
-                  </span>
-                </button>
-              ))}
+                    <span
+                      style={{
+                        maxWidth: '100%',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        lineHeight: 1.25,
+                        fontFamily: F.pixelify,
+                        fontSize: 22,
+                        fontWeight: 600,
+                      }}
+                      title={player.name}
+                    >
+                      {player.name}
+                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 'auto' }}>
+                      <span style={{ fontFamily: F.mono, fontSize: 19, color: C.yellow }}>
+                        {playerTotal(player)}Đ
+                      </span>
+                      {isGuessMode && (
+                        <span
+                          style={{
+                            fontFamily: F.pixelify,
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: isOutOfGuesses ? C.red : usedGuesses === 1 ? C.yellow : C.lime,
+                            background: isOutOfGuesses ? 'rgba(177,62,83,.25)' : 'rgba(14,15,26,.85)',
+                            border: `1px solid ${isOutOfGuesses ? C.red : usedGuesses === 1 ? C.yellow : C.slate}`,
+                            padding: '1px 6px',
+                          }}
+                        >
+                          {isOutOfGuesses ? 'HẾT LƯỢT' : usedGuesses === 1 ? 'CÒN 1 LƯỢT' : 'CÒN 2 LƯỢT'}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -3309,20 +3356,22 @@ const FlowStep = ({
   <div
     style={{
       flex: 1,
-      minHeight: 94,
-      padding: '12px 16px',
+      minHeight: 114,
+      padding: '16px 20px',
       display: 'flex',
       alignItems: 'center',
-      gap: 14,
+      gap: 18,
       background: 'rgba(26,28,44,.9)',
       border: `3px solid ${C.ink}`,
-      boxShadow: `inset 0 0 0 2px rgba(255,255,255,.03)`,
+      boxShadow: `inset 0 0 0 2px rgba(255,255,255,.04)`,
     }}
   >
-    <span style={{ fontFamily: F.pixel, fontSize: 17, color: accent }}>{n}</span>
-    <div style={{ minWidth: 0 }}>
-      <div style={{ fontFamily: F.mono, fontSize: 23, color: C.white, letterSpacing: 1 }}>{title}</div>
-      <div style={{ fontFamily: F.pixelify, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2, whiteSpace: 'pre-line' }}>{desc}</div>
+    <span style={{ fontFamily: F.pixel, fontSize: 22, color: accent, lineHeight: 1 }}>{n}</span>
+    <div style={{ minWidth: 0, flex: 1 }}>
+      <div style={{ fontFamily: F.mono, fontSize: 28, color: C.white, letterSpacing: 1.5, lineHeight: 1.1 }}>{title}</div>
+      <div style={{ fontFamily: F.pixelify, fontSize: 22, lineHeight: 1.4, color: C.silver, marginTop: 4, whiteSpace: 'pre-line' }}>
+        {desc}
+      </div>
     </div>
   </div>
 );
