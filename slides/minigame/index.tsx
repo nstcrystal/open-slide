@@ -3286,7 +3286,7 @@ const Cover: Page = () => (
         <Chip text="8 MẢNH / Ảnh" />
         <Chip text="30s TRẮC NGHIỆM" />
         <Chip text="50s TỰ LUẬN" />
-        <span style={{ marginLeft: 'auto', fontFamily: F.mono, fontSize: 21, color: 'rgba(244,244,244,.55)' }}>CNXHKH · NHÓM 3</span>
+        {/* <span style={{ marginLeft: 'auto', fontFamily: F.mono, fontSize: 21, color: 'rgba(244,244,244,.55)' }}>{'2 Ảnh8 MẢNH / Ảnh30s TRẮC NGHIỆM50s TỰ LUẬN '}</span> */}
       </div>
     </Backdrop>
   </Screen>
