@@ -2060,7 +2060,7 @@ const PlayerPicker = ({
                             padding: '1px 6px',
                           }}
                         >
-                          {isOutOfGuesses ? 'HẾT LƯỢT' : usedGuesses === 1 ? 'CÒN 1 LƯỢT' : 'CÒN 2 LƯỢT'}
+                          {isOutOfGuesses ? `${usedGuesses}/${MAX_GUESSES_PER_STAGE} HẾT LƯỢT` : `${usedGuesses}/${MAX_GUESSES_PER_STAGE} LƯỢT`}
                         </span>
                       )}
                     </div>
@@ -3198,6 +3198,8 @@ const Guess = ({
         players={players}
         title="AI ĐOÁN BỨC ẢNH?"
         subtitle={`${meta.label} · Lượt đoán ảnh`}
+        isGuessMode={true}
+        stage={stage}
         onPick={(id) => {
           onPickTurn(id);
           setPickerOpen(false);
