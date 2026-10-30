@@ -3159,7 +3159,7 @@ const Guess = ({
             BÍ MẬT LÀ GÌ?
           </h2>
           <p style={{ fontFamily: F.body, fontSize: 24, lineHeight: 1.55, color: C.silver, margin: '22px 0 0' }}>
-            Mời <strong style={{ color: C.white }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. MC theo dõi tối đa <strong style={{ color: C.white }}>2 lượt/người</strong>. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc Ảnh.
+            Mời <strong style={{ color: C.white }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. Tối đa <strong style={{ color: C.white }}>2 lượt/người</strong>. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc Ảnh.
           </p>
           {!turn && (
             <div style={{ marginTop: 16, fontFamily: F.mono, fontSize: 21, color: C.orange, lineHeight: 1.4 }}>
@@ -3786,7 +3786,7 @@ const Game: Page = () => {
   };
 
   const wrongGuess = () => {
-    setToast('Đã ghi nhận lượt đoán sai - MC theo dõi 2 lượt/người.');
+    setToast('Đã ghi nhận lượt đoán sai');
   };
 
   const giveUp = () => {
