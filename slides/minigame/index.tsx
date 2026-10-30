@@ -3121,6 +3121,12 @@ const Guess = ({
   const meta = STAGE_META[stage - 1];
   const [pickerOpen, setPickerOpen] = useState(!turnId);
   const turn = players.find((player) => player.id === turnId) ?? null;
+
+  // Sau mỗi lượt đoán sai, turnId được reset về null → tự mở picker lại
+  useEffect(() => {
+    if (!turnId) setPickerOpen(true);
+  }, [turnId]);
+
   return (
     <Backdrop variant={meta.variant} dim={0.56} moon={false}>
       <div style={abs(60, 24, { width: 1800, height: 84, zIndex: 30, display: 'flex', alignItems: 'center', gap: 18, padding: '0 22px', background: 'rgba(14,15,26,.94)', border: `4px solid ${C.dark}`, boxShadow: `0 0 0 3px ${C.slate}` })}>
@@ -3722,9 +3728,11 @@ const Game: Page = () => {
       return {
         guessed: prev.guessed.map((value, i) => (i === stageIdx ? true : value)),
         finished: prev.finished.map((value, i) => (i === stageIdx ? true : value)),
-        players: already
-          ? prev.players
-          : prev.players.map((player) => (player.id === prev.turnId ? bumpPlayer(player, stage, 20) : player)),
+        players: prev.players.map((player) => {
+          if (player.id !== prev.turnId) return player;
+          const withGuess = bumpPlayerGuesses(player, stage);
+          return already ? withGuess : bumpPlayer(withGuess, stage, 20);
+        }),
         awards: already
           ? prev.awards
           : [...prev.awards, { playerId: prev.turnId, stage, amount: 20, source: 'guess' as const }],
@@ -3734,7 +3742,16 @@ const Game: Page = () => {
   };
 
   const wrongGuess = () => {
-    setToast('Đã ghi nhận lượt đoán sai');
+    update((prev) => {
+      if (!prev.turnId) return {};
+      return {
+        turnId: null,
+        players: prev.players.map((p) =>
+          p.id === prev.turnId ? bumpPlayerGuesses(p, stage) : p,
+        ),
+      };
+    });
+    setToast('Đoán sai! Chọn người tiếp theo.');
   };
 
   const giveUp = () => {
