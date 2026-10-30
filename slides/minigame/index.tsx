@@ -25,7 +25,7 @@ export const design: DesignSystem = {
 };
 
 const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap';
+  'https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap';
 const FONT_LINK_ID = 'osd-webfont-minigame';
 
 if (typeof document !== 'undefined') {
@@ -157,6 +157,7 @@ const F = {
   body: 'var(--osd-font-body)',
   pixel: '"Press Start 2P", monospace',
   mono: '"VT323", monospace',
+  pixelify: '"Pixelify Sans", "VT323", sans-serif',
 };
 
 const P = 8;
@@ -507,7 +508,7 @@ const POOLS: Question[][] = [POOL_ONE, POOL_TWO];
 const STAGE_META = [
   {
     label: 'Ảnh 1',
-    zone: 'KHU RỪNG KÝ ỨC',
+    zone: 'KHU RỪNG KÍ ỨC',
     answer: '54 DÂN TỘC',
     answer2: 'VIỆT NAM',
     subtitle: 'Mỗi dân tộc một bản sắc cùng chung bức tranh.',
@@ -518,7 +519,7 @@ const STAGE_META = [
   },
   {
     label: 'Ảnh 2',
-    zone: 'ĐỈNH NÚI KÝ ỨC',
+    zone: 'ĐỈNH NÚI KÍ ỨC',
     answer: 'BẢN ĐỒ PHÂN BỐ',
     answer2: '54 DÂN TỘC',
     subtitle: '54 dân tộc - 8 vùng miền - một Việt Nam thống nhất.',
@@ -1845,8 +1846,8 @@ const TurnChip = ({
         maxWidth: 380,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        fontFamily: F.body,
-        fontSize: 21,
+        fontFamily: F.pixelify,
+        fontSize: 22,
         fontWeight: 600,
       }}
       title={player?.name}
@@ -1923,7 +1924,7 @@ const PlayerPicker = ({
             <div style={{ fontFamily: F.mono, fontSize: 30, lineHeight: 1.2, letterSpacing: 1, color: C.yellow }}>
               {title}
             </div>
-            <div style={{ fontFamily: F.body, fontSize: 22, color: C.silver, marginTop: 8 }}>
+            <div style={{ fontFamily: F.pixelify, fontSize: 20, color: C.silver, marginTop: 8 }}>
               {subtitle} · Chọn tên có sẵn hoặc nhập tên mới.
             </div>
           </div>
@@ -2006,8 +2007,8 @@ const PlayerPicker = ({
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical',
                       lineHeight: 1.25,
-                      fontFamily: F.body,
-                      fontSize: 21,
+                      fontFamily: F.pixelify,
+                      fontSize: 22,
                       fontWeight: 600,
                     }}
                     title={player.name}
@@ -2037,8 +2038,8 @@ const PlayerPicker = ({
               flex: 1,
               minWidth: 0,
               padding: '12px 16px',
-              fontFamily: F.body,
-              fontSize: 24,
+              fontFamily: F.pixelify,
+              fontSize: 22,
               color: C.white,
               background: 'rgba(14,15,26,.94)',
               border: `3px solid ${C.slate}`,
@@ -2118,11 +2119,12 @@ const StageLeaderboard = ({
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-                fontFamily: F.body,
+                fontFamily: F.pixelify,
                 fontSize: 22,
                 fontWeight: 600,
                 color: C.white,
               }}
+              title={player.name}
             >
               {player.name}
             </span>
@@ -2242,7 +2244,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
             <div style={{ fontFamily: F.mono, fontSize: 30, lineHeight: 1.2, letterSpacing: 1, color: C.yellow }}>
               NGƯỜI CHƠI &amp; BẢNG ĐIỂM
             </div>
-            <div style={{ fontFamily: F.body, fontSize: 22, color: C.silver, marginTop: 8 }}>
+            <div style={{ fontFamily: F.pixelify, fontSize: 20, color: C.silver, marginTop: 8 }}>
               Chọn người trước mỗi câu. Điểm +10 / +20 cộng trực tiếp cho người đó.
             </div>
           </div>
@@ -2277,7 +2279,7 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
               minWidth: 0,
               resize: 'none',
               padding: '10px 14px',
-              fontFamily: F.body,
+              fontFamily: F.pixelify,
               fontSize: 21,
               lineHeight: 1.35,
               color: C.white,
@@ -2365,11 +2367,12 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
-                      fontFamily: F.body,
+                      fontFamily: F.pixelify,
                       fontSize: 23,
                       fontWeight: 600,
                       color: C.white,
                     }}
+                    title={player.name}
                   >
                     {player.name}
                   </span>
@@ -2539,8 +2542,8 @@ const Home = ({
       <BackdropHud stage={stage} store={store} onOpenPlayers={onOpenPlayers} />
       <div style={abs(120, 132, { zIndex: 18, display: 'flex', alignItems: 'baseline', gap: 14 })}>
         <span style={{ fontFamily: F.mono, fontSize: 23, letterSpacing: 1, color: C.yellow }}>{meta.label}</span>
-        <span style={{ fontFamily: F.display, fontSize: 34, color: C.white, textShadow: `3px 3px 0 ${C.plum}`, lineHeight: 1 }}>{meta.zone}</span>
-        <span style={{ fontFamily: F.body, fontSize: 20, color: C.silver }}>Chọn một mảnh để rút câu hỏi ngẫu nhiên.</span>
+        <span style={{ fontFamily: F.pixelify, fontSize: 34, fontWeight: 700, letterSpacing: 1, color: C.white, textShadow: `3px 3px 0 ${C.plum}`, lineHeight: 1 }}>{meta.zone}</span>
+        <span style={{ fontFamily: F.pixelify, fontSize: 20, color: C.silver }}>Chọn một mảnh để rút câu hỏi ngẫu nhiên.</span>
       </div>
 
       <div
@@ -2633,7 +2636,7 @@ const BackdropHud = ({
       <div style={{ background: C.yellow, color: C.navy, fontFamily: F.pixel, fontSize: 12, padding: '8px 10px' }}>{pad2(stage)}/02</div>
       <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
         <span style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow }}>{STAGE_META[stage - 1].label}</span>
-        <span style={{ fontFamily: F.mono, fontSize: 24, color: C.silver, marginTop: 4 }}>{STAGE_META[stage - 1].zone}</span>
+        <span style={{ fontFamily: F.pixelify, fontSize: 22, fontWeight: 700, letterSpacing: 1, color: C.silver, marginTop: 4 }}>{STAGE_META[stage - 1].zone}</span>
       </div>
     </div>
     <div style={{ width: 2, height: 42, background: C.slate }} />
@@ -2641,7 +2644,7 @@ const BackdropHud = ({
       <span style={{ fontFamily: F.mono, fontSize: 18, color: C.silver }}>DẪN ĐẦU</span>
       {leader && leaderPoints > 0 ? (
         <>
-          <span style={{ maxWidth: 420, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: F.body, fontSize: 22, fontWeight: 600, color: C.white }} title={leader.name}>{leader.name}</span>
+          <span style={{ maxWidth: 420, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: F.pixelify, fontSize: 23, fontWeight: 600, color: C.white }} title={leader.name}>{leader.name}</span>
           <span style={{ fontFamily: F.pixel, fontSize: 17, color: C.yellow }}>{leaderPoints}Đ</span>
         </>
       ) : (
@@ -3106,8 +3109,8 @@ const Guess = ({
             <br />
             BÍ MẬT LÀ GÌ?
           </h2>
-          <p style={{ fontFamily: F.body, fontSize: 24, lineHeight: 1.55, color: C.silver, margin: '22px 0 0' }}>
-            Mời <strong style={{ color: C.white }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. Tối đa <strong style={{ color: C.white }}>2 lượt/người</strong>. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc Ảnh.
+          <p style={{ fontFamily: F.pixelify, fontSize: 23, lineHeight: 1.55, color: C.silver, margin: '22px 0 0' }}>
+            Mời <strong style={{ color: C.white, fontFamily: F.pixelify }}>{turn ? turn.name : 'người được chọn'}</strong> đưa ra đáp án. Tối đa <strong style={{ color: C.white }}>2 lượt/người</strong>. Đoán đúng nhận <strong style={{ color: C.yellow }}>+20 điểm</strong> và kết thúc Ảnh.
           </p>
           {!turn && (
             <div style={{ marginTop: 16, fontFamily: F.mono, fontSize: 21, color: C.orange, lineHeight: 1.4 }}>
@@ -3202,7 +3205,7 @@ const Result = ({
           <br />
           <span style={{ color: C.yellow }}>{meta.answer2}</span>
         </h2>
-        <p style={{ fontFamily: F.body, fontSize: 26, lineHeight: 1.5, color: C.silver, margin: '18px 0 0' }}>{meta.subtitle}</p>
+        <p style={{ fontFamily: F.pixelify, fontSize: 24, lineHeight: 1.5, color: C.silver, margin: '18px 0 0' }}>{meta.subtitle}</p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 24 }}>
           <Badge label={`${count}/8 MẢNH`} tone={count === 8 ? 'lime' : 'dark'} />
           {guessed && (
@@ -3250,7 +3253,7 @@ const Cover: Page = () => (
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginTop: 30 }}>
           <span style={{ fontFamily: F.display, fontSize: 70, color: C.cyan, textShadow: `4px 4px 0 ${C.deep}`, lineHeight: 1 }}>ĐẤU TRƯỜNG</span>
         </div>
-        <p style={{ fontFamily: F.body, fontSize: 27, lineHeight: 1.65, color: '#D7E0F5', maxWidth: 820, margin: '18px 0 0' }}>
+        <p style={{ fontFamily: F.pixelify, fontSize: 25, lineHeight: 1.65, color: '#D7E0F5', maxWidth: 820, margin: '18px 0 0' }}>
           Hai bức ảnh bí mật, mỗi bức ảnh là tám mảnh ký ức cần lật ra.
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 34 }}>
@@ -3319,7 +3322,7 @@ const FlowStep = ({
     <span style={{ fontFamily: F.pixel, fontSize: 17, color: accent }}>{n}</span>
     <div style={{ minWidth: 0 }}>
       <div style={{ fontFamily: F.mono, fontSize: 23, color: C.white, letterSpacing: 1 }}>{title}</div>
-      <div style={{ fontFamily: F.body, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2, whiteSpace: 'pre-line' }}>{desc}</div>
+      <div style={{ fontFamily: F.pixelify, fontSize: 19, lineHeight: 1.35, color: C.silver, marginTop: 2, whiteSpace: 'pre-line' }}>{desc}</div>
     </div>
   </div>
 );
@@ -3500,7 +3503,7 @@ const Knowledge: Page = () => {
                               {playerTotal(player)}Đ
                             </span>
                           </div>
-                          <div style={{ marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', lineHeight: 1.2, minHeight: 46, fontFamily: F.body, fontSize: 19, fontWeight: 600, color: C.white }} title={player.name}>
+                          <div style={{ marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', lineHeight: 1.2, minHeight: 46, fontFamily: F.pixelify, fontSize: 21, fontWeight: 600, color: C.white }} title={player.name}>
                             {player.name}
                           </div>
                         </div>
