@@ -2859,9 +2859,9 @@ const Arena = ({
             )}
           </div>
           {revealed ? (
-            <Chest scale={panelScale} open className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
+            <Chest scale={panelScale} open className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 60 }} />
           ) : (
-            <PixelSprite sprite={panelBadge} scale={panelScale} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
+            <PixelSprite sprite={panelBadge} scale={panelScale} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 60 }} />
           )}
           {question.kind === 'essay' && (
             <div style={{ marginTop: 'auto', fontFamily: F.mono, fontSize: 19, color: C.slate, textAlign: 'center', lineHeight: 1.2 }}>
