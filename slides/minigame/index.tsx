@@ -1842,13 +1842,14 @@ const TurnChip = ({
     <span style={{ color: player ? C.yellow : C.orange }}>LƯỢT</span>
     <span
       style={{
-        maxWidth: 190,
+        maxWidth: 380,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         fontFamily: F.body,
-        fontSize: 22,
+        fontSize: 21,
         fontWeight: 600,
       }}
+      title={player?.name}
     >
       {player ? player.name : 'CHỌN NGƯỜI'}
     </span>
@@ -1987,7 +1988,7 @@ const PlayerPicker = ({
                     justifyContent: 'center',
                     gap: 6,
                     minWidth: 0,
-                    minHeight: 78,
+                    minHeight: 88,
                     padding: '10px 14px',
                     background: 'rgba(26,28,44,.94)',
                     border: `3px solid ${C.ink}`,
@@ -2001,11 +2002,15 @@ const PlayerPicker = ({
                       maxWidth: '100%',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      lineHeight: 1.25,
                       fontFamily: F.body,
-                      fontSize: 24,
+                      fontSize: 21,
                       fontWeight: 600,
                     }}
+                    title={player.name}
                   >
                     {player.name}
                   </span>
@@ -2636,7 +2641,7 @@ const BackdropHud = ({
       <span style={{ fontFamily: F.mono, fontSize: 18, color: C.silver }}>DẪN ĐẦU</span>
       {leader && leaderPoints > 0 ? (
         <>
-          <span style={{ maxWidth: 210, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: F.body, fontSize: 22, fontWeight: 600, color: C.white }}>{leader.name}</span>
+          <span style={{ maxWidth: 420, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: F.body, fontSize: 22, fontWeight: 600, color: C.white }} title={leader.name}>{leader.name}</span>
           <span style={{ fontFamily: F.pixel, fontSize: 17, color: C.yellow }}>{leaderPoints}Đ</span>
         </>
       ) : (
@@ -2887,7 +2892,7 @@ const Arena = ({
               <PixelButton tone="ghost" fontSize={24} onClick={() => setHintOpen((value) => !value)}>
                 {hintOpen ? 'ẨN GỢI Ý' : 'GỢI Ý'}
               </PixelButton>
-              {timeUp && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s - Chấm bài</span>}
+              {timeUp && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT GIỜ (50s) - Chấm bài</span>}
             </div>
           )}
 
@@ -2954,8 +2959,8 @@ const Arena = ({
                   ? question.explain
                   : `Đáp án đúng: ${answerLabel(question)}. ${question.explain}`
               : question.kind === 'essay'
-                ? 'Hết 30 giây vẫn có thể chấm'
-                : 'Chọn đáp án hoặc chờ hết 15 giây. Sai không được chọn lại.'}
+                ? 'Hết 50 giây vẫn có thể chấm'
+                : 'Chọn đáp án hoặc chờ hết 30 giây. Sai không được chọn lại.'}
           </div>
         </div>
         {resolved ? (
@@ -3279,8 +3284,8 @@ const Cover: Page = () => (
       <div style={abs(120, 900, { zIndex: 20, display: 'flex', gap: 12, alignItems: 'center' })}>
         <Chip text="2 Ảnh" />
         <Chip text="8 MẢNH / Ảnh" />
-        <Chip text="15s TRẮC NGHIỆM" />
-        <Chip text="30s TỰ LUẬN" />
+        <Chip text="30s TRẮC NGHIỆM" />
+        <Chip text="50s TỰ LUẬN" />
         <span style={{ marginLeft: 'auto', fontFamily: F.mono, fontSize: 21, color: 'rgba(244,244,244,.55)' }}>CNXHKH · NHÓM 3</span>
       </div>
     </Backdrop>
@@ -3495,7 +3500,7 @@ const Knowledge: Page = () => {
                               {playerTotal(player)}Đ
                             </span>
                           </div>
-                          <div style={{ marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: F.body, fontSize: 20, fontWeight: 600, color: C.white }}>
+                          <div style={{ marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', lineHeight: 1.2, minHeight: 46, fontFamily: F.body, fontSize: 19, fontWeight: 600, color: C.white }} title={player.name}>
                             {player.name}
                           </div>
                         </div>
@@ -3795,8 +3800,8 @@ export const meta: SlideMeta = {
 
 export const notes: (string | undefined)[] = [
   'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 Ảnh, mỗi Ảnh 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
-  'Đọc nhanh luật: 8 mảnh mỗi Ảnh; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang Ảnh 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO Ảnh 1.',
-  'Trang chơi gồm cả 2 Ảnh. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. Đọc câu. Đồng hồ tự chạy ngay khi chọn người trả lời: 15 giây với trắc nghiệm, 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng Ảnh, tổng điểm và hoàn tác.',
+  'Đọc nhanh luật: 8 mảnh mỗi Ảnh; trắc nghiệm 30 giây, tự luận 50 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang Ảnh 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO Ảnh 1.',
+  'Trang chơi gồm cả 2 Ảnh. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. Đọc câu. Đồng hồ tự chạy ngay khi chọn người trả lời: 30 giây với trắc nghiệm, 50 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng Ảnh, tổng điểm và hoàn tác.',
   'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần - tên người chơi được giữ lại, điểm reset.',
 ];
 
