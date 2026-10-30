@@ -3354,7 +3354,6 @@ const RuleCard = ({
     }}
   >
     <div style={{ height: 78, display: 'flex', alignItems: 'center' }}>
-      {/* @slide-comment id="c-c5bddbe7" ts="2026-10-30T09:13:07.564Z" text="eyJub3RlIjoiQ8SDbiBnaeG7r2EgY8OhYyBpY29uIiwicGFnZSI6MX0" */}
       {icon}
     </div>
     <div style={{ fontFamily: F.pixel, fontSize: 42, lineHeight: 1.1, color: accent, marginTop: 16 }}>{value}</div>
