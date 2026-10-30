@@ -3078,11 +3078,6 @@ const MemoryMosaic = ({ stage, opened }: { stage: 1 | 2; opened: boolean[] }) =>
           }}
         >
           {!opened[index] && <span style={{ fontFamily: F.display, fontSize: 42, color: 'rgba(244,244,244,.16)' }}>?</span>}
-          {opened[index] && (
-            <span style={{ position: 'absolute', left: 5, bottom: 4, fontFamily: F.mono, fontSize: 17, color: C.white, background: 'rgba(14,15,26,.8)', padding: '0 4px' }}>
-              {pad2(index + 1)}
-            </span>
-          )}
         </div>
       ))}
     </div>
