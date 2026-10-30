@@ -2693,7 +2693,7 @@ const Arena = ({
   onBack: () => void;
 }) => {
   const active = useIsActivePage();
-  const total = question.kind === 'essay' ? 30 : 15;
+  const total = question.kind === 'essay' ? 50 : 30;
   const [picked, setPicked] = useState<number | null>(null);
   const [resolved, setResolved] = useState<Resolved | null>(null);
   const [started, setStarted] = useState(false);
@@ -2948,13 +2948,13 @@ const Arena = ({
             {resolved
               ? question.kind === 'essay'
                 ? resolved.correct
-                  ? 'Đáp án gợi ý đã hiện bên trên. Mời MC chuyển lượt.'
-                  : 'Câu này đã bị dùng. Mời MC quay về bảng ảnh để chọn mảnh khác.'
+                  ? 'Đáp án gợi ý đã hiện bên trên. Mời chuyển lượt.'
+                  : 'Câu này đã bị dùng. Mời quay về bảng ảnh để chọn mảnh khác.'
                 : resolved.correct
                   ? question.explain
                   : `Đáp án đúng: ${answerLabel(question)}. ${question.explain}`
               : question.kind === 'essay'
-                ? 'Hết 30 giây MC vẫn có thể chấm; câu hỏi không được dùng lại.'
+                ? 'Hết 30 giây vẫn có thể chấm'
                 : 'Chọn đáp án hoặc chờ hết 15 giây. Sai không được chọn lại.'}
           </div>
         </div>
@@ -3367,7 +3367,7 @@ const Rules: Page = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
             <RuleCard icon={<Chest scale={6} />} value="8" label="MẢNH / Ảnh" />
-            <RuleCard icon={<PixelSprite sprite={FLAME} scale={7} />} value="15s/30s" label="TRẮC NGHIỆM/TỰ LUẬN" accent={C.cyan} />
+            <RuleCard icon={<PixelSprite sprite={FLAME} scale={7} />} value="30s/50s" label="TRẮC NGHIỆM/TỰ LUẬN" accent={C.cyan} />
             <RuleCard icon={<PixelSprite sprite={COIN} scale={10} />} value="+10" label="MỖI CÂU ĐÚNG" accent={C.lime} />
             <RuleCard icon={<PixelSprite sprite={TROPHY} scale={7} />} value="+20" label="ĐOÁN ẢNH" accent={C.orange} />
           </div>
