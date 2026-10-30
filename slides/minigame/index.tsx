@@ -3353,7 +3353,8 @@ const RuleCard = ({
       clipPath: notch(8),
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ height: 78, display: 'flex', alignItems: 'center' }}>
+      {/* @slide-comment id="c-c5bddbe7" ts="2026-10-30T09:13:07.564Z" text="eyJub3RlIjoiQ8SDbiBnaeG7r2EgY8OhYyBpY29uIiwicGFnZSI6MX0" */}
       {icon}
     </div>
     <div style={{ fontFamily: F.pixel, fontSize: 42, lineHeight: 1.1, color: accent, marginTop: 16 }}>{value}</div>
@@ -3377,9 +3378,9 @@ const Rules: Page = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
             <RuleCard icon={<Chest scale={6} />} value="8" label="MẢNH / Ảnh" />
-            <RuleCard icon={<PixelSprite sprite={FLAME} scale={5} />} value="15s" label="TRẮC NGHIỆM" accent={C.cyan} />
-            <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" accent={C.lime} />
-            <RuleCard icon={<PixelSprite sprite={TROPHY} scale={5} />} value="+20" label="ĐOÁN ẢNH" accent={C.orange} />
+            <RuleCard icon={<PixelSprite sprite={FLAME} scale={7} />} value="15s/30s" label="TRẮC NGHIỆM/TỰ LUẬN" accent={C.cyan} />
+            <RuleCard icon={<PixelSprite sprite={COIN} scale={10} />} value="+10" label="MỖI CÂU ĐÚNG" accent={C.lime} />
+            <RuleCard icon={<PixelSprite sprite={TROPHY} scale={7} />} value="+20" label="ĐOÁN ẢNH" accent={C.orange} />
           </div>
 
           <div style={{ display: 'flex', gap: 14, marginTop: 20, flex: 1 }}>
