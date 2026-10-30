@@ -1781,9 +1781,7 @@ const ProgressPips = ({ opened }: { opened: boolean[] }) => {
       {opened.map((value, index) => (
         <div key={index} style={{ width: 15, height: 22, background: value ? C.yellow : C.dark, border: `3px solid ${C.dark}`, boxShadow: value ? `inset 0 0 0 2px #B8862A` : 'none' }} />
       ))}
-      <span style={{ fontFamily: F.mono, fontSize: 28, color: C.white, marginLeft: 6 }}>
-        {/* @slide-comment id="c-10aeea26" ts="2026-10-30T09:38:27.257Z" text="eyJub3RlIjoiWMOzYSBwaOG6p24gbsOgeSDEkWkiLCJwYWdlIjoyfQ" */}
-        {count}/8</span>
+
     </div>
   );
 };
@@ -2567,7 +2565,7 @@ const Home = ({
       <div
         style={abs(150, 842, {
           width: 1620,
-          height: 80,
+          height: 100,
           zIndex: 24,
           display: 'flex',
           alignItems: 'center',
@@ -2579,7 +2577,6 @@ const Home = ({
           clipPath: notch(8),
         })}
       >
-        {/* @slide-comment id="c-47cdbd93" ts="2026-10-30T09:37:20.648Z" text="eyJub3RlIjoiUGjhuqduIG7DoHkgbsOqbiB0xINuZyBoZWlnaHQgbMOqbiAxIHTDrSDEkeG7gyBwaOG6p24gXCLEkG_DoW4g4bqjbmhcIiDhu58gYsOqbiB0cm9uZyBraMO0bmcgYuG7iyB0csOgbiByYSIsInBhZ2UiOjJ9" */}
         <span className="mg-blink" style={{ display: 'inline-flex', lineHeight: 1 }}><PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.yellow }} /></span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginLeft: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
