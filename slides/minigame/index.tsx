@@ -2939,7 +2939,7 @@ const Arena = ({
           <div style={{ marginTop: 18, minHeight: 240, background: 'rgba(26,28,44,.94)', border: `3px solid ${C.slate}`, padding: '18px 22px', clipPath: notch(8) }}>
             {!hintOpen && !resolved && (
               <div style={{ fontFamily: F.mono, fontSize: 25, color: C.silver, lineHeight: 1.4 }}>
-                Bấm <span style={{ color: C.yellow }}>GỢI Ý</span> để mở các ý chính. Đáp án gợi ý sẽ hiện sau khi chấm.
+                Bấm <span style={{ color: C.yellow }}>GỢI Ý</span> để mở các ý chính.
               </div>
             )}
             {hintOpen && !resolved && (
