@@ -1781,7 +1781,9 @@ const ProgressPips = ({ opened }: { opened: boolean[] }) => {
       {opened.map((value, index) => (
         <div key={index} style={{ width: 15, height: 22, background: value ? C.yellow : C.dark, border: `3px solid ${C.dark}`, boxShadow: value ? `inset 0 0 0 2px #B8862A` : 'none' }} />
       ))}
-      <span style={{ fontFamily: F.mono, fontSize: 28, color: C.white, marginLeft: 6 }}>{count}/8</span>
+      <span style={{ fontFamily: F.mono, fontSize: 28, color: C.white, marginLeft: 6 }}>
+        {/* @slide-comment id="c-10aeea26" ts="2026-10-30T09:38:27.257Z" text="eyJub3RlIjoiWMOzYSBwaOG6p24gbsOgeSDEkWkiLCJwYWdlIjoyfQ" */}
+        {count}/8</span>
     </div>
   );
 };
@@ -2531,7 +2533,7 @@ const Home = ({
 
   return (
     <Backdrop variant={meta.variant} dim={0.3} moonOpacity={0.5} moonTop={140}>
-      <BackdropHud stage={stage} store={store} count={count} remaining={remaining} onOpenPlayers={onOpenPlayers} />
+      <BackdropHud stage={stage} store={store} onOpenPlayers={onOpenPlayers} />
       <div style={abs(120, 132, { zIndex: 18, display: 'flex', alignItems: 'baseline', gap: 14 })}>
         <span style={{ fontFamily: F.mono, fontSize: 23, letterSpacing: 1, color: C.yellow }}>{meta.label}</span>
         <span style={{ fontFamily: F.display, fontSize: 34, color: C.white, textShadow: `3px 3px 0 ${C.plum}`, lineHeight: 1 }}>{meta.zone}</span>
@@ -2577,8 +2579,19 @@ const Home = ({
           clipPath: notch(8),
         })}
       >
-        {/* @slide-comment id="c-3d746732" ts="2026-10-30T09:27:11.869Z" text="eyJub3RlIjoiTcOsbmggbXXhu5FuIHBo4bqnbiBuw6B5IHPhur0gaGnhu4NuIHRo4buLIHPhu5EgbMaw4bujbmcgbeG6o25oIMSRw6MgbeG7nyB2w6Agc-G7kSBsxrDhu6NuZyBjw6J1IGjhu49pIGPDsm4gbOG6oWkgKGZvbnQgcGl4ZWwgaOG7o3AgbMO9KSIsInBhZ2UiOjJ9" */}
+        {/* @slide-comment id="c-47cdbd93" ts="2026-10-30T09:37:20.648Z" text="eyJub3RlIjoiUGjhuqduIG7DoHkgbsOqbiB0xINuZyBoZWlnaHQgbMOqbiAxIHTDrSDEkeG7gyBwaOG6p24gXCLEkG_DoW4g4bqjbmhcIiDhu58gYsOqbiB0cm9uZyBraMO0bmcgYuG7iyB0csOgbiByYSIsInBhZ2UiOjJ9" */}
         <span className="mg-blink" style={{ display: 'inline-flex', lineHeight: 1 }}><PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.yellow }} /></span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginLeft: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontFamily: F.mono, fontSize: 18, letterSpacing: 1, color: C.silver, textTransform: 'uppercase' }}>Mảnh đã mở</span>
+            <span style={{ fontFamily: F.pixel, fontSize: 16, color: C.yellow }}>{count}/8</span>
+          </div>
+          <div style={{ width: 2, height: 38, background: C.slate }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontFamily: F.mono, fontSize: 18, letterSpacing: 1, color: C.silver, textTransform: 'uppercase' }}>Câu còn lại</span>
+            <span style={{ fontFamily: F.pixel, fontSize: 16, color: C.cyan }}>{remaining}/{POOLS[stageIdx].length}</span>
+          </div>
+        </div>
         <PixelButton tone="ghost" fontSize={22} onClick={onGuess} ariaLabel="Đoán ảnh bí mật" style={{ marginLeft: 'auto' }}>
           ? ĐOÁN ẢNH
         </PixelButton>
@@ -2590,14 +2603,10 @@ const Home = ({
 const BackdropHud = ({
   stage,
   store,
-  count,
-  remaining,
   onOpenPlayers,
 }: {
   stage: 1 | 2;
   store: GameStore;
-  count: number;
-  remaining: number;
   onOpenPlayers: () => void;
 }) => {
   const leader = rankPlayers(store.players)[0];
@@ -2641,11 +2650,8 @@ const BackdropHud = ({
       </PixelButton>
     </div>
     <div style={{ width: 2, height: 42, background: C.slate }} />
-    <ProgressPips opened={store.opened[stage - 1]} />
-    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 18 }}>
-      <span style={{ fontFamily: F.mono, fontSize: 22, color: C.silver }}>
-        CÂU CÒN <span style={{ color: C.white }}>{remaining}/{POOLS[stage - 1].length}</span>
-      </span>
+    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+      <ProgressPips opened={store.opened[stage - 1]} />
     </div>
   </div>
   );
