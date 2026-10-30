@@ -2577,6 +2577,7 @@ const Home = ({
           clipPath: notch(8),
         })}
       >
+        {/* @slide-comment id="c-3d746732" ts="2026-10-30T09:27:11.869Z" text="eyJub3RlIjoiTcOsbmggbXXhu5FuIHBo4bqnbiBuw6B5IHPhur0gaGnhu4NuIHRo4buLIHPhu5EgbMaw4bujbmcgbeG6o25oIMSRw6MgbeG7nyB2w6Agc-G7kSBsxrDhu6NuZyBjw6J1IGjhu49pIGPDsm4gbOG6oWkgKGZvbnQgcGl4ZWwgaOG7o3AgbMO9KSIsInBhZ2UiOjJ9" */}
         <span className="mg-blink" style={{ display: 'inline-flex', lineHeight: 1 }}><PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.yellow }} /></span>
         <PixelButton tone="ghost" fontSize={22} onClick={onGuess} ariaLabel="Đoán ảnh bí mật" style={{ marginLeft: 'auto' }}>
           ? ĐOÁN ẢNH
@@ -2731,15 +2732,18 @@ const Arena = ({
     return () => clearTimeout(timer);
   }, [active, started, resolved, remainingTime, question.kind, resolveMc]);
 
+  useEffect(() => {
+    if (!active || started || resolved || pickerOpen) return;
+    setStarted(true);
+  }, [active, started, resolved, pickerOpen]);
+
   const correct = resolved?.correct ?? false;
   const wrong = resolved ? !correct : false;
   const revealed = Boolean(resolved?.correct);
   const status = !resolved
     ? started
       ? 'Đang tính giờ...'
-      : question.kind === 'essay'
-        ? 'Đọc đề, bấm BẮT ĐẦU 30s cho phần thảo luận.'
-        : 'Đọc câu hỏi, bấm BẮT ĐẦU 15s.'
+      : 'Chọn người trả lời để bắt đầu tính giờ.'
     : correct
       ? turn
         ? `${question.kind === 'essay' ? 'ĐẠT' : 'CHÍNH XÁC'}! +10 · ${turn.name}`
@@ -2875,23 +2879,14 @@ const Arena = ({
           <h2 style={{ fontFamily: F.body, fontSize: 40, fontWeight: 600, lineHeight: 1.3, margin: 0, color: C.white, minHeight: 104 }}>
             {question.text}
           </h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 20 }}>
-            <PixelButton tone="gold" fontSize={24} onClick={() => setStarted(true)} disabled={started || Boolean(resolved)}>
-              {started ? (
-                <IconText icon={<PixelSprite sprite={timeUp ? SKULL : HOURGLASS} scale={2} swap={timeUp ? { c: C.navy, 0: C.white } : undefined} />}>
-                  {timeUp ? 'HẾT 30s' : 'ĐANG TÍNH GIỜ'}
-                </IconText>
-              ) : (
-                <IconText icon={<PixelSprite sprite={ARROW_RIGHT} scale={2} swap={{ c: C.navy }} />}>BẮT ĐẦU 30s</IconText>
-              )}
-            </PixelButton>
-            {!resolved && (
+          {!resolved && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 20 }}>
               <PixelButton tone="ghost" fontSize={24} onClick={() => setHintOpen((value) => !value)}>
                 {hintOpen ? 'ẨN GỢI Ý' : 'GỢI Ý'}
               </PixelButton>
-            )}
-            {timeUp && !resolved && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s - Chấm bài</span>}
-          </div>
+              {timeUp && <span style={{ fontFamily: F.mono, fontSize: 24, color: C.orange }}>HẾT 30s - Chấm bài</span>}
+            </div>
+          )}
 
           <div style={{ marginTop: 18, minHeight: 240, background: 'rgba(26,28,44,.94)', border: `3px solid ${C.slate}`, padding: '18px 22px', clipPath: notch(8) }}>
             {!hintOpen && !resolved && (
@@ -2964,15 +2959,7 @@ const Arena = ({
           <PixelButton tone={correct ? 'mint' : 'coral'} fontSize={26} onClick={onBack} style={{ minWidth: 300 }}>
             {cta}
           </PixelButton>
-        ) : question.kind === 'essay' ? null : (
-          <PixelButton tone="gold" fontSize={24} onClick={() => setStarted(true)} disabled={started}>
-            {started ? (
-              <IconText icon={<PixelSprite sprite={HOURGLASS} scale={2} />}>ĐANG TÍNH GIỜ</IconText>
-            ) : (
-              <IconText icon={<PixelSprite sprite={ARROW_RIGHT} scale={2} swap={{ c: C.navy }} />}>BẮT ĐẦU 15s</IconText>
-            )}
-          </PixelButton>
-        )}
+        ) : null}
       </div>
 
       <PlayerPicker
@@ -3806,7 +3793,7 @@ export const meta: SlideMeta = {
 export const notes: (string | undefined)[] = [
   'Mở màn: chào lớp và giới thiệu Pixel Quest. Có 2 Ảnh, mỗi Ảnh 8 mảnh ghép. Trước mỗi câu, MC chọn tên người trả lời; điểm cộng riêng cho từng bạn. Trả lời đúng để mở mảnh; đoán đúng bức tranh nhận +20. Bấm BẮT ĐẦU để sang luật chơi.',
   'Đọc nhanh luật: 8 mảnh mỗi Ảnh; trắc nghiệm 15 giây, tự luận 30 giây. Trước mỗi câu, MC chọn người trong danh sách hoặc thêm tên mới; đúng +10 cho người đó, sai hoặc hết giờ 0 điểm và quay về ảnh, không chọn lại. Hết câu bắt buộc đoán; đoán đúng +20 cho người giữ lượt và sang Ảnh 2. Nút NGƯỜI CHƠI mở bảng điểm, thêm/xoá tên và hoàn tác lần cộng gần nhất. Bấm VÀO Ảnh 1.',
-  'Trang chơi gồm cả 2 Ảnh. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. Đọc câu, bấm bắt đầu 15 giây với trắc nghiệm hoặc 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng Ảnh, tổng điểm và hoàn tác.',
+  'Trang chơi gồm cả 2 Ảnh. Chọn một mảnh để rút câu hỏi ngẫu nhiên. Ngay sau đó bảng chọn người hiện ra: chọn tên có sẵn, nhập tên mới, hoặc đóng để câu đó không ghi điểm. Đọc câu. Đồng hồ tự chạy ngay khi chọn người trả lời: 15 giây với trắc nghiệm, 30 giây với tự luận. Đúng: mở mảnh và +10 cho người được chọn. Sai hoặc CHƯA ĐẠT: không cộng điểm, bấm QUAY LẠI ẢNH. Hết câu: bắt buộc đoán; chọn người trước khi đoán, đúng +20. Nút 🏆 BẢNG ĐIỂM xem điểm từng Ảnh, tổng điểm và hoàn tác.',
   'Chốt kiến thức: 54 dân tộc, 2 xu hướng quan hệ dân tộc, 5 lĩnh vực chính sách. Bảng xếp hạng tổng hợp điểm từng bạn; mở 🏆 BẢNG ĐIỂM để xem đầy đủ hoặc hoàn tác. Nhấn mạnh thông điệp mỗi dân tộc là một mảnh ghép của bức tranh Việt Nam thống nhất. Bấm CHƠI LẠI nếu cần - tên người chơi được giữ lại, điểm reset.',
 ];
 
