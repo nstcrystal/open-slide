@@ -3195,8 +3195,8 @@ const Guess = ({
             className="mg-pop"
             style={{
               position: 'absolute',
-              left: '50%',
-              bottom: -56,
+              left: '36%',
+              bottom: -82,
               transform: 'translateX(-50%)',
               zIndex: 75,
               background: C.dark,
