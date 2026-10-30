@@ -1805,12 +1805,12 @@ const ProgressPips = ({ opened }: { opened: boolean[] }) => {
   );
 };
 
-const Toast = ({ children }: { children: ReactNode }) => (
+const Toast = ({ children, centerX }: { children: ReactNode; centerX?: number | string }) => (
   <div
     className="mg-pop"
     style={{
       position: 'absolute',
-      left: '50%',
+      left: centerX ?? '50%',
       bottom: 118,
       transform: 'translateX(-50%)',
       zIndex: 75,
@@ -3832,7 +3832,7 @@ const Game: Page = () => {
           onOpenPlayers={() => setPlayersPanelOpen(true)}
         />
       )}
-      {toast && <Toast>{toast}</Toast>}
+      {toast && <Toast centerX={screen === 'guess' ? 1330 : '50%'}>{toast}</Toast>}
       <PlayersPanel open={playersPanelOpen} onClose={() => setPlayersPanelOpen(false)} />
     </Screen>
   );
