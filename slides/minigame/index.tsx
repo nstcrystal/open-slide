@@ -1031,19 +1031,6 @@ const GAMEPAD: Sprite = {
   ],
 };
 
-const PADLOCK: Sprite = {
-  rows: [
-    '..eeee..',
-    '.e....e.',
-    '.e....e.',
-    'eeeeeeee',
-    'e444444e',
-    'e44cc44e',
-    'e444444e',
-    'eeeeeeee',
-  ],
-};
-
 const FLAME: Sprite = {
   rows: [
     '...kk...',
@@ -1783,9 +1770,6 @@ const TimerBar = ({
           />
         ))}
       </div>
-      <span style={{ fontFamily: F.mono, fontSize: 20, color: started ? C.silver : C.yellow, letterSpacing: 1, minWidth: 78 }}>
-        {locked ? 'KHOÁ' : started ? 'ĐANG CHẠY' : 'SẴN SÀNG'}
-      </span>
     </div>
   );
 };
@@ -1915,6 +1899,9 @@ const PlayerPicker = ({
         justifyContent: 'center',
         padding: '60px 110px',
         background: 'rgba(5,4,12,.95)',
+      }}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
       }}
     >
       <div
@@ -2061,23 +2048,17 @@ const PlayerPicker = ({
           >
             + THÊM &amp; CHỌN
           </PixelButton>
-          <PixelButton tone="ghost" fontSize={22} onClick={onClose}>
-            ĐÓNG
-          </PixelButton>
         </div>
 
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-end',
             gap: 16,
             marginTop: 12,
           }}
         >
-          <span style={{ fontFamily: F.mono, fontSize: 19, color: C.slate, lineHeight: 1.4 }}>
-            {/* Không chọn ai = câu trả lời này không được cộng điểm. */}
-          </span>
           <span style={{ fontFamily: F.mono, fontSize: 19, color: C.slate }}>
             TỔNG {players.length} NGƯỜI
           </span>
@@ -2451,9 +2432,6 @@ const PlayersPanel = ({ open, onClose }: { open: boolean; onClose: () => void })
           <span style={{ marginLeft: 'auto', fontFamily: F.mono, fontSize: 20, color: C.slate }}>
             {store.players.length} NGƯỜI · {store.awards.length} LẦN CỘNG ĐIỂM
           </span>
-          <PixelButton tone="gold" fontSize={20} onClick={onClose}>
-            ĐÓNG BẢNG ĐIỂM
-          </PixelButton>
         </div>
       </div>
     </div>
@@ -2507,14 +2485,6 @@ const Tile = ({
       {opened ? (
         <div className={flash ? 'mg-tile-open' : undefined} style={{ position: 'absolute', inset: 0 }}>
           <div style={{ position: 'absolute', inset: 6, ...fragmentStyle(stage, index), backgroundClip: 'padding-box', border: `3px solid ${C.yellow}` }} />
-          <div style={{ position: 'absolute', inset: 6, background: 'linear-gradient(180deg, transparent 48%, rgba(14,15,26,.65) 100%)' }} />
-          <div style={{ position: 'absolute', left: 10, top: 10, fontFamily: F.mono, fontSize: wide ? 20 : 22, color: C.white, background: 'rgba(14,15,26,.85)', border: `2px solid ${C.slate}`, padding: '2px 6px' }}>
-            {num}
-          </div>
-          <div style={{ position: 'absolute', right: 10, bottom: 10, fontFamily: F.mono, fontSize: wide ? 18 : 20, color: C.navy, background: C.yellow, border: `2px solid ${C.dark}`, padding: '2px 6px' }}>
-            ĐÃ MỞ
-          </div>
-          {flash && <div style={{ position: 'absolute', left: 10, bottom: 10, fontFamily: F.pixel, fontSize: 9, color: C.lime, textShadow: `2px 2px 0 ${C.dark}` }}>NEW!</div>}
         </div>
       ) : (
         <div className="mg-dither" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: wide ? 'row' : 'column', alignItems: 'center', justifyContent: 'center', gap: wide ? 18 : 0 }}>
@@ -2608,17 +2578,7 @@ const Home = ({
         })}
       >
         <span className="mg-blink" style={{ display: 'inline-flex', lineHeight: 1 }}><PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.yellow }} /></span>
-        <span style={{ fontFamily: F.mono, fontSize: 27, color: C.white, lineHeight: 1.15, flex: 1 }}>
-          {count === 8
-            ? 'Đã mở đủ 8 mảnh! Công bố bức tranh.'
-            : remaining <= 0
-              ? 'Đã hết câu hỏi. Bắt buộc đoán ảnh để đi tiếp.'
-              : `Còn ${remaining} câu trong Ảnh này. ${8 - count} mảnh chưa mở.`}
-        </span>
-        <PixelButton tone="ghost" fontSize={20} onClick={onOpenPlayers} ariaLabel="Mở bảng điểm người chơi">
-          <IconText icon={<PixelSprite sprite={TROPHY} scale={2} />}>BẢNG ĐIỂM</IconText>
-        </PixelButton>
-        <PixelButton tone="ghost" fontSize={22} onClick={onGuess} ariaLabel="Đoán ảnh bí mật">
+        <PixelButton tone="ghost" fontSize={22} onClick={onGuess} ariaLabel="Đoán ảnh bí mật" style={{ marginLeft: 'auto' }}>
           ? ĐOÁN ẢNH
         </PixelButton>
       </div>
@@ -2797,10 +2757,14 @@ const Arena = ({
   return (
     <Backdrop variant={STAGE_META[stage - 1].variant} dim={0.46} moon={false}>
       <div style={abs(60, 24, { width: 1800, height: 84, zIndex: 30, display: 'flex', alignItems: 'center', gap: 18, padding: '0 22px', background: 'rgba(14,15,26,.94)', border: `4px solid ${C.dark}`, boxShadow: `0 0 0 3px ${C.slate}` })}>
-        <PixelButton tone="ghost" fontSize={20} onClick={onBack} ariaLabel="Quay trở lại ảnh">
-          ← QUAY LẠI ẢNH
-        </PixelButton>
-        <div style={{ width: 2, height: 40, background: C.slate }} />
+        {!resolved && (
+          <>
+            <PixelButton tone="ghost" fontSize={20} onClick={onBack} ariaLabel="Quay trở lại ảnh">
+              ← QUAY LẠI ẢNH
+            </PixelButton>
+            <div style={{ width: 2, height: 40, background: C.slate }} />
+          </>
+        )}
         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
           <span style={{ fontFamily: F.mono, fontSize: 11, color: C.yellow }}>MẢNH {pad2(tile + 1)} · {question.kind === 'essay' ? 'TỰ LUẬN' : 'TRẮC NGHIỆM'}</span>
           <span style={{ fontFamily: F.mono, fontSize: 22, color: C.silver, marginTop: 4 }}>{question.topic} · CÂU CÒN {remaining}</span>
@@ -2831,19 +2795,12 @@ const Arena = ({
                 </div>
               </>
             )}
-            <div style={{ position: 'absolute', left: 8, bottom: 8, display: 'flex', alignItems: 'center', gap: 6, fontFamily: F.mono, fontSize: 20, color: C.white }}>
-              {!revealed && <PixelSprite sprite={PADLOCK} scale={2} />}
-              <span>MẢNH {pad2(tile + 1)} · {revealed ? 'ĐÃ MỞ' : 'CHƯA MỞ'}</span>
-            </div>
           </div>
           {revealed ? (
             <Chest scale={panelScale} open className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
           ) : (
             <PixelSprite sprite={panelBadge} scale={panelScale} className={wrong ? 'mg-shake' : 'mg-bob'} style={{ marginTop: 20 }} />
           )}
-          <div style={{ marginTop: 20, fontFamily: F.mono, fontSize: 21, color: C.silver, textAlign: 'center', lineHeight: 1.25 }}>
-            {question.kind === 'essay' ? '30 giây thảo luận\nMC chấm ĐẠT / CHƯA ĐẠT' : 'ĐÚNG +10Đ CHO NGƯỜI CHỌN\nSAI 0Đ · 15 giây mỗi câu'}
-          </div>
           {question.kind === 'essay' && (
             <div style={{ marginTop: 'auto', fontFamily: F.mono, fontSize: 19, color: C.slate, textAlign: 'center', lineHeight: 1.2 }}>
               ĐIỀU HÀNH
@@ -3007,11 +2964,7 @@ const Arena = ({
           <PixelButton tone={correct ? 'mint' : 'coral'} fontSize={26} onClick={onBack} style={{ minWidth: 300 }}>
             {cta}
           </PixelButton>
-        ) : question.kind === 'essay' ? (
-          <div style={{ fontFamily: F.mono, fontSize: 21, color: C.silver, border: `2px solid ${C.slate}`, padding: '10px 14px', whiteSpace: 'nowrap' }}>
-            CHẤM: ĐẠT / CHƯA ĐẠT
-          </div>
-        ) : (
+        ) : question.kind === 'essay' ? null : (
           <PixelButton tone="gold" fontSize={24} onClick={() => setStarted(true)} disabled={started}>
             {started ? (
               <IconText icon={<PixelSprite sprite={HOURGLASS} scale={2} />}>ĐANG TÍNH GIỜ</IconText>
@@ -3228,7 +3181,6 @@ const Result = ({
   const opened = store.opened[stageIdx];
   const count = opened.filter(Boolean).length;
   const guessed = store.guessed[stageIdx];
-  const top = rankPlayers(store.players, stage)[0];
   const guessAward = store.awards.find((award) => award.stage === stage && award.source === 'guess');
   const guessPlayer = guessAward
     ? store.players.find((player) => player.id === guessAward.playerId)
@@ -3238,13 +3190,7 @@ const Result = ({
       <div style={abs(60, 24, { width: 1800, height: 84, zIndex: 30, display: 'flex', alignItems: 'center', gap: 18, padding: '0 22px', background: 'rgba(14,15,26,.94)', border: `4px solid ${C.dark}`, boxShadow: `0 0 0 3px ${C.slate}` })}>
         <div style={{ background: C.yellow, color: C.navy, fontFamily: F.pixel, fontSize: 11, padding: '8px 10px' }}>{pad2(stage)}/02</div>
         <span style={{ fontFamily: F.mono, fontSize: 25, color: C.yellow }}>{meta.label} · CÔNG BỐ</span>
-        <span style={{ fontFamily: F.mono, fontSize: 22, color: C.silver }}>{count}/8 mảnh</span>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
-          {/* {top && playerTotal(top) > 0 && (
-            <span style={{ fontFamily: F.mono, fontSize: 21, color: C.silver }}>
-              DẪN ĐẦU <span style={{ color: C.white }}>{top.name}</span> · <span style={{ color: C.yellow }}>{playerValue(top, stage)}Đ</span>
-            </span>
-          )} */}
           <PixelButton tone="ghost" fontSize={18} onClick={onOpenPlayers} style={{ padding: '8px 12px' }}>
             <IconText icon={<PixelSprite sprite={TROPHY} scale={2} />}>BẢNG ĐIỂM</IconText>
           </PixelButton>
@@ -3253,13 +3199,9 @@ const Result = ({
 
       <div style={abs(80, 180, { width: meta.imgW, height: meta.imgH, zIndex: 20, border: `5px solid ${C.dark}`, boxShadow: `0 0 0 4px ${C.yellow}, 0 16px 0 rgba(0,0,0,.45)`, overflow: 'hidden', background: C.dark })}>
         <div className="mg-pop" style={{ position: 'absolute', inset: 0, backgroundImage: `url(${meta.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
-        {/* <div style={{ position: 'absolute', left: 18, top: 18, background: C.yellow, color: C.navy, fontFamily: F.mono, fontSize: 22, padding: '4px 10px' }}>
-          ĐÁP ÁN · {meta.label}
-        </div> */}
       </div>
 
       <div style={abs(stage === 1 ? 1240 : 860, 196, { width: stage === 1 ? 620 : 980, zIndex: 20 })}>
-        {/* <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow, letterSpacing: 1 }}>Ảnh ĐÃ MỞ</div> */}
         <h2 style={{ fontFamily: F.display, fontSize: stage === 1 ? 86 : 78, fontWeight: 400, lineHeight: 0.88, margin: '16px 0 0', color: C.white, textShadow: `6px 6px 0 ${C.plum}` }}>
           {meta.answer}
           <br />
@@ -3280,13 +3222,6 @@ const Result = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
             <span style={{ fontFamily: F.mono, fontSize: 13, color: C.yellow }}>BẢNG ĐIỂM ẢNH {stage}</span>
             <span style={{ height: 2, flex: 1, background: 'rgba(255,205,117,.25)' }} />
-            <button
-              type="button"
-              onClick={onOpenPlayers}
-              style={{ background: 'transparent', border: 'none', color: C.silver, fontFamily: F.mono, fontSize: 17, cursor: 'pointer', padding: 0 }}
-            >
-              TẤT CẢ →
-            </button>
           </div>
           <StageLeaderboard players={store.players} stage={stage} limit={3} emptyLabel="Chưa có ai được cộng điểm." />
         </div>
@@ -3295,9 +3230,6 @@ const Result = ({
           <PixelButton tone="gold" fontSize={28} onClick={onNext}>
             {stage === 1 ? 'Bắt đầu ảnh 2 →' : 'XEM KIẾN THỨC →'}
           </PixelButton>
-        </div>
-        <div style={{ marginTop: 18, fontFamily: F.mono, fontSize: 20, color: C.slate, lineHeight: 1.4 }}>
-          {/* {stage === 1 ? 'Công bố đáp án, sau đó chuyển sang Ảnh tiếp theo.' : 'Tổng kết điểm và chốt kiến thức ở trang cuối.'} */}
         </div>
       </div>
     </Backdrop>
@@ -3321,18 +3253,14 @@ const Cover: Page = () => (
           QUEST
         </h1>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginTop: 30 }}>
-          <span style={{ fontFamily: F.display, fontSize: 70, color: C.cyan, textShadow: `4px 4px 0 ${C.deep}`, lineHeight: 1 }}>{''}<br />ĐẤU TRƯỜNG</span>
-          <span style={{ fontFamily: F.pixel, fontSize: 44, color: C.white }}>{''}</span>
+          <span style={{ fontFamily: F.display, fontSize: 70, color: C.cyan, textShadow: `4px 4px 0 ${C.deep}`, lineHeight: 1 }}>ĐẤU TRƯỜNG</span>
         </div>
         <p style={{ fontFamily: F.body, fontSize: 27, lineHeight: 1.65, color: '#D7E0F5', maxWidth: 820, margin: '18px 0 0' }}>
-          Hai bức ảnh bí mật, mỗi bức ảnh là tám mảnh ký ức cần lật ra.<br />{''}<br />{''}
+          Hai bức ảnh bí mật, mỗi bức ảnh là tám mảnh ký ức cần lật ra.
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 34 }}>
           <PixelButton tone="gold" fontSize={30} onClick={() => goPage(PAGE.rules)} style={{ padding: '18px 30px' }}>
             <IconText icon={<PixelSprite sprite={ARROW_RIGHT} scale={3} swap={{ c: C.navy }} />}>BẮT ĐẦU</IconText>
-          </PixelButton>
-          <PixelButton tone="ghost" fontSize={24} onClick={() => goPage(PAGE.rules)}>
-            LUẬT CHƠI
           </PixelButton>
         </div>
         <div className="mg-blink" style={{ fontFamily: F.mono, fontSize: 24, color: C.yellow, letterSpacing: 2, marginTop: 22 }}>
@@ -3406,13 +3334,11 @@ const RuleCard = ({
   icon,
   value,
   label,
-  desc,
   accent = C.yellow,
 }: {
   icon: ReactNode;
   value: string;
   label: string;
-  desc: string;
   accent?: string;
 }) => (
   <div
@@ -3427,13 +3353,11 @@ const RuleCard = ({
       clipPath: notch(8),
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       {icon}
-      <span style={{ fontFamily: F.mono, fontSize: 18, color: C.slate }}>{''}<br />{''}</span>
     </div>
     <div style={{ fontFamily: F.pixel, fontSize: 42, lineHeight: 1.1, color: accent, marginTop: 16 }}>{value}</div>
     <div style={{ fontFamily: F.mono, fontSize: 24, color: C.white, marginTop: 6 }}>{label}</div>
-    <div style={{ fontFamily: F.body, fontSize: 20, lineHeight: 1.45, color: C.silver, marginTop: 10 }}>{desc}</div>
   </div>
 );
 
@@ -3449,18 +3373,13 @@ const Rules: Page = () => {
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '24px 30px' }}>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
             <PageTitle>LUẬT CHƠI</PageTitle>
-            <div style={{ textAlign: 'right', fontFamily: F.mono, fontSize: 22, color: C.silver, lineHeight: 1.35 }}>
-              2 Ảnh · 8 MẢNH / Ảnh
-              <br />
-              <span style={{ color: C.slate }}>{''}</span>
-            </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18, marginTop: 24 }}>
-            <RuleCard icon={<Chest scale={6} />} value="8" label="MẢNH / Ảnh" desc={'\n'} />
-            <RuleCard icon={<PixelSprite sprite={FLAME} scale={5} />} value="15s" label="TRẮC NGHIỆM" desc={'\n'} accent={C.cyan} />
-            <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" desc={'\n'} accent={C.lime} />
-            <RuleCard icon={<PixelSprite sprite={TROPHY} scale={5} />} value="+20" label="ĐOÁN ẢNH" desc={'\n'} accent={C.orange} />
+            <RuleCard icon={<Chest scale={6} />} value="8" label="MẢNH / Ảnh" />
+            <RuleCard icon={<PixelSprite sprite={FLAME} scale={5} />} value="15s" label="TRẮC NGHIỆM" accent={C.cyan} />
+            <RuleCard icon={<PixelSprite sprite={COIN} scale={6} />} value="+10" label="MỖI CÂU ĐÚNG" accent={C.lime} />
+            <RuleCard icon={<PixelSprite sprite={TROPHY} scale={5} />} value="+20" label="ĐOÁN ẢNH" accent={C.orange} />
           </div>
 
           <div style={{ display: 'flex', gap: 14, marginTop: 20, flex: 1 }}>
@@ -3499,7 +3418,6 @@ const Knowledge: Page = () => {
   const [store] = useGameStore();
   const [panelOpen, setPanelOpen] = useState(false);
   const ranked = rankPlayers(store.players);
-  const top = ranked[0];
   return (
     <Screen>
       <Backdrop variant="forest" dim={0.42} moon={false}>
@@ -3511,15 +3429,6 @@ const Knowledge: Page = () => {
             <div style={{ height: 84, flex: '0 0 auto', background: C.dark, borderBottom: `4px solid ${C.plum}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '0 30px' }}>
               <span style={{ fontFamily: F.pixel, fontSize: 18, color: C.yellow }}>QUEST COMPLETE</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-                {/* <span style={{ fontFamily: F.mono, fontSize: 20, color: C.silver }}>DẪN ĐẦU</span>
-                {top && playerTotal(top) > 0 ? (
-                  <>
-                    <span style={{ maxWidth: 260, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: F.body, fontSize: 23, fontWeight: 600, color: C.white }}>{top.name}</span>
-                    <span style={{ fontFamily: F.pixel, fontSize: 20, color: C.yellow }}>{playerTotal(top)}Đ</span>
-                  </>
-                ) : (
-                  <span style={{ fontFamily: F.mono, fontSize: 20, color: C.slate }}>CHƯA CÓ ĐIỂM</span>
-                )} */}
                 <PixelButton tone="ghost" fontSize={17} onClick={() => setPanelOpen(true)} style={{ padding: '8px 12px' }}>
                   <IconText icon={<PixelSprite sprite={TROPHY} scale={2} />}>BẢNG ĐIỂM</IconText>
                 </PixelButton>
@@ -3535,7 +3444,6 @@ const Knowledge: Page = () => {
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                {/* <div style={{ fontFamily: F.mono, fontSize: 12, color: C.yellow }}>ĐIỀU CÒN LẠI</div> */}
                 <h2 style={{ fontFamily: F.display, fontSize: 76, fontWeight: 400, lineHeight: 0.88, margin: '10px 0 0', color: C.white, textShadow: `5px 5px 0 ${C.plum}` }}>
                   54 DÂN TỘC
                   <br />
@@ -3573,13 +3481,6 @@ const Knowledge: Page = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <span style={{ fontFamily: F.mono, fontSize: 20, color: C.yellow, letterSpacing: 1 }}>BẢNG XẾP HẠNG</span>
                     <span style={{ height: 2, flex: 1, background: 'rgba(255,205,117,.24)' }} />
-                    <button
-                      type="button"
-                      onClick={() => setPanelOpen(true)}
-                      style={{ background: 'transparent', border: 'none', color: C.silver, fontFamily: F.mono, fontSize: 17, cursor: 'pointer', padding: 0 }}
-                    >
-                      XEM TẤT CẢ →
-                    </button>
                   </div>
                   {ranked.length === 0 ? (
                     <div style={{ fontFamily: F.mono, fontSize: 19, color: C.slate, marginTop: 8 }}>
