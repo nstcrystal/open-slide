@@ -1805,12 +1805,12 @@ const ProgressPips = ({ opened }: { opened: boolean[] }) => {
   );
 };
 
-const Toast = ({ children, centerX }: { children: ReactNode; centerX?: number | string }) => (
+const Toast = ({ children }: { children: ReactNode }) => (
   <div
     className="mg-pop"
     style={{
       position: 'absolute',
-      left: centerX ?? '50%',
+      left: '50%',
       bottom: 118,
       transform: 'translateX(-50%)',
       zIndex: 75,
@@ -3090,6 +3090,7 @@ const Guess = ({
   forced,
   players,
   turnId,
+  toast,
   onCorrect,
   onWrong,
   onBack,
@@ -3103,6 +3104,7 @@ const Guess = ({
   forced: boolean;
   players: Player[];
   turnId: string | null;
+  toast: string;
   onCorrect: () => void;
   onWrong: () => void;
   onBack: () => void;
@@ -3147,8 +3149,9 @@ const Guess = ({
         </div>
       </div>
 
-      <PixelBox x={900} y={180} w={860} h={690} fill={C.navy} edge={forced ? C.red : C.yellow}>
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '34px 30px' }}>
+      <div style={{ position: 'absolute', left: 900, top: 180, width: 860, height: 690, zIndex: 20 }}>
+        <PixelBox w={860} h={690} fill={C.navy} edge={forced ? C.red : C.yellow}>
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '34px 30px' }}>
           <div style={{ fontFamily: F.pixel, fontSize: 12, color: forced ? C.orange : C.yellow, lineHeight: 1.6 }}>
             {forced ? 'FINAL GUESS' : 'EARLY GUESS'}
           </div>
@@ -3187,6 +3190,29 @@ const Guess = ({
           </div>
         </div>
       </PixelBox>
+        {toast && (
+          <div
+            className="mg-pop"
+            style={{
+              position: 'absolute',
+              left: '50%',
+              bottom: -56,
+              transform: 'translateX(-50%)',
+              zIndex: 75,
+              background: C.dark,
+              color: C.white,
+              border: `3px solid ${C.yellow}`,
+              boxShadow: `0 0 0 3px ${C.dark}`,
+              padding: '10px 24px',
+              fontFamily: F.mono,
+              fontSize: 25,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {toast}
+          </div>
+        )}
+      </div>
 
       <PlayerPicker
         open={pickerOpen}
@@ -3808,6 +3834,7 @@ const Game: Page = () => {
           forced={forced}
           players={store.players}
           turnId={store.turnId}
+          toast={toast}
           onCorrect={correctGuess}
           onWrong={wrongGuess}
           onBack={() => {
@@ -3832,7 +3859,7 @@ const Game: Page = () => {
           onOpenPlayers={() => setPlayersPanelOpen(true)}
         />
       )}
-      {toast && <Toast centerX={screen === 'guess' ? 1330 : '50%'}>{toast}</Toast>}
+      {toast && screen !== 'guess' && <Toast>{toast}</Toast>}
       <PlayersPanel open={playersPanelOpen} onClose={() => setPlayersPanelOpen(false)} />
     </Screen>
   );
